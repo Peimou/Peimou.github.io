@@ -24,7 +24,7 @@
 <meta property="og:description" content="R.E Kalman published a paper about a recursive solution to a discrete-data linear filtering problem. The Kalman filter provided us a computational method to estimate unobservable variables through min">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-01-17T02:31:01.000Z">
-<meta property="article:modified_time" content="2020-01-18T05:42:54.129Z">
+<meta property="article:modified_time" content="2020-01-18T05:53:02.847Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Kalman Filter">
 <meta property="article:tag" content="Optimal Control">
@@ -180,7 +180,7 @@
         <html><head></head><body><p>R.E Kalman published a paper about a recursive solution to a discrete-data linear filtering problem. The Kalman filter provided us a computational method to estimate unobservable variables through minimization the posterior error. Moreover, Kalman filter enabled us to obtain the <strong>consistent</strong> parameter estimates by maximizing the likelihood function of error innovations. </p>
 <a id="more"></a>
 
-<h1 id="1-The-basis-of-discrete-Kalman-filter"><a href="#1-The-basis-of-discrete-Kalman-filter" class="headerlink" title="1. The basis of discrete Kalman filter"></a>1. The basis of discrete Kalman filter</h1><p>Generally, Kalman filter solved the problem of estimating the unobservable state $x \in \mathcal{R}^n$ of a discrete time control process. The dynamic of the unobservable state’s ($n \time 1 $ vector) can be written as:</p>
+<h1 id="1-The-basis-of-discrete-Kalman-filter"><a href="#1-The-basis-of-discrete-Kalman-filter" class="headerlink" title="1. The basis of discrete Kalman filter"></a>1. The basis of discrete Kalman filter</h1><p>Generally, Kalman filter solved the problem of estimating the unobservable state $x \in \mathcal{R}^n$ of a discrete time control process. The dynamic of the unobservable state’s ($n \times 1 $ vector) can be written as:</p>
 <p>$x_k = Ax_{k - 1} + Bu_{k - 1}＋ｗ_{k - 1}$</p>
 <p>(A RCLL continuous time Gaussian dynamic can be discretized with the tool of stochastic calculus)</p>
 <p>The measurement variable $z_k$ follows a linear transformation of unobservable states with an linear additive noise term $v_k$:</p>
@@ -197,7 +197,7 @@
 <p>We assume the relationship between the posteriori estimate and the priori estimate follows:</p>
 <p>$\hat{x_k} = \hat{x^{-}_k} + K_k(z_k - Hx^{-}_k)$ </p>
 <p><strong>Remark</strong>: If you know something about Gaussian distribution, you may find this is the BUE given observed states if we assume the noises is Gaussian distributed (it is trivial if you realized it is a result of joint Gaussian distribution ). I firmly believe this assumption is inspired from a probability origin. I plan to write something about Gaussian process and Gaussian process regression in the future. You may see more details there. The above equation are related to many frightening names like <em>measure residual</em> or <em>innovation</em>.   </p>
-<p>As we need to <strong>minimize the posteriori error</strong> of each entry of the state vector, we need to minimize the trace of $P_k$. Note that in the classical Kalman filter, the dynamic of the system is deterministic. We only need to consider some incontrollable factors including measurement error. However, if you are familiar with stochastic calculus, you can consider the difference between this deterministic dynamic and the counterpart in stochastic analysis. Personally speaking, I believe the dynamic of stochastic process is the dynamic of measures, or the transient of functions. The Kalman filter only describe the state of observables. </p>
+<p>As we need to <strong>minimize the posteriori error</strong> of each entry of the state vector, we should minimize the trace of $P_k$. Note that in the classical Kalman filter, the dynamic of the system is deterministic. We only need to consider some incontrollable factors including measurement error. However, if you are familiar with stochastic calculus, you can consider the difference between this deterministic dynamic and the counterpart in stochastic analysis. Personally speaking, I believe the dynamic of stochastic process is the dynamic of measures, or the transient of functions. The Kalman filter only describe the state of observables. </p>
 <p>$\hat{x_k} = \hat{x^{-}_k} + K(z_k - Hx^{-}_k) \leftrightarrow \hat{x_k} = \hat{x^{-}_k} + K(Hx_k + v_t - Hx^{-}_k)$ </p>
 <p>$\leftrightarrow x_k - \hat{x_k} = x_k - \hat{x^{-}_k} - K(Hx_k + v_t - Hx^{-}_k)$</p>
 <p>$\leftrightarrow P_k = (I - K_kH_k)P_k^-(I - K_kH_k)^T+K_kR_kK_k^T$ (*)</p>
@@ -214,9 +214,8 @@
 <p>$P_k^- = AP_kA^T + Q$</p>
 <p>$\hat{x_k^-} = A\hat{x_{k-1}} + Bu_{k-1}$</p>
 <p><strong>Remark</strong>: In the system of Kalman filter system, we know exactly the transition of unobservable states. In this situation, the Kalman filter found a solution to estimate the unobservable states $x_k$ based on information at time k. If we know nothing about the transition of unobservable states (unknown A for example), we can maximize the likelihood function based on the measurement function, or, in the framework of empirical loss evaluation, we can minimize the error between observable states $z_{t+1}$ at time t=1 and estimates of observable states $\hat{z_{t+1}}$ (under $\mathcal{F}_t$). </p>
-<h1 id="2-Discussions-about-the-initial-values"><a href="#2-Discussions-about-the-initial-values" class="headerlink" title="2. Discussions about the initial values"></a>2. Discussions about the initial values</h1><p>Unfortunately, we need to input four tricky initial values to the Kalman filter: $x_0^-$, $P_0^-$, R, and Q. The more unfortunate fact is that KF is sensitive to the initial values. Based on this fact, we have to adjust hyperparameters for our model. The best statement of adjustment of initial values I have ever met is that the innovation ($z_k - H\hat{x_k^-}$) should be a white noise with zero mean if KF works well (See <em>Optimal State Estimation Kalman-H-and Nonlinear Approaches</em>). We have to test different hyperparameters to help the model make sense. </p>
-<p>Of course if you know criteria about this topic, please feel free to share your ideas under this blog.</p>
-<p>Thank you for reading my blog! KF is a big topic and I will dig deeper in the next parts of the Notes. </p>
+<h1 id="2-Discussions-about-the-initial-values"><a href="#2-Discussions-about-the-initial-values" class="headerlink" title="2. Discussions about the initial values"></a>2. Discussions about the initial values</h1><p>Unfortunately, we need to input four tricky initial values to the Kalman filter: $x_0^-$, $P_0^-$, R, and Q. The more unfortunate fact is that KF is sensitive to the initial values. Based on this fact, we have to adjust hyperparameters for our model. The best statement of adjustment of initial values I have ever met is that the innovation ($z_k - H\hat{x_k^-}$) should be a white noise with zero mean if KF works well (See <em>Optimal State Estimation Kalman-H-and Nonlinear Approaches</em>). We have to test different hyperparameters to help the model make sense. Of course if you know criteria about this topic, please feel free to share your ideas under this blog.</p>
+<p>Thank you for reading my blog! KF is a big topic and I will dig deeper in the next parts of this Note. </p>
 </body></html>
     
     </div>
