@@ -16,15 +16,15 @@
 
 
 
-    <meta name="description" content="Newy-West adjustment assures a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments.">
+    <meta name="description" content="Newy-West adjustment assures a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1">
-<meta property="og:url" content="http://peimou.top/2020/01/31/Newy-west/index.html">
+<meta property="og:url" content="http://peimou.top/2020/01/31/GMM_Newy_West_1/index.html">
 <meta property="og:site_name" content="Peimou&#39;s Blog">
-<meta property="og:description" content="Newy-West adjustment assures a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments.">
+<meta property="og:description" content="Newy-West adjustment assures a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-01T03:25:12.000Z">
-<meta property="article:modified_time" content="2020-02-03T05:51:29.659Z">
+<meta property="article:modified_time" content="2020-02-04T06:16:20.576Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Statistics">
 <meta property="article:tag" content="GMM">
@@ -138,7 +138,25 @@
                     <hr class="navbar-divider">
                     
                     
-                    <a class="navbar-item" href="#2-Definition-of-GMM">2&nbsp;&nbsp;<b>2. Definition of GMM</b></a>
+                    <a class="navbar-item" href="#2-The-definition-of-GMM">2&nbsp;&nbsp;<b>2. The definition of GMM</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-The-property-of-GMM">3&nbsp;&nbsp;<b>3. The property of GMM</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-1-Assumptions">3.1&nbsp;&nbsp;3.1 Assumptions</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-2-The-distribution-of-GMM-estimator">3.2&nbsp;&nbsp;3.2 The distribution of GMM estimator</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-3-The-optimal-weighting-matrix">3.3&nbsp;&nbsp;3.3 The optimal weighting matrix</a>
                     
                 </div>
             </div>
@@ -177,19 +195,34 @@
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p>Newy-West adjustment assures a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. </p>
+        <html><head></head><body><p>Newy-West adjustment assures a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations, the definition and some properties of Generalized methods of Moments. </p>
 <a id="more"></a>
-<h1 id="1-Motivations-of-GMM"><a href="#1-Motivations-of-GMM" class="headerlink" title="1. Motivations of GMM"></a>1. Motivations of GMM</h1><p>Let $\Omega$ denote the set of sample points in the underlying probability space in some estimation problem. Let E denote the expectations operator. For a stochastic process $\{x_n: n \ge 1\}$ defined in this probability space, we can get a finite segment of one realization of this process, i.e., $\{x_n(\omega_0): 1 \le n \le N\}$. This sequence can be treated as the observable data sequence. </p>
+
+<h1 id="1-Motivations-of-GMM"><a href="#1-Motivations-of-GMM" class="headerlink" title="1. Motivations of GMM"></a>1. Motivations of GMM</h1><p>Let $\Omega$ denote the set of sample points in the underlying probability space in some estimation problem. Let E denote the expectations operator. For a stochastic process ${x_n: n \ge 1}$ defined in this probability space, we can get a finite segment of one realization of this process, i.e., ${x_n(\omega_0): 1 \le n \le N}$. This sequence can be treated as the observable data sequence. </p>
 <p>Let moments function $f(\cdot, \theta)$ : $R^p \xrightarrow{} R^q$ be a continuous and continuously differentiable measurable function of $\theta$. To be more specific, the parameter $\theta$ is a $(q \times 1)$ vector, and we know $q$ moment based on the underlying distribution (or probability measure). Set the population moment conditions are that $E[f(x_i, \theta_0)] = 0$ (Note that $\theta_0$ is the solution of system of equations based on population moments, and it is a deterministic variable given information of population). The associated sample moments are given by:</p>
 <p>$f_n(\theta) = \frac{1}{n} \sum_{i = 1}^nf(x_i, \theta)$</p>
-<p>We want to estimate $\theta_0$ based on the solution to the system of equations $f_n(\theta) = 0$. Note that we have $q - p$ additional moments (if $q < p$), and the remedy for this situation is call GMM, which was introduced by <em>Hansen</em>[1982]. Intuitively, if we cannot find a good enough $\theta$ to make sure the equation system $f_n(\theta) = 0$, then we should at least try to keep the sample moments are very close to zero. Then the strategy is to measure the distance between $f_n(\theta)$ and $0$.</p>
-<h1 id="2-Definition-of-GMM"><a href="#2-Definition-of-GMM" class="headerlink" title="2. Definition of GMM"></a>2. Definition of GMM</h1><p><strong>Def</strong>:</p>
-<p>Suppose function $f$ has the properties in section 1. We have an observed sample $\{x_i: i = 1, 2, 3, \dots\}$, and we want to estimate parameter vector $\theta$ ($p \times 1$) with true value $\theta_0$. Let $E[f(x_i, \theta_0)]$ denote a set of $q$ population moments and $f_n(\theta)$ denote the associated sample counterparts. Define the criterion function $Q_n(\theta)$ as:</p>
+<p>We want to estimate $\theta_0$ based on the solution to the system of equations $f_n(\theta) = 0$ (to be more specific the bias to the moments is zero). Note that we have $q - p$ additional moments (if $q < p$), and the remedy for this situation is call GMM, which was introduced by <em>Hansen</em>[1982]. Intuitively, if we cannot find a good enough $\theta$ to make sure the equation system $f_n(\theta) = 0$, then we should at least try to keep the sample moments are very close to zero. Then the strategy is to measure the distance between $f_n(\theta)$ and $0$.</p>
+<h1 id="2-The-definition-of-GMM"><a href="#2-The-definition-of-GMM" class="headerlink" title="2. The definition of GMM"></a>2. The definition of GMM</h1><p><strong>Def</strong>:</p>
+<p>Suppose function $f$ has the properties in section 1. We have an observed sample ${x_i: i = 1, 2, 3, \dots}$, and we want to estimate parameter vector $\theta$ ($p \times 1$) with true value $\theta_0$. Let $E[f(x_i, \theta_0)]$ denote a set of $q$ population moments and $f_n(\theta)$ denote the associated sample counterparts. Define the <strong>criterion function</strong> $Q_n(\theta)$ as:</p>
 <p>$Q_n(\theta) = f_n(\theta)^TW_nf_n(\theta)$</p>
 <p>where $W_n$ is the weighting matrix, which converges to a positive definite matrix $W$ as n grows large. Then the GMM estimator of $\theta_0$ is given by </p>
 <p>$\hat{\theta} = \argmin Q_n(\theta)$</p>
 <p>Note the $Q_n(\theta)$ measure the distance between $\theta$ and $\theta_0$, since $f_n(\theta_0)$ should converge to zero with probability. In conclusion, we try to measure the distance between $\theta_0$ and $\theta$ in a metric space. </p>
 <p>If $p = q$, then the GMM degenerate to MM.</p>
+<h1 id="3-The-property-of-GMM"><a href="#3-The-property-of-GMM" class="headerlink" title="3. The property of GMM"></a>3. The property of GMM</h1><h2 id="3-1-Assumptions"><a href="#3-1-Assumptions" class="headerlink" title="3.1 Assumptions"></a>3.1 Assumptions</h2><p>Given some assumptions, we can conclude that the GMM estimator as given in section 2 is consistent and asymptotically normally distributed. </p>
+<p><strong>Assumption 1</strong>:  we have more moments than parameter; the rank of Jacobian matrix of the moment equations evaluated at $\theta_0$ is at least p; $\theta_0$ is the unique solution of the moments equations system.</p>
+<p><strong>Assumption 2</strong>: The law of weak large number law holds, which mean for any $\epsilon > 0$, we have $\lim \limits_{n \xrightarrow{} \infty }\mathbb{P}[|f_n(\theta_0) - f(\theta_0)| > \epsilon] = 0$. </p>
+<p><strong>Assumption 3</strong>: The sample moments obey a central limit theorem, with a finite asymptotic covariance matrix $\frac{1}{n}F$. </p>
+<h2 id="3-2-The-distribution-of-GMM-estimator"><a href="#3-2-The-distribution-of-GMM-estimator" class="headerlink" title="3.2 The distribution of GMM estimator"></a>3.2 The distribution of GMM estimator</h2><p>The variance of GMM estimator is consistent and asymptotically normally distributed with asymptotic covariance matrix $V_{GMM}$</p>
+<p>$V_{GMM} = \frac{1}{n} [G(\theta_0)^{T}WG(\theta_0)]^{-1}G(\theta_0)^{T}WFWG(\theta_0) [G(\theta_0)^{T}WG(\theta_0)]^{-1}$ </p>
+<p>where $G(\theta_0)$ is the Jacobian matrix of the population moment functions evaluated at the true parameter value $\theta_0$.</p>
+<p>I give up to articulate the proof of this result due to the complexity (due to my weak asymptotic statistic foundation QAQ) (See <a href="https://www.jstor.org/stable/1912775?seq=1#metadata_info_tab_contents" target="_blank" rel="noopener">here</a> for more details). </p>
+<p>Note that the variance of GMM estimator depends on the choice of $W_n$. If we review the criterion function of GMM, we can deduce that this distance function is the sample moment’s error sum of squares. Note that, given the knowledge of conditions of a matrix ($\frac{\lambda_{max}}{\lambda_{min}}$) and Gaussian-Markov condition, it is make sense to normalize the errors in the moments by their variance. (Recall <a href="https://en.wikipedia.org/wiki/Projection_matrix" target="_blank" rel="noopener">WLS and Hat Matrix</a> )</p>
+<h2 id="3-3-The-optimal-weighting-matrix"><a href="#3-3-The-optimal-weighting-matrix" class="headerlink" title="3.3 The optimal weighting matrix"></a>3.3 The optimal weighting matrix</h2><p>The optimal choice of the weighting matrix $W_n = F^{-1}$, the GMM estimator is a asymptotically efficient with covariance matrix:</p>
+<p>$V_{GMM}^* = \frac{1}{n} [G(\theta_0)^TF^{-1}G(\theta_0)]^{-1}$</p>
+<p>However, if we want to know matrix $F$ (the asymptotic covariance matrix of sample moments), we have to estimate $\theta$ first (Recall EM algorithm). Then we solve this circularity by adopting a multi-step method:</p>
+<p>Step 1: Choose a sub-optimal weighting matrix ($I$ for example), this will give us a consistent estimation of $\theta$. Then we can estimate the matrix $F$.</p>
+<p>Step 2: Use the new $F$, estimate $\theta_0$</p>
 </body></html>
     
     </div>
@@ -231,8 +264,8 @@
     
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://peimou.top/2020/01/31/Newy-west/';
-        this.page.identifier = '2020/01/31/Newy-west/';
+        this.page.url = 'http://peimou.top/2020/01/31/GMM_Newy_West_1/';
+        this.page.identifier = '2020/01/31/GMM_Newy_West_1/';
         
         this.language = 'en';
         
