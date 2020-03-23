@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Tag: GMM - Peimou&#39;s Blog</title>
+<title>Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent - Peimou&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -16,12 +16,18 @@
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Peimou&#39;s Blog">
-<meta property="og:url" content="http://peimou.top/tags/GMM/index.html">
+    <meta name="description" content="The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent">
+<meta property="og:url" content="http://peimou.top/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/index.html">
 <meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-23T03:25:12.000Z">
+<meta property="article:modified_time" content="2020-03-23T05:35:50.694Z">
 <meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,6 +123,48 @@
             </a>
             
             
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Definitions">1&nbsp;&nbsp;<b>1. Definitions</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-The-General-Task">1.1&nbsp;&nbsp;1.1 The General Task</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Training-Error-Empirical-risk">1.2&nbsp;&nbsp;1.2 Training Error (Empirical risk)</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-Tolerance-Error">1.3&nbsp;&nbsp;1.3 Tolerance Error</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-4-Boxes-and-Flat-minima">1.4&nbsp;&nbsp;1.4 Boxes and Flat minima</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Information-entropy-of-the-minima">2&nbsp;&nbsp;<b>2. Information entropy of the minima</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-An-Introduction-to-Gradient-Descent">3&nbsp;&nbsp;<b>3. An Introduction to Gradient Descent</b></a>
+                    
+                </div>
+            </div>
+            
             
             <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
                 
@@ -129,25 +177,17 @@
     </div>
 </nav>
 
-    <section class="section section-heading">
+    <section class="section">
     <div class="container">
-        <div class="content">
-            <h5>#GMM</h5>
-        </div>
-    </div>
-</section>
-<section class="section">
-    <div class="container">
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
+    <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2020/01/31/GMM-NW-Notes-1/" itemprop="url">Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM</a>
+            Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
-            <time datetime="2020-02-01T03:25:12.000Z" itemprop="datePublished">Jan 31 2020</time>
+            <time datetime="2020-03-23T03:25:12.000Z" itemprop="datePublished">Mar 22 2020</time>
         </span>
         
         <span class="column is-narrow article-category">
@@ -159,21 +199,85 @@
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p>Newy-West adjustment provides a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations, the definition and some properties of Generalized methods of Moments. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/01/31/GMM-NW-Notes-1/#more">Read More</a>
-        </p>
+        <html><head></head><body><p>The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods have shown can converge to a flatter minima, which potentially make the solution of nonconvex optimization more robust. The first part of this note is a review of Flat minima( <a href="https://www.bioinf.jku.at/publications/older/3304.pdf" target="_blank" rel="noopener">Hochreiter and Schmidhuber, 1997</a>). The second part contains an introduction to Gradient Descent algorithms’ properties and visualization. </p>
+<a id="more"></a>
+
+<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>A flat minimum is a large connected region in weight space where the error remains approximately constant. It can be rigorously defined with the tolerance error and training error. </p>
+<h3 id="1-1-The-General-Task"><a href="#1-1-The-General-Task" class="headerlink" title="1.1 The General Task"></a>1.1 The General Task</h3><p>We want to approximate the an unknown function f: $\mathbb{R}^n \rightarrow \mathbb{R}$(Note that in the original paper, it is $\mathbb{R}^n \rightarrow \mathbb{R}^k$, and there is no difference if we consider multi-dimensional target space). More specifically, function f mapping a finite set of possible input $X \subset \mathbb{R}^n$ to a finite possible output $Y \subset \mathbb{R}^k$. This function is assumed perfectly describe the real data generation process. The training information is given by a finite set $D_0 \subset D$. We call $D_0$ the training data. Let tuple $(x_p, y_p)$ denotes the pth element in the data set. Let $net(w)$ denotes a realized neural network structure parameterized by $w$. Note that $w_ij$ represent for the weight on the connection from unit $i$to unit $j$.</p>
+<h3 id="1-2-Training-Error-Empirical-risk"><a href="#1-2-Training-Error-Empirical-risk" class="headerlink" title="1.2 Training Error (Empirical risk)"></a>1.2 Training Error (Empirical risk)</h3><p>The squared error of a realized structure over a given training set is defined as:</p>
+<p> $E(net(w), D_0) = \sum_{p}||y_p-f(w,x_p)||^2$</p>
+<p>where $||\cdot||$ is the Euclidean norm. </p>
+<h3 id="1-3-Tolerance-Error"><a href="#1-3-Tolerance-Error" class="headerlink" title="1.3 Tolerance Error"></a>1.3 Tolerance Error</h3><p>Note that we want to define a region in weight space where each parameter in this region has small empirical risk and similar output. The so called structure with ‘small’ risk denotes those of lower empirical risk than a given constant $\mathbf{E}_{tol}$. </p>
+<h3 id="1-4-Boxes-and-Flat-minima"><a href="#1-4-Boxes-and-Flat-minima" class="headerlink" title="1.4 Boxes and Flat minima"></a>1.4 Boxes and Flat minima</h3><p>We want to study the property of a large region of connected acceptable minima, where each weight w in a this set lead to an identical structure (The authors used almost identical here, but I cannot get the point since no definition about any measure or metric space over net function were mentioned in this article).  Since accurately approximation to this region is an absolutely difficult task, we can consider a box (or Hypercuboid) in the parameter space. Assume the parameter space is an L-dimension Euclidian space, we can define the concept of box: For each acceptable minimum $w$, its box $M_w$ is an L-dimension hypercuboid with center w. Each edge of the box is taken to be parallel to one weight axis. Let $\Delta w(x)$ be the maximal values such that for all L-dimensional vectors k whose components ${k_ij}_{i=1,\dots,n}$ are restricted by $|k_ij| \le \Delta w_ij(x)$. We can find this box with the constraint:</p>
+<p>$\mathbf{E}(net(w), net(w+k), X) = \sum_{x \in X} ||o(w,x) - o(w, x+k)||^2 < \epsilon$</p>
+<p>,where the $\epsilon$ represent for the tolerable output change. Note that we assume the target function f is continuous here. </p>
+<p>Box’s volume is defined as $V(\Delta w(X)) = 2^L \Pi_{i,j}\Delta w_{i,j}(x)$</p>
+<h1 id="2-Information-entropy-of-the-minima"><a href="#2-Information-entropy-of-the-minima" class="headerlink" title="2. Information entropy of the minima"></a>2. Information entropy of the minima</h1><p>Let $B$ denote the bits required to describe the weights, whereas the number to describe the $y_p$,given $w$, can be bounded by fixing $\mathbb{E_{tol}}$. In other words, we can control the smoothness of the function by choosing tolerance error. $B$ can be written as:</p>
+<p>$B(w, X_0) = -log(\frac{1}{2^L}V(\Delta w)) = \sum_{i,j} -log(\Delta w_{i,j})$</p>
+<p>Of course, we hope the entropy as low as possible. Therefore, the authors recommend a penalty term into the objective function:</p>
+<p>$E(w, D_0) = E(net(w), D_0) + \lambda B(w, X_0)$</p>
+<p>, where $B(w, X_0) = \sum_{x_p \in X_0} B(w, x_p)$</p>
+<h1 id="3-An-Introduction-to-Gradient-Descent"><a href="#3-An-Introduction-to-Gradient-Descent" class="headerlink" title="3. An Introduction to Gradient Descent"></a>3. An Introduction to Gradient Descent</h1></body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Optimization/">#Optimization</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Machine-Learning/">#Machine Learning</a></span>
     
     </div>
     
     
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/01/31/GMM-NW-Notes-1/">Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM</a>
+            
+        </span>
+    </div>
+    
 </article>
 
 
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
 
 
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
     
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/';
+        this.page.identifier = '2020/03/22/Stochastic Approximation Methods-Notes-2/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
     
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
     </div>
 </section>
     <footer class="footer">

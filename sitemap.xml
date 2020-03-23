@@ -2,6 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://peimou.top/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/</loc>
+    
+    <lastmod>2020-03-23T05:35:50.694Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/13/Stochastic%20Approximation%20Methods-Notes-1/</loc>
+    
+    <lastmod>2020-03-23T05:31:23.473Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/18/Kalman%20Filter-Projects-Part1/</loc>
+    
+    <lastmod>2020-03-23T05:31:04.920Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/16/Kalman%20Filter-Notes-Part1/</loc>
+    
+    <lastmod>2020-03-23T05:30:54.783Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/31/GMM-NW-Notes-1/</loc>
+    
+    <lastmod>2020-03-23T05:30:42.660Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://peimou.top/about/index.html</loc>
     
     <lastmod>2020-03-13T20:19:17.746Z</lastmod>
@@ -9,37 +44,9 @@
   </url>
   
   <url>
-    <loc>http://peimou.top/2020/01/31/GMM_Newy_West_1/</loc>
-    
-    <lastmod>2020-03-13T20:09:07.690Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peimou.top/2020/01/18/Kalman%20Filter-Projects-Part1.5/</loc>
-    
-    <lastmod>2020-02-04T17:31:41.777Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://peimou.top/2020/01/13/Hello%20World/</loc>
     
     <lastmod>2020-01-26T23:08:59.468Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peimou.top/2020/01/16/Kalman%20Filter-Notes-Part1/</loc>
-    
-    <lastmod>2020-01-26T23:07:46.471Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://peimou.top/2020/01/13/Stochastic%20Approximation%20Methods--Notes--Part%201/</loc>
-    
-    <lastmod>2020-01-26T23:00:35.019Z</lastmod>
     
   </url>
   

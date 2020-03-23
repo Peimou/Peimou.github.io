@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1 - Peimou&#39;s Blog</title>
+<title>Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM - Peimou&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -18,13 +18,13 @@
 
     <meta name="description" content="Newy-West adjustment provides a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1">
-<meta property="og:url" content="http://peimou.top/2020/01/31/GMM_Newy_West_1/index.html">
+<meta property="og:title" content="Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM">
+<meta property="og:url" content="http://peimou.top/2020/01/31/GMM-NW-Notes-1/index.html">
 <meta property="og:site_name" content="Peimou&#39;s Blog">
 <meta property="og:description" content="Newy-West adjustment provides a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-01T03:25:12.000Z">
-<meta property="article:modified_time" content="2020-03-13T20:09:07.690Z">
+<meta property="article:modified_time" content="2020-03-23T05:30:42.660Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Statistics">
 <meta property="article:tag" content="GMM">
@@ -184,7 +184,7 @@
     <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1
+            Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
@@ -203,12 +203,13 @@
     
         <html><head></head><body><p>Newy-West adjustment provides a consistent estimation given autocorrelation in samples.  The origin of Newy-West is closely related to Generalized Method of Moments. This blog includes the motivations, the definition and some properties of Generalized methods of Moments. </p>
 <a id="more"></a>
-<h1 id="1-Motivations-of-GMM"><a href="#1-Motivations-of-GMM" class="headerlink" title="1. Motivations of GMM"></a>1. Motivations of GMM</h1><p>Let $\Omega$ denote the set of sample points in the underlying probability space in some estimation problem. Let E denote the expectations operator. For a stochastic process $\{x_n: n \ge 1\}$ defined in this probability space, we can get a finite segment of one realization of this process, i.e., $\{x_n(\omega_0): 1 \le n \le N\}$. This sequence can be treated as the observable data sequence. </p>
+
+<h1 id="1-Motivations-of-GMM"><a href="#1-Motivations-of-GMM" class="headerlink" title="1. Motivations of GMM"></a>1. Motivations of GMM</h1><p>Let $\Omega$ denote the set of sample points in the underlying probability space in some estimation problem. Let E denote the expectations operator. For a stochastic process ${x_n: n \ge 1}$ defined in this probability space, we can get a finite segment of one realization of this process, i.e., ${x_n(\omega_0): 1 \le n \le N}$. This sequence can be treated as the observable data sequence. </p>
 <p>Let moments function $f(\cdot, \theta)$ : $R^p \xrightarrow{} R^q$ be a continuous and continuously differentiable measurable function of $\theta$. To be more specific, the parameter $\theta$ is a $(q \times 1)$ vector, and we know $q$ moment based on the underlying distribution (or probability measure). Set the population moment conditions are that $E[f(x_i, \theta_0)] = 0$ (Note that $\theta_0$ is the solution of system of equations based on population moments, and it is a deterministic variable given information of population). The associated sample moments are given by:</p>
 <p>$f_n(\theta) = \frac{1}{n} \sum_{i = 1}^nf(x_i, \theta)$</p>
 <p>We want to estimate $\theta_0$ based on the solution to the system of equations $f_n(\theta) = 0$ (to be more specific the bias to the moments is zero). Note that we have $q - p$ additional moments (if $q < p$), and the remedy for this situation is call GMM, which was introduced by <em>Hansen</em>[1982]. Intuitively, if we cannot find a good enough $\theta$ to make sure the equation system $f_n(\theta) = 0$, then we should at least try to keep the sample moments are very close to zero. Then the strategy is to measure the distance between $f_n(\theta)$ and $0$.</p>
 <h1 id="2-The-definition-of-GMM"><a href="#2-The-definition-of-GMM" class="headerlink" title="2. The definition of GMM"></a>2. The definition of GMM</h1><p><strong>Def</strong>:</p>
-<p>Suppose function $f$ has the properties in section 1. We have an observed sample $\{x_i: i = 1, 2, 3, \dots\}$, and we want to estimate parameter vector $\theta$ ($p \times 1$) with true value $\theta_0$. Let $E[f(x_i, \theta_0)]$ denote a set of $q$ population moments and $f_n(\theta)$ denote the associated sample counterparts. Define the <strong>criterion function</strong> $Q_n(\theta)$ as:</p>
+<p>Suppose function $f$ has the properties in section 1. We have an observed sample ${x_i: i = 1, 2, 3, \dots}$, and we want to estimate parameter vector $\theta$ ($p \times 1$) with true value $\theta_0$. Let $E[f(x_i, \theta_0)]$ denote a set of $q$ population moments and $f_n(\theta)$ denote the associated sample counterparts. Define the <strong>criterion function</strong> $Q_n(\theta)$ as:</p>
 <p>$Q_n(\theta) = f_n(\theta)^TW_nf_n(\theta)$</p>
 <p>where $W_n$ is the weighting matrix, which converges to a positive definite matrix $W$ as n grows large. Then the GMM estimator of $\theta_0$ is given by </p>
 <p>$\hat{\theta} = \argmin Q_n(\theta)$</p>
@@ -246,12 +247,14 @@
     
     
     <div class="columns is-mobile is-multiline article-nav">
-        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/">Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent</a>
             
         </span>
         <span class="column is-12-mobile is-half-desktop  article-nav-next">
             
-            <a href="/2020/01/18/Kalman%20Filter-Projects-Part1.5/">Kalman Filter--Projects--Part1.5--N-factors Gaussian model</a>
+            <a href="/2020/01/18/Kalman%20Filter-Projects-Part1/">Kalman Filter-Projects-Part1-N factors Gaussian model</a>
             
         </span>
     </div>
@@ -273,8 +276,8 @@
     
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://peimou.top/2020/01/31/GMM_Newy_West_1/';
-        this.page.identifier = '2020/01/31/GMM_Newy_West_1/';
+        this.page.url = 'http://peimou.top/2020/01/31/GMM-NW-Notes-1/';
+        this.page.identifier = '2020/01/31/GMM-NW-Notes-1/';
         
         this.language = 'en';
         
