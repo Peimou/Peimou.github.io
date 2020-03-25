@@ -24,7 +24,7 @@
 <meta property="og:description" content="The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-23T03:25:12.000Z">
-<meta property="article:modified_time" content="2020-03-24T20:34:46.908Z">
+<meta property="article:modified_time" content="2020-03-25T02:26:40.050Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Optimization">
 <meta property="article:tag" content="Machine Learning">
@@ -194,6 +194,12 @@
                     
                     <a class="navbar-item" href="#3-8-Disadvantages-of-SGD-and-full-GD">3.8&nbsp;&nbsp;3.8 Disadvantages of SGD and full GD</a>
                     
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">4&nbsp;&nbsp;<b>Reference</b></a>
+                    
                 </div>
             </div>
             
@@ -233,6 +239,7 @@
     
         <html><head></head><body><p>The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods have shown can converge to a flatter minima, which potentially make the solution of nonconvex optimization more robust. The first part of this note is a review of Flat minima( <a href="https://www.bioinf.jku.at/publications/older/3304.pdf" target="_blank" rel="noopener">Hochreiter and Schmidhuber, 1997</a>). The second part contains an introduction to Gradient Descent algorithms’ properties and visualization. </p>
 <a id="more"></a>
+
 <h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>A flat minimum is a large connected region in weight space where the error remains approximately constant. It can be rigorously defined with the tolerance error and training error. </p>
 <h2 id="1-1-The-General-Task"><a href="#1-1-The-General-Task" class="headerlink" title="1.1 The General Task"></a>1.1 The General Task</h2><p>We want to approximate the an unknown function f: $\mathbb{R}^n \rightarrow \mathbb{R}$(Note that in the original paper, it is $\mathbb{R}^n \rightarrow \mathbb{R}^k$, and there is no difference if we consider multi-dimensional target space). More specifically, function f mapping a finite set of possible input $X \subset \mathbb{R}^n$ to a finite possible output $Y \subset \mathbb{R}^k$. This function is assumed perfectly describe the real data generation process. The training information is given by a finite set $D_0 \subset D$. We call $D_0$ the training data. Let tuple $(x_p, y_p)$ denotes the pth element in the data set. Let $net(w)$ denotes a realized neural network structure parameterized by $w$. Note that $w_ij$ represent for the weight on the connection from unit $i$to unit $j$.</p>
 <h2 id="1-2-Training-Error-Empirical-risk"><a href="#1-2-Training-Error-Empirical-risk" class="headerlink" title="1.2 Training Error (Empirical risk)"></a>1.2 Training Error (Empirical risk)</h2><p>The squared error of a realized structure over a given training set is defined as:</p>
@@ -249,11 +256,11 @@
 <p>$E(w, D_0) = E(net(w), D_0) + \lambda B(w, X_0)$</p>
 <p>, where $B(w, X_0) = \sum_{x_p \in X_0} B(w, x_p)$</p>
 <h1 id="3-An-Introduction-to-Gradient-Descent"><a href="#3-An-Introduction-to-Gradient-Descent" class="headerlink" title="3. An Introduction to Gradient Descent"></a>3. An Introduction to Gradient Descent</h1><p>Before the introduction to GD methods, let’s define the optimization problem first. We assume the prediction function $f$ has a fixed form and is parameterized by a real vector $w \in \mathbb{R}^d$. Formally, for some given $f: \mathbb{R}^{d_x} \times \mathbb{R}^d \rightarrow{} \mathbb{R}^{d_y}$, the family of prediction function is:</p>
-<p>$\mathcal{H} = \{f(\cdot,w):w \in \mathbb{R}^d\}$</p>
+<p>$\mathcal{H} = {f(\cdot,w):w \in \mathbb{R}^d}$</p>
 <p>Ideally, we want to minimize the expected risk. We assume there exists a probability space  $(\Omega, \mathcal{F}, \mathbb{P})$, where $\Omega=\mathcal{X}\times \mathcal{Y}$, $\mathcal{F}$ is the filtration of $(x,y)$, and $\mathbb{P}$ is the joint probability measure of $(x, y) \in \Omega$. The expected risk is defined as:</p>
 <p> $R(w) = \int_{\mathbb{R}^{d_x}\times\mathbb{R}^{d_y}}l(f(x;w),y)d\mathbb{P}(x,y) = \mathbb{E}(l(f(x;w),y))$</p>
 <p>,where function $l(\cdot, \cdot)$ is the loss function, which measure the difference between prediction and labels.</p>
-<p>The following statements are all based on the optimization problem we defined above. (<a href="https://arxiv.org/abs/1609.04747" target="_blank" rel="noopener">Reference: An overview of gradient descent optimization algorithms, Sebastian Ruder</a>)</p>
+<p>The following statements are all based on the optimization problem we defined above. (<a href="https://ruder.io/optimizing-gradient-descent/index.html#momentum" target="_blank" rel="noopener">Reference: An overview of gradient descent optimization algorithms, Sebastian Ruder</a>)</p>
 <p>It is worth explaining that the convergence speed depends both on the data set and hyperparameters of optimizers. Generally, if the optimizer converge at a slow speed or diverge sometimes, we can adjust the initial step scale. </p>
 <h2 id="3-1-Full-Gradient-Descent"><a href="#3-1-Full-Gradient-Descent" class="headerlink" title="3.1 Full Gradient Descent"></a>3.1 Full Gradient Descent</h2><p>The Gradient Descent is an first order iterative method for finding the local minimum of a differentiable function, which also provides the core optimization methodology in machine learning. Given a function $f(x)$, the basic GD method can be written as:</p>
 <p>$x^{t+1} = x^{t} -\eta \nabla f(x^{t})$</p>
@@ -262,7 +269,7 @@
 <p>$w^{t+1} = w^{t} - \eta \nabla_w \sum_{i = 0}^{n}{l(f(x_i;w_t), y_i)}$</p>
 <h2 id="3-2-Stochastic-Gradient-Descent"><a href="#3-2-Stochastic-Gradient-Descent" class="headerlink" title="3.2 Stochastic Gradient Descent"></a>3.2 Stochastic Gradient Descent</h2><p>The origin of Stochastic GD method is stochastic approximation. Stochastic GD method is a specific case of Robbins-Monro algorithm. The stochastic GD can be written as:</p>
 <p>$w^{t+1} = w^{t} - \eta \nabla_w l(f(x_i; w_t),y_i)$</p>
-<p>In other words, we use only one sample (or a subset of samples) to update the parameter. Compared to full GD method, the SGD method often converges much faster. Note that $\{w_t\}_{t\ge0}$ is a stochastic process (a family of random variables defined on the same probability space) which is defined on the filtration generated by $x_i$. Note that we actually want to reduce the expected risk function, which implies that the expectation of gradient should be the best choice. From this perspective, the variance of estimation based on a single data point is much higher than the average over whole samples. Therefore, SGD may lead to a more oscillated convergence compared to full GD (but still good enough).</p>
+<p>In other words, we use only one sample (or a subset of samples) to update the parameter. Compared to full GD method, the SGD method often converges much faster. Note that ${w_t}_{t\ge0}$ is a stochastic process (a family of random variables defined on the same probability space) which is defined on the filtration generated by $x_i$. Note that we actually want to reduce the expected risk function, which implies that the expectation of gradient should be the best choice. From this perspective, the variance of estimation based on a single data point is much higher than the average over whole samples. Therefore, SGD may lead to a more oscillated convergence compared to full GD (but still good enough).</p>
 <h2 id="3-3-SGDM"><a href="#3-3-SGDM" class="headerlink" title="3.3 SGDM"></a>3.3 SGDM</h2><p>Each update step in SGDM is a combination of the steepest descent direction and the most recent iterate displacement. The iteration process can be written as:</p>
 <p>$v_k = \gamma v_{k-1} + \eta \nabla_w l(f(x_i; w_k),y_i)$<br>$w_{k+1} = w_k - v_k$</p>
 <p>The momentum term increases for dimensions whose gradients point in the same directions and reduces updates for dimensions whose gradients change directions. This method is most effective when the parameters work differently in the system. For example, the data generated linearly with $w_1 = 100$, and $w_2 = 0.1$. </p>
@@ -273,7 +280,7 @@
 <p>The gradient update under the following method:</p>
 <p>$w_{k+1} = w_{k} - \frac{\eta}{\sqrt{G_k + \epsilon}}\odot g_k$</p>
 <p>According to <a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf" target="_blank" rel="noopener">Geoffrey Hinton’s lecture Notes</a>, the $\gamma$ here was 0.9. </p>
-<h2 id="3-6-AdaDelta"><a href="#3-6-AdaDelta" class="headerlink" title="3.6 AdaDelta"></a>3.6 AdaDelta</h2><p>AdaDelta made some extra improvements compared to AdaGrad and RMSProp (actually, they are developed independently). It reduces AdaGrad’s rapidly decreasing learning rate by using the same exponentially decaying average for past squared gradients as RMSProp. In addition, AdaDelta is aware that, in RMSProp, the base unit of the gradient is $\frac{1}{x’s\; unit}$. That is if we assume WLOG that the value of risk function have no base unit, then consider $\frac{\partial f}{\partial w}dw$ should have no base unit, which means the base unit of the gradient is $\frac{1}{x’s\; unit}$. We should notice that the RMSProp method changes the base unit of $w$. Therefore, the authors suggested to revised this problem with:</p>
+<h2 id="3-6-AdaDelta"><a href="#3-6-AdaDelta" class="headerlink" title="3.6 AdaDelta"></a>3.6 AdaDelta</h2><p>AdaDelta made some extra improvements compared to AdaGrad and RMSProp (actually, they are developed independently). It reduces AdaGrad’s rapidly decreasing learning rate by using the same exponentially decaying average for past squared gradients as RMSProp. In addition, AdaDelta is aware that, in RMSProp, the base unit of the gradient is $\frac{1}{x’s; unit}$. That is if we assume WLOG that the value of risk function have no base unit, then consider $\frac{\partial f}{\partial w}dw$ should have no base unit, which means the base unit of the gradient is $\frac{1}{x’s; unit}$. We should notice that the RMSProp method changes the base unit of $w$. Therefore, the authors suggested to revised this problem with:</p>
 <p>$W_k = \gamma W_{k-1} + (1-\gamma)w_k^2$<br>$w_{k+1} = w_{k} - \frac{\sqrt{W_k + \epsilon}}{\sqrt{G_k + \epsilon}}\odot g_k$</p>
 <p>Learning rate is removed. Thus, we do not need to set a fixed number for learning rate.</p>
 <h2 id="3-7-ADAM"><a href="#3-7-ADAM" class="headerlink" title="3.7 ADAM"></a>3.7 ADAM</h2><p>Adaptive Moment Estimation (Adam) computes adaptive learning rates considering the first and second order information:<br>$M_t = \beta_1 M_{t-1} + (1-\beta_1) g_{t}$<br>$V_t = \beta_2 V_{t-1} + (1-\beta_2) g_{t}^2$</p>
@@ -282,7 +289,7 @@
 <p>$w_{k+1} = w_{k} - \eta\frac{M_k}{\sqrt{V_k} + \epsilon}$</p>
 <p>The authors proposed default values of 0.9 for $\beta_1$, 0.999 for $\beta_2$, and<br>$1e-8$ for $\epsilon$. Adam prefers flat minima in the error surface, which can avoid over-fitting in some extent.</p>
 <h2 id="3-8-Disadvantages-of-SGD-and-full-GD"><a href="#3-8-Disadvantages-of-SGD-and-full-GD" class="headerlink" title="3.8 Disadvantages of SGD and full GD"></a>3.8 Disadvantages of SGD and full GD</h2><p>Note that GD and SGD method are sensitive to learning rate, and it is not easy to choose a optimal learning rate. Moreover, the schedule of learning rate (or the evolution of learning rate) is a even more difficult task. The pre-defined learning rate schedule may not adapt to the data set’s characteristics. Last but not least, the loss function or the feasible region of the optimization problem may not be convex, which means our algorithm has to avoid numerous saddle and local minima. </p>
-</body></html>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1></body></html>
     
     </div>
     
