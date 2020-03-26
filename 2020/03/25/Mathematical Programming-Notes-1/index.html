@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Peimou&#39;s Blog</title>
+<title>Mathematcial Programming-Notes-Part 1-Strong Duality in Linear Programming - Peimou&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -16,12 +16,18 @@
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Peimou&#39;s Blog">
-<meta property="og:url" content="http://peimou.top/index.html">
+    <meta name="description" content="Programming is the basis for a wide range of fields. This blog summerized the sufficient conidtions for strong duality. The strong duality of linear programming is a summery of Mathemetical Programmin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mathematcial Programming-Notes-Part 1-Strong Duality in Linear Programming">
+<meta property="og:url" content="http://peimou.top/2020/03/25/Mathematical%20Programming-Notes-1/index.html">
 <meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Programming is the basis for a wide range of fields. This blog summerized the sufficient conidtions for strong duality. The strong duality of linear programming is a summery of Mathemetical Programmin">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-26T00:00:26.000Z">
+<meta property="article:modified_time" content="2020-03-26T05:39:04.646Z">
 <meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Mathematical Programming">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,6 +123,50 @@
             </a>
             
             
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Separating-Hyperplane-Theorem">1&nbsp;&nbsp;<b>1. Separating Hyperplane Theorem</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Weierstrass-Theorem">1.1&nbsp;&nbsp;1.1 Weierstrass  Theorem</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Separating-Hyperplane-Theorem">1.2&nbsp;&nbsp;1.2 Separating Hyperplane Theorem</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Farkas’-Lemma">2&nbsp;&nbsp;<b>2. Farkas’ Lemma</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Proof">2.1&nbsp;&nbsp;2.1 Proof:</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Step-1-We-cannot-have-two-statements-hold-at-the-same-time">2.1.1&nbsp;&nbsp;Step 1: We cannot have two statements hold at the same time.</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Step-2-If-1-doesn’t-hold-then-2-holds">2.1.2&nbsp;&nbsp;Step 2: If (1) doesn’t hold, then (2) holds.</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-The-equivalence-of-a-variant-on-Farka’s-lemma">2.2&nbsp;&nbsp;2.2 The equivalence of a variant on Farka’s lemma</a>
+                    
+                </div>
+            </div>
+            
             
             <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
                 
@@ -131,11 +181,10 @@
 
     <section class="section">
     <div class="container">
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
+    <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2020/03/25/Mathematical%20Programming-Notes-1/" itemprop="url">Mathematcial Programming-Notes-Part 1-Strong Duality in Linear Programming</a>
+            Mathematcial Programming-Notes-Part 1-Strong Duality in Linear Programming
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
@@ -152,225 +201,84 @@
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p>Programming is the basis for a wide range of fields. This blog summerized the sufficient conidtions for strong duality. The strong duality of linear programming is a summery of Mathemetical Programming lecture notes (<a href="https://people.orie.cornell.edu/dpw/orie6300/" target="_blank" rel="noopener">David P. Williamson</a>). </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/03/25/Mathematical%20Programming-Notes-1/#more">Read More</a>
-        </p>
+        <html><head></head><body><p>Programming is the basis for a wide range of fields. This blog summerized the sufficient conidtions for strong duality. The strong duality of linear programming is a summery of Mathemetical Programming lecture notes (<a href="https://people.orie.cornell.edu/dpw/orie6300/" target="_blank" rel="noopener">David P. Williamson</a>). </p>
+<a id="more"></a>
+<h1 id="1-Separating-Hyperplane-Theorem"><a href="#1-Separating-Hyperplane-Theorem" class="headerlink" title="1. Separating Hyperplane Theorem"></a>1. Separating Hyperplane Theorem</h1><h2 id="1-1-Weierstrass-Theorem"><a href="#1-1-Weierstrass-Theorem" class="headerlink" title="1.1 Weierstrass  Theorem"></a>1.1 <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem" target="_blank" rel="noopener">Weierstrass  Theorem</a></h2><p>Let $C \subset \mathbb{R}^n$ be a closed, non-empty and bounded set. Let $f$: $C \rightarrow \mathbb{R}$ be continous on $C$. Then $f$ attains a maximum (and a minimum) on some point of C. </p>
+<h2 id="1-2-Separating-Hyperplane-Theorem"><a href="#1-2-Separating-Hyperplane-Theorem" class="headerlink" title="1.2 Separating Hyperplane Theorem"></a>1.2 Separating Hyperplane Theorem</h2><p>Let $C \subset \mathbb{R}^n$ be closed, non-empty and convex set. Let $y \notin C$, then there exists a hyperplane $a \ne 0$, $a \in \mathbb{R}^n, b \in \mathbb{R}$, such that $a^Ty > b$ and $a^Tx<b$, for all $x \in C$.</p>
+<h1 id="2-Farkas’-Lemma"><a href="#2-Farkas’-Lemma" class="headerlink" title="2. Farkas’ Lemma"></a>2. Farkas’ Lemma</h1><p>Let $A \in \mathbb{R}^{m \times n}$ and $b \in \mathbb{R}^m$. Then exactly one of the following two conditions holds for a given A, b:</p>
+<p>(1) $\\exists x \in \mathbb{R}^n$, such that $Ax=b, x\ge 0$</p>
+<p>(2) $\exists y \in \mathbb{R}^m$, such that $A^Ty \ge 0$, $y^Tb < 0 $</p>
+<h2 id="2-1-Proof"><a href="#2-1-Proof" class="headerlink" title="2.1 Proof:"></a>2.1 Proof:</h2><h4 id="Step-1-We-cannot-have-two-statements-hold-at-the-same-time"><a href="#Step-1-We-cannot-have-two-statements-hold-at-the-same-time" class="headerlink" title="Step 1: We cannot have two statements hold at the same time."></a>Step 1: We cannot have two statements hold at the same time.</h4><p>Assume $\exists x \in \mathbb{R}^n$, such that $Ax=b, x\ge 0$; Assume $\exists y \in \mathbb{R}^m$, such that $A^Ty \ge 0$, $y^Tb<0$. Note that $ x^TA^Ty = y^TAx = y^Tb < 0 $, which means $x \ge 0$ and $A^Ty \ge 0$ cannot hold at the same time. </p>
+<h4 id="Step-2-If-1-doesn’t-hold-then-2-holds"><a href="#Step-2-If-1-doesn’t-hold-then-2-holds" class="headerlink" title="Step 2: If (1) doesn’t hold, then (2) holds."></a>Step 2: If (1) doesn’t hold, then (2) holds.</h4><p>Let $v_1, v_2, \dots, v_n$ be the column vectors of A. Define</p>
+<p>$Q = conv(v_1, v_2, \dots, v_n) = \\{s \in \mathbb{R}^m: s = \sum_{i=1}^{n}\lambda_i v_i, \lambda_i \ge 0, \forall i\\}$</p>
+<p>(Note that Q is a conic combination rather than a convex combination, since we don’t need $\sum_{i=1}^{n} \lambda_i = 1$)</p>
+<p>Then $Ax = \sum_{i=1}^n x_iv_i$, there exists $x$ such that $Ax=b$ and $x \ge 0$ iff $b \in Q$. In other words, $b$ is an element in the space, whose basis vectors are the columns of A.  If (1) does not hold then $b \notin Q$, according to hyperplane separating theorem, there exists $\alpha \in \mathbb{R}^m$, $\alpha \ne \vec{0}$, and $\beta$ such that $a^Tb > \beta$, $a^Ts < \beta$ for all $s \in Q$. Note that $0 \in Q$, then $\beta > 0$.  Note also that $a^T\lambda v_i < \beta$, then $a^T v_i \le 0$ (take $\lambda \rightarrow 0$). We prove that $\beta$ has to be 0 here.</p>
+<p>Then we can find $y = -a$ (splendid), we obtain $y^Tb < 0$ and $y^Tv_i \ge 0$ for all i. Condition (2) holds. </p>
+<h2 id="2-2-The-equivalence-of-a-variant-on-Farka’s-lemma"><a href="#2-2-The-equivalence-of-a-variant-on-Farka’s-lemma" class="headerlink" title="2.2 The equivalence of a variant on Farka’s lemma"></a>2.2 The equivalence of a variant on Farka’s lemma</h2><p>(1’) $\\exists x \in \mathbb{R}^n$, such that $Ax=b$</p>
+<p>(2’) $\exists y \in \mathbb{R}^m$, such that $A^Ty = 0$, $y^Tb=-1$, $y \ge 0$</p>
+<p>(2’’) $\exists y \in \mathbb{R}^m$, such that $A^Ty = 0$, $y^Tb=-1$, $y \ge 0$</p>
+<p>The equivalence is trivial by finding a proper ‘y’ in section 2.1.</p>
+</body></html>
     
     </div>
     
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Optimization/">#Optimization</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Mathematical-Programming/">#Mathematical Programming</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/">Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent</a>
+            
+        </span>
+    </div>
     
 </article>
 
 
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
 
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/" itemprop="url">Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-03-23T03:25:12.000Z" itemprop="datePublished">Mar 22 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Notes/">Notes</a>
-        </span>
-        
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods have shown can converge to a flatter minima, which potentially make the solution of nonconvex optimization more robust. The first part of this note is a review of Flat minima( <a href="https://www.bioinf.jku.at/publications/older/3304.pdf" target="_blank" rel="noopener">Hochreiter and Schmidhuber, 1997</a>). The second part contains an introduction to Gradient Descent algorithms’ properties and visualization. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
+</div>
 
 
 
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/03/25/Mathematical%20Programming-Notes-1/';
+        this.page.identifier = '2020/03/25/Mathematical Programming-Notes-1/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
 
+<div id="disqus_thread">
     
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/01/31/GMM-NW-Notes-1/" itemprop="url">Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-02-01T03:25:12.000Z" itemprop="datePublished">Jan 31 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Notes/">Notes</a>
-        </span>
-        
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>Newy-West adjustment provides a consistent estimation given autocorrelation in samples.  The origin of Newy-West adjustment is closely related to Generalized Method of Moments. This blog includes the motivations, the definition and some properties of Generalized methods of Moments. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/01/31/GMM-NW-Notes-1/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
 
-
-
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/01/18/Kalman%20Filter-Projects-Part1/" itemprop="url">Kalman Filter-Projects-Part1-N factors Gaussian model</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-01-19T04:29:42.000Z" itemprop="datePublished">Jan 18 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Projects/">Projects</a>
-        </span>
-        
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>Before we dig deeper in the Kalman filter, I would like to share one of the applications of Kalman filter with you. N-factors Gaussian model is a direct application of what we have discussed in <a href="http://peimou.top/2020/01/16/Kalman%20Filter-Notes-Part1">Kalman filter Part1</a>. This blog includes a brief introduction about this method, and some tricks in this algorithm‘s implement. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/01/18/Kalman%20Filter-Projects-Part1/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
-
-
-
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/01/16/Kalman%20Filter-Notes-Part1/" itemprop="url">Kalman Filter-Notes-Part1-Discrete Kalman Filter</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-01-17T02:31:01.000Z" itemprop="datePublished">Jan 16 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Notes/">Notes</a>
-        </span>
-        
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>R.E Kalman published a paper about a recursive solution to a discrete-data linear filtering problem. The Kalman filter provided us a computational method to estimate unobservable variables through minimization the posterior error. Moreover, Kalman filter enabled us to obtain the <strong>consistent</strong> parameter estimates by maximizing the likelihood function of error innovations. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/01/16/Kalman%20Filter-Notes-Part1/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
-
-
-
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/01/13/Stochastic%20Approximation%20Methods-Notes-1/" itemprop="url">Stochastic Approximation Methods-Notes-Part 1-An Overview and Robbins Monro Algorithm</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-01-14T02:25:37.000Z" itemprop="datePublished">Jan 13 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Notes/">Notes</a>
-        </span>
-        
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>Generally, stochastic approximation methods are a family of iterative methods. The goal of these algorithms is to recover some properties of a function depending on random variables. The application of stochastic approximation ranges from deep learning (e.g., SGD ) to online learning methods. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/01/13/Stochastic%20Approximation%20Methods-Notes-1/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
-
-
-
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/01/13/Hello%20World/" itemprop="url">Hello World</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-01-13T23:39:13.048Z" itemprop="datePublished">Jan 13 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Tutorials/">Tutorials</a>
-        </span>
-        
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>Some helpful links to help you blogging. </p></body></html>
-        <p class="article-more-link">
-            <a href="/2020/01/13/Hello%20World/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
-
-
-
-
-    
-    
     </div>
 </section>
     <footer class="footer">
