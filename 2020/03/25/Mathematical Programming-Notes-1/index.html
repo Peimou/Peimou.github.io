@@ -24,7 +24,7 @@
 <meta property="og:description" content="Programming is the basis for a wide range of fields. This blog summerized the sufficient conidtions for strong duality. The strong duality of linear programming is a summery of Mathemetical Programmin">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-26T00:00:26.000Z">
-<meta property="article:modified_time" content="2020-03-26T05:39:04.646Z">
+<meta property="article:modified_time" content="2020-03-26T05:41:20.002Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Optimization">
 <meta property="article:tag" content="Mathematical Programming">
@@ -203,18 +203,19 @@
     
         <html><head></head><body><p>Programming is the basis for a wide range of fields. This blog summerized the sufficient conidtions for strong duality. The strong duality of linear programming is a summery of Mathemetical Programming lecture notes (<a href="https://people.orie.cornell.edu/dpw/orie6300/" target="_blank" rel="noopener">David P. Williamson</a>). </p>
 <a id="more"></a>
+
 <h1 id="1-Separating-Hyperplane-Theorem"><a href="#1-Separating-Hyperplane-Theorem" class="headerlink" title="1. Separating Hyperplane Theorem"></a>1. Separating Hyperplane Theorem</h1><h2 id="1-1-Weierstrass-Theorem"><a href="#1-1-Weierstrass-Theorem" class="headerlink" title="1.1 Weierstrass  Theorem"></a>1.1 <a href="https://en.wikipedia.org/wiki/Extreme_value_theorem" target="_blank" rel="noopener">Weierstrass  Theorem</a></h2><p>Let $C \subset \mathbb{R}^n$ be a closed, non-empty and bounded set. Let $f$: $C \rightarrow \mathbb{R}$ be continous on $C$. Then $f$ attains a maximum (and a minimum) on some point of C. </p>
 <h2 id="1-2-Separating-Hyperplane-Theorem"><a href="#1-2-Separating-Hyperplane-Theorem" class="headerlink" title="1.2 Separating Hyperplane Theorem"></a>1.2 Separating Hyperplane Theorem</h2><p>Let $C \subset \mathbb{R}^n$ be closed, non-empty and convex set. Let $y \notin C$, then there exists a hyperplane $a \ne 0$, $a \in \mathbb{R}^n, b \in \mathbb{R}$, such that $a^Ty > b$ and $a^Tx<b$, for all $x \in C$.</p>
 <h1 id="2-Farkas’-Lemma"><a href="#2-Farkas’-Lemma" class="headerlink" title="2. Farkas’ Lemma"></a>2. Farkas’ Lemma</h1><p>Let $A \in \mathbb{R}^{m \times n}$ and $b \in \mathbb{R}^m$. Then exactly one of the following two conditions holds for a given A, b:</p>
-<p>(1) $\\exists x \in \mathbb{R}^n$, such that $Ax=b, x\ge 0$</p>
+<p>(1) $\exists x \in \mathbb{R}^n$, such that $Ax=b, x\ge 0$</p>
 <p>(2) $\exists y \in \mathbb{R}^m$, such that $A^Ty \ge 0$, $y^Tb < 0 $</p>
 <h2 id="2-1-Proof"><a href="#2-1-Proof" class="headerlink" title="2.1 Proof:"></a>2.1 Proof:</h2><h4 id="Step-1-We-cannot-have-two-statements-hold-at-the-same-time"><a href="#Step-1-We-cannot-have-two-statements-hold-at-the-same-time" class="headerlink" title="Step 1: We cannot have two statements hold at the same time."></a>Step 1: We cannot have two statements hold at the same time.</h4><p>Assume $\exists x \in \mathbb{R}^n$, such that $Ax=b, x\ge 0$; Assume $\exists y \in \mathbb{R}^m$, such that $A^Ty \ge 0$, $y^Tb<0$. Note that $ x^TA^Ty = y^TAx = y^Tb < 0 $, which means $x \ge 0$ and $A^Ty \ge 0$ cannot hold at the same time. </p>
 <h4 id="Step-2-If-1-doesn’t-hold-then-2-holds"><a href="#Step-2-If-1-doesn’t-hold-then-2-holds" class="headerlink" title="Step 2: If (1) doesn’t hold, then (2) holds."></a>Step 2: If (1) doesn’t hold, then (2) holds.</h4><p>Let $v_1, v_2, \dots, v_n$ be the column vectors of A. Define</p>
-<p>$Q = conv(v_1, v_2, \dots, v_n) = \\{s \in \mathbb{R}^m: s = \sum_{i=1}^{n}\lambda_i v_i, \lambda_i \ge 0, \forall i\\}$</p>
+<p>$Q = conv(v_1, v_2, \dots, v_n) = \{s \in \mathbb{R}^m: s = \sum_{i=1}^{n}\lambda_i v_i, \lambda_i \ge 0, \forall i\}$</p>
 <p>(Note that Q is a conic combination rather than a convex combination, since we don’t need $\sum_{i=1}^{n} \lambda_i = 1$)</p>
 <p>Then $Ax = \sum_{i=1}^n x_iv_i$, there exists $x$ such that $Ax=b$ and $x \ge 0$ iff $b \in Q$. In other words, $b$ is an element in the space, whose basis vectors are the columns of A.  If (1) does not hold then $b \notin Q$, according to hyperplane separating theorem, there exists $\alpha \in \mathbb{R}^m$, $\alpha \ne \vec{0}$, and $\beta$ such that $a^Tb > \beta$, $a^Ts < \beta$ for all $s \in Q$. Note that $0 \in Q$, then $\beta > 0$.  Note also that $a^T\lambda v_i < \beta$, then $a^T v_i \le 0$ (take $\lambda \rightarrow 0$). We prove that $\beta$ has to be 0 here.</p>
 <p>Then we can find $y = -a$ (splendid), we obtain $y^Tb < 0$ and $y^Tv_i \ge 0$ for all i. Condition (2) holds. </p>
-<h2 id="2-2-The-equivalence-of-a-variant-on-Farka’s-lemma"><a href="#2-2-The-equivalence-of-a-variant-on-Farka’s-lemma" class="headerlink" title="2.2 The equivalence of a variant on Farka’s lemma"></a>2.2 The equivalence of a variant on Farka’s lemma</h2><p>(1’) $\\exists x \in \mathbb{R}^n$, such that $Ax=b$</p>
+<h2 id="2-2-The-equivalence-of-a-variant-on-Farka’s-lemma"><a href="#2-2-The-equivalence-of-a-variant-on-Farka’s-lemma" class="headerlink" title="2.2 The equivalence of a variant on Farka’s lemma"></a>2.2 The equivalence of a variant on Farka’s lemma</h2><p>(1’) $\exists x \in \mathbb{R}^n$, such that $Ax=b$</p>
 <p>(2’) $\exists y \in \mathbb{R}^m$, such that $A^Ty = 0$, $y^Tb=-1$, $y \ge 0$</p>
 <p>(2’’) $\exists y \in \mathbb{R}^m$, such that $A^Ty = 0$, $y^Tb=-1$, $y \ge 0$</p>
 <p>The equivalence is trivial by finding a proper ‘y’ in section 2.1.</p>
