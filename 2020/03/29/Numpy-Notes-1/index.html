@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Archives - Peimou&#39;s Blog</title>
+<title>Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way? - Peimou&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -16,12 +16,19 @@
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Peimou&#39;s Blog">
-<meta property="og:url" content="http://peimou.top/archives/index.html">
+    <meta name="description" content="Numpy is the most powerful scientific computation tools in Python. I decide to start a new set of blogs to elaborate the amazing tricks in its source code. This blog introduces how Numpy generate mult">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way?">
+<meta property="og:url" content="http://peimou.top/2020/03/29/Numpy-Notes-1/index.html">
 <meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Numpy is the most powerful scientific computation tools in Python. I decide to start a new set of blogs to elaborate the amazing tricks in its source code. This blog introduces how Numpy generate mult">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-29T22:10:30.000Z">
+<meta property="article:modified_time" content="2020-03-29T22:58:25.578Z">
 <meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Numpy">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="Linear Algebra">
 <meta name="twitter:card" content="summary">
 
 
@@ -96,7 +103,7 @@
         
         <div class="navbar-menu navbar-start">
             
-            <a class="navbar-item is-active"
+            <a class="navbar-item "
                href="/archives">Archives</a>
             
             <a class="navbar-item "
@@ -117,6 +124,42 @@
             </a>
             
             
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Definitions-and-Concepts">1&nbsp;&nbsp;<b>1. Definitions and Concepts</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Positve-semidefinite">1.1&nbsp;&nbsp;1.1 Positve-semidefinite</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Definition-1-Hermitian-Matrix">1.1.1&nbsp;&nbsp;Definition 1: Hermitian Matrix</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Definition-2-Positive-Semidefinite">1.1.2&nbsp;&nbsp;Definition 2: Positive-Semidefinite</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-SVD-decomposition">1.2&nbsp;&nbsp;1.2 SVD decomposition</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-How-to-generate-r-v-following-multivariate-Gaussian-distribution">2&nbsp;&nbsp;<b>2. How to generate r.v. following multivariate Gaussian distribution?</b></a>
+                    
+                </div>
+            </div>
+            
             
             <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
                 
@@ -131,64 +174,110 @@
 
     <section class="section">
     <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way?
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2020-03-29T22:10:30.000Z" itemprop="datePublished">Mar 29 2020</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Numpy is the most powerful scientific computation tools in Python. I decide to start a new set of blogs to elaborate the amazing tricks in its source code. This blog introduces how Numpy generate multivariates Guassian distribution. You can read the source code via <a href="https://github.com/numpy/numpy/tree/master/numpy/random/mtrand.pyx" target="_blank" rel="noopener">Link</a>.</p>
+<a id="more"></a>
+
+<h1 id="1-Definitions-and-Concepts"><a href="#1-Definitions-and-Concepts" class="headerlink" title="1. Definitions and Concepts"></a>1. Definitions and Concepts</h1><h2 id="1-1-Positve-semidefinite"><a href="#1-1-Positve-semidefinite" class="headerlink" title="1.1 Positve-semidefinite"></a>1.1 Positve-semidefinite</h2><h3 id="Definition-1-Hermitian-Matrix"><a href="#Definition-1-Hermitian-Matrix" class="headerlink" title="Definition 1: Hermitian Matrix"></a>Definition 1: Hermitian Matrix</h3><p>We call a square matrix $A$ Hermitian if it is self-adjoint. i.e.</p>
+<p>$A = \bar{A^T}$</p>
+<h3 id="Definition-2-Positive-Semidefinite"><a href="#Definition-2-Positive-Semidefinite" class="headerlink" title="Definition 2: Positive-Semidefinite"></a>Definition 2: Positive-Semidefinite</h3><p>A positive semidefinite matrix is a Hermitian matrix if all of whose eigenvalues are nonnegative.</p>
+<h2 id="1-2-SVD-decomposition"><a href="#1-2-SVD-decomposition" class="headerlink" title="1.2 SVD decomposition"></a>1.2 SVD decomposition</h2><p>SVD decomposition  generalizes the eigendecomposition of a square  matrix to any $m\times n$ matrix.</p>
+<p>Matrix $M$ can be written as $U\Sigma V^{*}$, where $U$ is a $m \times m$ unitary matrix, $V$ is $n \times n$ unitary matrix, and $\Sigma$ is a rectangular diagonal matrix with non-negative real numbers. Note that if $M$ is real, then matrix $U$ and $V$ must be orthonormal matrices. </p>
+<h1 id="2-How-to-generate-r-v-following-multivariate-Gaussian-distribution"><a href="#2-How-to-generate-r-v-following-multivariate-Gaussian-distribution" class="headerlink" title="2. How to generate r.v. following multivariate Gaussian distribution?"></a>2. How to generate r.v. following multivariate Gaussian distribution?</h1><p>The most common idea is to use the Cholesky decomposition. However, the Cholesky–Banachiewicz and Cholesky–Crout algorithms require a positive definite matrix (Click <a href="https://en.wikipedia.org/wiki/Cholesky_decomposition" target="_blank" rel="noopener">here</a> for details), which implies that the matrix must have full rank. </p>
+<p>In most situiation, we have to handle positive semidefinite matrix. For example, generate a covariance matrix with kernel trick. In this situation, Numpy provides us with a brilliant idea via SVD decomposition.</p>
+<p>Note that if we can find a Matrix A, such that</p>
+<p>$A^TA = M$</p>
+<p>Then we can conclude that $M$ is positive-semidefinite.  </p>
+<p>Moreover, recall that for real matrix M:</p>
+<p>$M = U\Sigma V^T = U \Sigma^{\frac{1}{2}} \Sigma^{\frac{1}{2}} V^T =  U \Sigma^{\frac{1}{2}} (V\Sigma^{\frac{1}{2}})^T$</p>
+<p>If $ U \Sigma^{\frac{1}{2}} = V\Sigma^{\frac{1}{2}}$, then we find an available A for matrix M.</p>
+<p>$ U \Sigma^{\frac{1}{2}} = V\Sigma^{\frac{1}{2}} \leftrightarrow{}  U\Sigma U^T = V\Sigma V^T=M$ $(*)$</p>
+<p>If $(*)$ holds, then we can make sure $M$ is a positive-semidefinite matrix.</p>
+<p>Therefore, we can easily generate random vector following multivariates Gaussian distribution via:</p>
+<p>$rv = AR + \mu$</p>
+<p>where $R$ is random vector following standard Gaussian distribution with $\Sigma = I$. (Just use $n$ independent r.v. following standard Gaussian distribution)</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Numpy/">#Numpy</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Programming/">#Programming</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Linear-Algebra/">#Linear Algebra</a></span>
+    
+    </div>
     
     
-        <div class="archive content">
-            <h4 class="title is-4" id="2020">2020</h4>
-            <div class="articles">
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-03-29T22:10:30.000Z" itemprop="datePublished">
-                        Mar 29</time>
-                    <h6 class="title is-6"><a href="/2020/03/29/Numpy-Notes-1/">Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way?</a></h6>
-                </div>
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-03-26T00:00:26.000Z" itemprop="datePublished">
-                        Mar 25</time>
-                    <h6 class="title is-6"><a href="/2020/03/25/Mathematical%20Programming-Notes-1/">Mathematical Programming-Notes-Part 1-Strong Duality in Linear Programming</a></h6>
-                </div>
+            <a href="/2020/03/25/Mathematical%20Programming-Notes-1/">Mathematical Programming-Notes-Part 1-Strong Duality in Linear Programming</a>
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-03-23T03:25:12.000Z" itemprop="datePublished">
-                        Mar 22</time>
-                    <h6 class="title is-6"><a href="/2020/03/22/Stochastic%20Approximation%20Methods-Notes-2/">Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-02-01T03:25:12.000Z" itemprop="datePublished">
-                        Jan 31</time>
-                    <h6 class="title is-6"><a href="/2020/01/31/GMM-NW-Notes-1/">Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-01-19T04:29:42.000Z" itemprop="datePublished">
-                        Jan 18</time>
-                    <h6 class="title is-6"><a href="/2020/01/18/Kalman%20Filter-Projects-Part1/">Kalman Filter-Projects-Part1-N factors Gaussian model</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-01-17T02:31:01.000Z" itemprop="datePublished">
-                        Jan 16</time>
-                    <h6 class="title is-6"><a href="/2020/01/16/Kalman%20Filter-Notes-Part1/">Kalman Filter-Notes-Part1-Discrete Kalman Filter</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-01-14T02:25:37.000Z" itemprop="datePublished">
-                        Jan 13</time>
-                    <h6 class="title is-6"><a href="/2020/01/13/Stochastic%20Approximation%20Methods-Notes-1/">Stochastic Approximation Methods-Notes-Part 1-An Overview and Robbins Monro Algorithm</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2020-01-13T23:39:13.048Z" itemprop="datePublished">
-                        Jan 13</time>
-                    <h6 class="title is-6"><a href="/2020/01/13/Hello%20World/">Hello World</a></h6>
-                </div>
-            
-            </div>
-        </div>
+        </span>
+    </div>
     
+</article>
+
+
+<div class="sharebox">
     
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/03/29/Numpy-Notes-1/';
+        this.page.identifier = '2020/03/29/Numpy-Notes-1/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
     </div>
 </section>
     <footer class="footer">
