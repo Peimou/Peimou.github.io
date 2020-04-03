@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way? - Peimou&#39;s Blog</title>
+<title>Metric Embedding-Notes-Part 1-An overview and Basic Theorems - Peimou&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -16,19 +16,18 @@
 
 
 
-    <meta name="description" content="Numpy is the most powerful scientific computation tools in Python. I decide to start a new set of blogs to elaborate the amazing tricks in its source codes. This blog introduced how Numpy generates mu">
+    <meta name="description" content="Metric Embedding plays an important role in unsupervised machine learning and algorithm analysis. Embedding methods also are considered as one of the mosting important methods in the design of approxi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way?">
-<meta property="og:url" content="http://peimou.top/2020/03/29/Numpy-Notes-1/index.html">
+<meta property="og:title" content="Metric Embedding-Notes-Part 1-An overview and Basic Theorems">
+<meta property="og:url" content="http://peimou.top/2020/04/02/Metric-Embedding/index.html">
 <meta property="og:site_name" content="Peimou&#39;s Blog">
-<meta property="og:description" content="Numpy is the most powerful scientific computation tools in Python. I decide to start a new set of blogs to elaborate the amazing tricks in its source codes. This blog introduced how Numpy generates mu">
+<meta property="og:description" content="Metric Embedding plays an important role in unsupervised machine learning and algorithm analysis. Embedding methods also are considered as one of the mosting important methods in the design of approxi">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-29T22:10:30.000Z">
-<meta property="article:modified_time" content="2020-03-29T23:04:22.180Z">
+<meta property="article:published_time" content="2020-04-03T02:10:27.000Z">
+<meta property="article:modified_time" content="2020-04-03T04:11:20.623Z">
 <meta property="article:author" content="Peimou Sun">
-<meta property="article:tag" content="Numpy">
-<meta property="article:tag" content="Programming">
-<meta property="article:tag" content="Linear Algebra">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Metric Embedding">
 <meta name="twitter:card" content="summary">
 
 
@@ -133,29 +132,47 @@
                     
                     
                     
-                    <a class="navbar-item" href="#1-Definitions-and-Concepts">1&nbsp;&nbsp;<b>1. Definitions and Concepts</b></a>
-                    
-                    
-                    
-                    <a class="navbar-item" href="#1-1-Positve-semidefinite">1.1&nbsp;&nbsp;1.1 Positve-semidefinite</a>
-                    
-                    
-                    
-                    <a class="navbar-item" href="#Definition-1-Hermitian-Matrix">1.1.1&nbsp;&nbsp;Definition 1: Hermitian Matrix</a>
-                    
-                    
-                    
-                    <a class="navbar-item" href="#Definition-2-Positive-Semidefinite">1.1.2&nbsp;&nbsp;Definition 2: Positive-Semidefinite</a>
-                    
-                    
-                    
-                    <a class="navbar-item" href="#1-2-SVD-decomposition">1.2&nbsp;&nbsp;1.2 SVD decomposition</a>
+                    <a class="navbar-item" href="#1-Motivations">1&nbsp;&nbsp;<b>1. Motivations</b></a>
                     
                     
                     <hr class="navbar-divider">
                     
                     
-                    <a class="navbar-item" href="#2-How-to-generate-r-v-following-multivariate-Gaussian-distribution">2&nbsp;&nbsp;<b>2. How to generate r.v. following multivariate Gaussian distribution?</b></a>
+                    <a class="navbar-item" href="#2-Metric-spaces-and-embedding">2&nbsp;&nbsp;<b>2. Metric spaces and embedding</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-The-concept-of-Metric-space">2.1&nbsp;&nbsp;2.1 The concept of Metric space</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Embedding">2.2&nbsp;&nbsp;2.2 Embedding</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Definition">2.2.1&nbsp;&nbsp;Definition:</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Definition-1">2.2.2&nbsp;&nbsp;Definition:</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Basic-theorems">3&nbsp;&nbsp;<b>2. Basic theorems</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Imcompressibility-of-general-metric-spaces">3.1&nbsp;&nbsp;2.1 Imcompressibility of general metric spaces</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Bourgain-embedding">3.2&nbsp;&nbsp;2.2 Bourgain embedding</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Theorem-Bourgain">3.2.1&nbsp;&nbsp;Theorem (Bourgain):</a>
                     
                 </div>
             </div>
@@ -177,12 +194,12 @@
     <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way?
+            Metric Embedding-Notes-Part 1-An overview and Basic Theorems
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
-            <time datetime="2020-03-29T22:10:30.000Z" itemprop="datePublished">Mar 29 2020</time>
+            <time datetime="2020-04-03T02:10:27.000Z" itemprop="datePublished">Apr 2 2020</time>
         </span>
         
         <span class="column is-narrow article-category">
@@ -194,51 +211,58 @@
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p>Numpy is the most powerful scientific computation tools in Python. I decide to start a new set of blogs to elaborate the amazing tricks in its source codes. This blog introduced how Numpy generates multivariates Guassian distribution. You can read the source code via <a href="https://github.com/numpy/numpy/tree/master/numpy/random/mtrand.pyx" target="_blank" rel="noopener">Link</a>.</p>
+        <html><head></head><body><p>Metric Embedding plays an important role in unsupervised machine learning and algorithm analysis. Embedding methods also are considered as one of the mosting important methods in the design of approximation algorithms. </p>
 <a id="more"></a>
 
-<h1 id="1-Definitions-and-Concepts"><a href="#1-Definitions-and-Concepts" class="headerlink" title="1. Definitions and Concepts"></a>1. Definitions and Concepts</h1><h2 id="1-1-Positve-semidefinite"><a href="#1-1-Positve-semidefinite" class="headerlink" title="1.1 Positve-semidefinite"></a>1.1 Positve-semidefinite</h2><h3 id="Definition-1-Hermitian-Matrix"><a href="#Definition-1-Hermitian-Matrix" class="headerlink" title="Definition 1: Hermitian Matrix"></a>Definition 1: Hermitian Matrix</h3><p>We call a square matrix $A$ Hermitian if it is self-adjoint. i.e.</p>
-<p>$A = \bar{A^T}$</p>
-<h3 id="Definition-2-Positive-Semidefinite"><a href="#Definition-2-Positive-Semidefinite" class="headerlink" title="Definition 2: Positive-Semidefinite"></a>Definition 2: Positive-Semidefinite</h3><p>A positive semidefinite matrix is a Hermitian matrix if all of whose eigenvalues are nonnegative.</p>
-<h2 id="1-2-SVD-decomposition"><a href="#1-2-SVD-decomposition" class="headerlink" title="1.2 SVD decomposition"></a>1.2 SVD decomposition</h2><p>SVD decomposition  generalizes the eigendecomposition of a square  matrix to any $m\times n$ matrix.</p>
-<p>Matrix $M$ can be written as $U\Sigma V^{*}$, where $U$ is a $m \times m$ unitary matrix, $V$ is $n \times n$ unitary matrix, and $\Sigma$ is a rectangular diagonal matrix with non-negative real numbers. Note that if $M$ is real, then matrix $U$ and $V$ must be orthonormal matrices. </p>
-<h1 id="2-How-to-generate-r-v-following-multivariate-Gaussian-distribution"><a href="#2-How-to-generate-r-v-following-multivariate-Gaussian-distribution" class="headerlink" title="2. How to generate r.v. following multivariate Gaussian distribution?"></a>2. How to generate r.v. following multivariate Gaussian distribution?</h1><p>The most common idea is to use the Cholesky decomposition. However, the Cholesky–Banachiewicz and Cholesky–Crout algorithms require a positive definite matrix (Click <a href="https://en.wikipedia.org/wiki/Cholesky_decomposition" target="_blank" rel="noopener">here</a> for details), which implies that the matrix must have full rank. </p>
-<p>In most situiation, we have to handle positive semidefinite matrix. For example, generate a covariance matrix with kernel trick. In this situation, Numpy provides us with a brilliant idea via SVD decomposition.</p>
-<p>Note that if we can find a Matrix A, such that</p>
-<p>$A^TA = M$</p>
-<p>Then we can conclude that $M$ is positive-semidefinite.  </p>
-<p>Moreover, recall that for real matrix M:</p>
-<p>$M = U\Sigma V^T = U \Sigma^{\frac{1}{2}} \Sigma^{\frac{1}{2}} V^T =  U \Sigma^{\frac{1}{2}} (V\Sigma^{\frac{1}{2}})^T$</p>
-<p>If $ U \Sigma^{\frac{1}{2}} = V\Sigma^{\frac{1}{2}}$, then we find an available A for matrix M.</p>
-<p>$ U \Sigma^{\frac{1}{2}} = V\Sigma^{\frac{1}{2}} \leftrightarrow{}  U\Sigma U^T = V\Sigma V^T=M$ $(*)$</p>
-<p>If $(*)$ holds, then we can make sure $M$ is a positive-semidefinite matrix.</p>
-<p>Therefore, we can easily generate random vector following multivariates Gaussian distribution via:</p>
-<p>$rv = AR + \mu$</p>
-<p>where $R$ is random vector following standard Gaussian distribution with $\Sigma = I$. (Just use $n$ independent r.v. following standard Gaussian distribution)</p>
+<h1 id="1-Motivations"><a href="#1-Motivations" class="headerlink" title="1. Motivations"></a>1. Motivations</h1><p>We sometimes have to deal with data without a vector space representation. Metric embeddings help us measure the relationship of samples in a more convinient way. Moreover, one the  most important applications of metric embedding is dimensionality reduction, which greatly increase the computational efficiency.</p>
+<h1 id="2-Metric-spaces-and-embedding"><a href="#2-Metric-spaces-and-embedding" class="headerlink" title="2. Metric spaces and embedding"></a>2. Metric spaces and embedding</h1><h2 id="2-1-The-concept-of-Metric-space"><a href="#2-1-The-concept-of-Metric-space" class="headerlink" title="2.1 The concept of Metric space"></a>2.1 The concept of Metric space</h2><p>Metric space is a pair $(X, \rho)$, where $X$ is a set of points (can be uncountable) and a function $\rho$: $X \times X \rightarrow \mathbb{R}^{\ge 0}$ such that:</p>
+<p>(a) $\rho(x, y) = 0 \leftrightarrow x=y$</p>
+<p>(b) $\rho(x,y) = \rho(y,x)$ (symmetry)</p>
+<p>(c) $\rho(x,y) + \rho(y,z) \ge \rho(x,z)$ (triangle inequality)</p>
+<p>Note the difference between metric space and normed space. Every normed space is a metric space, but a metric space may not be a normed space. Moreover, (b) and (c) implicate that for any two points $x, y \in X$, we can get $\rho(x,y) \ge 0$. This can be quickly proved due to the fact that:</p>
+<p>$\rho(x,y) + \rho(y,x) \ge \rho(x,x) = 0$</p>
+<p>$\rho(x,y) + \rho(x,y)\ge 0$</p>
+<p>$\rho(x,y)\ge 0$  $\therefore Q.E.D$</p>
+<p>If a mapping $\rho$ is call distance if it satifies (a) and (b). If a distance function satified (c), then this function is called metric. Moreover, if there exists different points, where $\rho(x, y) = 0$, then we call this function semi-metric or pseudometric.</p>
+<p>It is natural for us to think whether we can find a function mapping from metric space to Euclidean space (a normed space, which the definition of norm is exactly inner product) and the keep the distance define in the original space. Unfortunately,  it is not always possible to achieve that transformation. </p>
+<h2 id="2-2-Embedding"><a href="#2-2-Embedding" class="headerlink" title="2.2 Embedding"></a>2.2 Embedding</h2><p>We want to find a simple metrics with some nice porperty. For example, we may reduce the dimension though metric embedding techniques, or a metric generated by simpler structures such as a tree, or a circle. The task is to find a function transfering the elements from the original metric space to the prefered one. </p>
+<h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition:"></a>Definition:</h3><p>A finite metric space $(X, \rho)$ is realized in $\mathcal{L}^k$ if there is a function $f$: $X \rightarrow \mathbb{R}^K$ so that $\rho(x,y)=||f(x) - f(y)||_p$. A metric space is also called an $\mathcal{L}_p-metric$ if it can be realized in $\mathcal{L}_p^k$ for some k.</p>
+<p>We sometimes cannot find a nice embedding. Therefore, we need to measure the similarity of metric spaces in order to find a good enough one.  Let $f$ be an embedding from the finite metric space $(X, \rho)$ into another finite metric $(Y, \mu)$. We define:</p>
+<p>$expansion(f)$ = $max \frac{ \mu (f(x), f(y)) }{ \rho (x,y)}$</p>
+<p>$contraction(f)$ = $max \frac{\rho (x,y)}{\mu (f(x), f(y))}$</p>
+<p>The disortion of an embedding is defined as the product of $expansion(f)$ and $constraction(f)$. An embedding $f$ with $distortion(f) = 1$ is called $isometic$.</p>
+<p>An alternative breif definition is:</p>
+<h3 id="Definition-1"><a href="#Definition-1" class="headerlink" title="Definition:"></a>Definition:</h3><p>Given two metric space $(X, \rho)$, $(Y, \sigma)$. A mapping f: $X \rightarrow Y$ is called a D-embedding of $X$ into $Y$ (whered $D > 1$) if there exists some $r > 0$ such that $\forall x, x’ \in X$,</p>
+<p>$r \cdot \rho (x, x’) \le \sigma (f(x), f(x’)) \le D \cdot r \cdot \rho(x, x’)$</p>
+<p>$D$ is the aforementioned distortion of an embedding. </p>
+<p>We can easily prove that (at least in finite metric space) every metric space embeds isometrically into $\mathcal{L}_{\infty}$. (Frechet)</p>
+<h1 id="2-Basic-theorems"><a href="#2-Basic-theorems" class="headerlink" title="2. Basic theorems"></a>2. Basic theorems</h1><h2 id="2-1-Imcompressibility-of-general-metric-spaces"><a href="#2-1-Imcompressibility-of-general-metric-spaces" class="headerlink" title="2.1 Imcompressibility of general metric spaces"></a>2.1 Imcompressibility of general metric spaces</h2><p>If $\mathbf{Z}$ is a normed space that D-embeds all n-points metric space, then,</p>
+<p>$dim(\mathbf{Z}) = \Omega(n)$ for $D<3$</p>
+<p>$dim(\mathbf{Z}) = \Omega(n^{\frac{1}{2}})$ for $D<5$</p>
+<p>$dim(\mathbf{Z}) = \Omega(n^{\frac{1}{3}})$ for $D<7$</p>
+<p>, where $\Omega(f(n))$ means at least $k\cdot f(n)$.</p>
+<p>This theorem gives us some hints that an embedding with smaller distortion needs more dimension or representation</p>
+<h2 id="2-2-Bourgain-embedding"><a href="#2-2-Bourgain-embedding" class="headerlink" title="2.2 Bourgain embedding"></a>2.2 Bourgain embedding</h2><h3 id="Theorem-Bourgain"><a href="#Theorem-Bourgain" class="headerlink" title="Theorem (Bourgain):"></a>Theorem (Bourgain):</h3><p>Every metric space on $n$ points embeds into $\mathcal{L}_p^{O(\log{n})}$ with distortion $O(\log{n})$ and dimension $O(log^2 n)$.</p>
 </body></html>
     
     </div>
     
     <div class="columns is-variable is-1 is-multiline is-mobile">
     
-        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Numpy/">#Numpy</a></span>
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Machine-Learning/">#Machine Learning</a></span>
     
-        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Programming/">#Programming</a></span>
-    
-        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Linear-Algebra/">#Linear Algebra</a></span>
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Metric-Embedding/">#Metric Embedding</a></span>
     
     </div>
     
     
     <div class="columns is-mobile is-multiline article-nav">
-        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
-            
-            <a href="/2020/04/02/Metric-Embedding/">Metric Embedding-Notes-Part 1-An overview and Basic Theorems</a>
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
             
         </span>
         <span class="column is-12-mobile is-half-desktop  article-nav-next">
             
-            <a href="/2020/03/25/Mathematical%20Programming-Notes-1/">Mathematical Programming-Notes-Part 1-Strong Duality in Linear Programming</a>
+            <a href="/2020/03/29/Numpy-Notes-1/">Numpy-Notes-Part1-How to Generate Multivariates Gaussian Distribution in A Decent Way?</a>
             
         </span>
     </div>
@@ -260,8 +284,8 @@
     
 <script>
     var disqus_config = function () {
-        this.page.url = 'http://peimou.top/2020/03/29/Numpy-Notes-1/';
-        this.page.identifier = '2020/03/29/Numpy-Notes-1/';
+        this.page.url = 'http://peimou.top/2020/04/02/Metric-Embedding/';
+        this.page.identifier = '2020/04/02/Metric-Embedding/';
         
         this.language = 'en';
         
