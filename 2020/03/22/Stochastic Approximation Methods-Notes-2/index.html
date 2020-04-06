@@ -24,7 +24,7 @@
 <meta property="og:description" content="The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-23T03:25:12.000Z">
-<meta property="article:modified_time" content="2020-03-25T02:26:40.050Z">
+<meta property="article:modified_time" content="2020-04-06T02:19:34.790Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Optimization">
 <meta property="article:tag" content="Machine Learning">
@@ -194,12 +194,6 @@
                     
                     <a class="navbar-item" href="#3-8-Disadvantages-of-SGD-and-full-GD">3.8&nbsp;&nbsp;3.8 Disadvantages of SGD and full GD</a>
                     
-                    
-                    <hr class="navbar-divider">
-                    
-                    
-                    <a class="navbar-item" href="#Reference">4&nbsp;&nbsp;<b>Reference</b></a>
-                    
                 </div>
             </div>
             
@@ -289,7 +283,7 @@
 <p>$w_{k+1} = w_{k} - \eta\frac{M_k}{\sqrt{V_k} + \epsilon}$</p>
 <p>The authors proposed default values of 0.9 for $\beta_1$, 0.999 for $\beta_2$, and<br>$1e-8$ for $\epsilon$. Adam prefers flat minima in the error surface, which can avoid over-fitting in some extent.</p>
 <h2 id="3-8-Disadvantages-of-SGD-and-full-GD"><a href="#3-8-Disadvantages-of-SGD-and-full-GD" class="headerlink" title="3.8 Disadvantages of SGD and full GD"></a>3.8 Disadvantages of SGD and full GD</h2><p>Note that GD and SGD method are sensitive to learning rate, and it is not easy to choose a optimal learning rate. Moreover, the schedule of learning rate (or the evolution of learning rate) is a even more difficult task. The pre-defined learning rate schedule may not adapt to the data set’s characteristics. Last but not least, the loss function or the feasible region of the optimization problem may not be convex, which means our algorithm has to avoid numerous saddle and local minima. </p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1></body></html>
+</body></html>
     
     </div>
     
