@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Estimation in Time Series - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Asymptotic distribution of estimators">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Estimation in Time Series">
+<meta property="og:url" content="http://peimou.top/2021/02/02/Estimation-in-Time-Series/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Asymptotic distribution of estimators">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://peimou.top/images/A-decomposition-of-autocovariance-matrix.png">
+<meta property="article:published_time" content="2021-02-01T20:40:00.000Z">
+<meta property="article:modified_time" content="2021-02-02T23:01:40.123Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Time Series">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peimou.top/images/A-decomposition-of-autocovariance-matrix.png">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-The-estimation-of-the-mean-value">1&nbsp;&nbsp;<b>1. The estimation of the mean value</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Consistency">1.1&nbsp;&nbsp;1.1 Consistency</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-CLT-for-strictly-stationary-process">1.2&nbsp;&nbsp;1.2 CLT for strictly stationary process</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-Asymptotic-normality">1.3&nbsp;&nbsp;1.3 Asymptotic normality</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-The-estimation-of-autocovariance-function">2&nbsp;&nbsp;<b>2. The estimation of autocovariance function</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Autocovariance-function">2.1&nbsp;&nbsp;2.1 Autocovariance function</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Autocorrelation-function-and-asymptotic-distribution">2.2&nbsp;&nbsp;2.2 Autocorrelation function and asymptotic distribution</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Estimation in Time Series
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-02-01T20:40:00.000Z" itemprop="datePublished">Feb 2 2021</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Asymptotic distribution of estimators</p>
+<a id="more"></a>
+
+<h1 id="1-The-estimation-of-the-mean-value"><a href="#1-The-estimation-of-the-mean-value" class="headerlink" title="1. The estimation of the mean value"></a>1. The estimation of the mean value</h1><h2 id="1-1-Consistency"><a href="#1-1-Consistency" class="headerlink" title="1.1 Consistency"></a>1.1 Consistency</h2><p>If $\{X_t\}$ is stationary with mean and $\mu$ and autocovariance function $\gamma(\cdot)$, then as $n \xrightarrow{} \infty$, $\text{Var}(\bar{X}_n) = \mathbb{E}(\bar{X}_n - \mu)^2 \xrightarrow{} 0$ if $\gamma(\cdot) \xrightarrow{} 0$,</p>
+<p>and $n\mathbb{E}(\bar{X}_n - \mu)^2 \xrightarrow{} \sum_{n = -\infty}^{\infty} \gamma(h)$ if $\sum_{n = -\infty}^{\infty} |\gamma(h)| \le \infty$</p>
+<p><strong>Proof</strong>:</p>
+<p>$n\text{Var}(\bar{X}_t) = \frac{1}{n} \sum_{i,j = 1}^{\infty} \text{Cov}(X_i, X_j) = \frac{1}{n} \sum_{i,j = 1}^{\infty} \gamma(h) = \sum_{|h| < n}(1 - \frac{|h|}{n})\gamma(h) \le \sum_{|h| < n}|\gamma(h)|$</p>
+<p>Note that $\lim_{n \xrightarrow{} \infty}n^{-1}\sum_{|h| < n}|\gamma(h)| = 2 \lim_{n \xrightarrow{} \infty} |\gamma(n)| \xrightarrow{} 0$, hence $\text{Var}(\bar{X}_n) \xrightarrow{} 0$. If $\sum_{|h| < n}|\gamma(h)| < \infty$ then the dominate convergence theorem indicates that </p>
+<p>$n\mathbb{E}(\bar{X}_n - \mu)^2 \xrightarrow{} \sum_{n = -\infty}^{\infty} \gamma(h)$</p>
+<h2 id="1-2-CLT-for-strictly-stationary-process"><a href="#1-2-CLT-for-strictly-stationary-process" class="headerlink" title="1.2 CLT for strictly stationary process"></a>1.2 CLT for strictly stationary process</h2><p><strong>Lemma</strong>： Let $X_n$, $n = 1, 2,\dots$ and $Y_{nj}$, $j = 1, 2, \dots; n= 1, 2, \dots$ be random k-vectors such that</p>
+<p>(i) $Y_{nj} \xrightarrow{d} Y_j$ as $n \xrightarrow{} \infty$</p>
+<p>(ii) $Y_{j} \xrightarrow{d} Y$ as $j \xrightarrow{} \infty$</p>
+<p>(iii) $\lim_{j \xrightarrow{} \infty}\text{limsup}_{n\xrightarrow{}\infty}P(|X_n - Y_{nj}| > \epsilon) = 0$ for every $\epsilon > 0$</p>
+<p>Then $X_n \xrightarrow{d} Y$</p>
+<p><strong>Definition m-dependence</strong>: A strictly stationary sequence of random variables $\{X_t\}$ is said to be m-dependent if for each $t$, the two sets of random variables $\{X_j, j \le t\}$ and $\{X_j, j \ge t + m + 1\}$ are independent.</p>
+<p><strong>CLT for strictly stationary m-dependent sequences</strong>: If $\{X_t\}$ is a strictly stationary m-dependent sequence of random variables with mean zero and autocovariance function $\gamma(\cdot)$, and if $v_m = \gamma(0) + 2\sum_{j=1}^m \gamma(j) \neq = 0$ then</p>
+<p>(i) $\lim_{n \xrightarrow{} \infty} n \text{Var}(\bar{X}_n) = v_m$</p>
+<p>(ii) $\bar{X}_n$ is $AN(0, v_m/n)$</p>
+<p><strong>Proof</strong>：</p>
+<p>(i) 易证。</p>
+<p>(ii) 先通过m-dependent的独立性构造一个辅助随机变量序列，在证明$\{X_n\}$依分布收敛到这个辅助随机变量序列，这个方法值得借鉴。</p>
+<p>For each integer k such that $k > 2m$, let $Y_{nk} = n^{-1/2} [(X_1 + X_2 + \dots + X_{k - m}) + (X_{k +1} + X_{k+2} + \dots + X_{2k - m}) + \dots + (X_{(r-1)k+1} + \dots + X_{rk-m})]$, where $r = [n/k]$. Note that $n^{1/2}Y_{nk}$ is a sum of r iid random variables each having mean zero and variance, $R_{k-m} = \text{Var}(X_1 + \dots + X_{k-m}) = \sum_{|j|< k-m}(k-m-|j|)\gamma(j)$. Apply CLT, we have $Y_{nk} \xrightarrow{} Y_{k}$, where $Y_k \sim N(0, k^{-1}R_{k-m})$. Moreover, note that $Y_{k} \xrightarrow{} Y$, where $Y \sim N(0, v_m)$. Then we need to prove that $\bar{X}_n$ converge to $Y_{nk}$ almost surely.</p>
+<p>$\lim_{k \xrightarrow{} \infty} \text{limsup}_{n \xrightarrow{} \infty} P(|n^{1/2} \bar{X}_n - Y_{nk}| > \epsilon) = 0$ for every $\epsilon > 0$ (easy to prove).</p>
+<h2 id="1-3-Asymptotic-normality"><a href="#1-3-Asymptotic-normality" class="headerlink" title="1.3 Asymptotic normality"></a>1.3 Asymptotic normality</h2><p>If $\{X_t\}$ is the stationary process,</p>
+<p>$X_t = \mu + \sum_{j = -\infty}^{\infty} \varphi_{j}Z_{t-j}$, where $\{Z_t\} \sim IID(0, \sigma^2)$,</p>
+<p>where $\sum_{j = -\infty}^{\infty}|\varphi_j| < \infty$ and $\sum_{-\infty}^{\infty} \varphi_{j} \neq 0$, then $\bar{X}_n \sim AN(\mu, n^{-1}v)$, where $v = \sum_{h=-\infty}^{\infty}\gamma(h) = \sigma^2(\sum_{j = -\infty}^{\infty} \varphi_j)^2$ (AN means asymptotic normal)</p>
+<p><strong>Proof</strong>: Define $X_{tm} = \mu + \sum_{j = -m}^m \varphi_{j}Z_{t-j}$ and $Y_{nm} = \bar{X}_{nm} = \frac{\sum_{i=1}^n X_{tm}}{n}$, $\text{Var}(n^{1/2}(\bar{X}_n - Y_{nm})) = n\text{Var}(n^{-1} \sum_{t=1}^n \sum_{|j|>m} \phi_{j}Z_{t-j}) \xrightarrow{}(\sum_{|j|>m}\varphi_j)^2\sigma^2$</p>
+<h1 id="2-The-estimation-of-autocovariance-function"><a href="#2-The-estimation-of-autocovariance-function" class="headerlink" title="2. The estimation of autocovariance function"></a>2. The estimation of autocovariance function</h1><h2 id="2-1-Autocovariance-function"><a href="#2-1-Autocovariance-function" class="headerlink" title="2.1 Autocovariance function"></a>2.1 Autocovariance function</h2><p>$\gamma(h) = n^{-1} \sum_{t = 1}^{n - h} (X_t - \bar{X}_n)(X_{t + h} - \bar{X}_n), 0 \le h \le n - 1$. The reason why we do not use the unbiased estimator (you know what) is the we want to get an non-negative covariance matrix. For the estimated covariance matrix, we can write the $\hat{\Tau}_n$($\{\hat{\gamma}(i-j)\}$) as $\frac{1}{n}TT^{\prime}$. (Note that $TT^{\prime} = \{\sum_{k=1}T_{ik} T_{kj}\}$, recall the Einstein summation).$T = $ is a $(n \times 2n)$ matrix.</p>
+<p><img src="/images/A-decomposition-of-autocovariance-matrix.png" alt="avatar"></p>
+<p>Recall that the sufficient and necessary condition of the non-negative matrix is that the there exist such a decomposition. Note that for any real vector $a$, we have $a^{\prime}\hat{\Tau}_n a = n^{-1}(a^{\prime}T)(a^{\prime}T)^\prime$</p>
+<h2 id="2-2-Autocorrelation-function-and-asymptotic-distribution"><a href="#2-2-Autocorrelation-function-and-asymptotic-distribution" class="headerlink" title="2.2 Autocorrelation function and asymptotic distribution"></a>2.2 Autocorrelation function and asymptotic distribution</h2><p>$\hat{\rho}(h) = \hat{\gamma}(h) / \hat{\gamma}(0)$</p>
+<p><strong>Theorem</strong> 2.2.1: If $\{X_t\}$ is the stationary process, $X_t - \mu = \sum_{j = -\infty}^{\infty} \varphi_j Z_{t - j}$, $Z_t \sim \text{IID}(0, \sigma^2)$, where $\sum_{j=-\infty}^{\infty}|\varphi_{j}| <\infty$ and $\mathbb{E}(Z_t^4) < \infty$, then for each $h \in \{1, 2, \dots\}$ we have $\hat{\rho}(h)$ is $\text{AN}(\rho(h), n^{-1}W)$, where $W$ is the covariance matrix whose $(i, j)$ element is given by Bartlett’s formula. </p>
+<p>$w_{i,j} = \sum_{k=-\infty}^{\infty} \{\rho(k + i)\rho(k + j) + \rho(k-i)\rho(k + j) + 2\rho(i)\rho(j)\rho^2(k) - 2\rho(i)\rho(k)\rho(k + j) - 2 \rho(j)\rho(k)\rho(k + i)\} =  \sum_{k= 1}^{\infty} \{\rho(k + i) + \rho(k-i) - 2\rho(i)\rho(k)\}\{\rho(k + j) + \rho(k-j) - 2\rho(j)\rho(k)\}$</p>
+<p>Therefore, the asymptotic distribution of $n^{1/2}(\hat{\rho}(h) - \rho(h))$ is the same as that of the random vector $(Y_1, Y_2, \dots, Y_h)$, where $Y_i = \sum_{k=1}^{\infty}(\rho(k + i) + \rho(k -i) - 2\rho(i)\rho(k))N_k$</p>
+<p><strong>Theorem</strong> 2.2.2: If $\{X_t\}$ is the stationary process, $X_t - \mu = \sum_{j = -\infty}^{\infty} \varphi_j Z_{t - j}$, $Z_t \sim \text{IID}(0, \sigma^2)$, where $\sum_{j=-\infty}^{\infty}|\varphi_{j}|^2 <\infty$, then for each $h \in \{1, 2, \dots\}$ we have $\hat{\rho}(h)$ is $\text{AN}(\rho(h), n^{-1}W)$, where $W$ is the covariance matrix whose $(i, j)$ element is given by Bartlett’s formula. </p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Time-Series/">#Time Series</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/02/04/Periodogram/">Periodogram</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/28/Spectral-representation-of-stationary-stochastic-process/">Spectral representation of stationary stochastic process</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/02/02/Estimation-in-Time-Series/';
+        this.page.identifier = '2021/02/02/Estimation-in-Time-Series/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

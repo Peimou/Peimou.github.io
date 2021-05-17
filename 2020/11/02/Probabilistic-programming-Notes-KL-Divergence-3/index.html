@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Probabilistic programming-Notes-KL Divergence-Part3 - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: support of distribution, forward KL, reverse KL, absolute continuity (greatly influence the properties of approximation)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Probabilistic programming-Notes-KL Divergence-Part3">
+<meta property="og:url" content="http://peimou.top/2020/11/02/Probabilistic-programming-Notes-KL-Divergence-3/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: support of distribution, forward KL, reverse KL, absolute continuity (greatly influence the properties of approximation)">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-02T02:04:19.000Z">
+<meta property="article:modified_time" content="2021-01-11T23:09:40.407Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Probabilistic Programming">
+<meta property="article:tag" content="Machine learning">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-A-review-of-KL-divergence">1&nbsp;&nbsp;<b>1. A review of KL divergence</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Forward-and-reverse-KL-in-Probabilistic-Programming">2&nbsp;&nbsp;<b>2. Forward and reverse KL in Probabilistic Programming</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-The-properties-of-forward-KL">2.1&nbsp;&nbsp;2.1 The properties of forward KL</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#The-properties-of-forward-KL-in-mean-field-variational-inference">2.1.1&nbsp;&nbsp;The properties of forward KL in mean-field variational inference</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-The-properties-of-reverse-KL">2.2&nbsp;&nbsp;2.2 The properties of reverse KL</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Probabilistic programming-Notes-KL Divergence-Part3
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2020-11-02T02:04:19.000Z" itemprop="datePublished">Nov 2 2020</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: support of distribution, forward KL, reverse KL, absolute continuity (greatly influence the properties of approximation)</p>
+<a id="more"></a>
+
+<h1 id="1-A-review-of-KL-divergence"><a href="#1-A-review-of-KL-divergence" class="headerlink" title="1. A review of KL divergence"></a>1. A review of KL divergence</h1><p>If $P$ and $Q$ are probability measures over a set $\chi$, and $P$ is absolutely continuous with respect to $Q$, which means $P << Q$ i.e.  $\forall \epsilon \quad Q(\epsilon) = 0  \Rightarrow P(\epsilon) = 0$.  Then the KL divergence can be defined as:</p>
+<p>$D_{KL}(P|Q) = \int_{\chi} \frac{P}{Q} P(dx)$      </p>
+<p>Due to the definition of measure i.e. $B\in A, \mu(A-B) = \mu(A) - \mu(B)$ </p>
+<p> $$D_{KL}(P|Q) = \int_{\chi} \log(\frac{P}{Q}) P(dx) = \int_{\chi} \log(\frac{P}{Q}) dP = \mathbb{E}_{P}[\log \frac{P}{Q}]$$</p>
+<p>Note that this formula also works for discrete distribution depending on the definition of $dx$ over set $\chi$.      </p>
+<p>The properties of KL divergence includes:</p>
+<p>1)  asymmetry. $KL(P|Q) \neq KL(Q|P)$</p>
+<p>2) Non negative. See <a href="http://peimou.top/2020/10/10/Probabilistic-programming-Notes-Varational-inference-1/">Probabilistic-Programming-Notes-1</a>. Therefore, a zero $KL(P|Q)$ or $KL(Q|P)$ means $P = Q, a.s.$</p>
+<p>3) The properties of absolute continuity of P w.r.t. Q. </p>
+<p>The base in the logarithms is e, or 2 (if information is based on bits).</p>
+<h1 id="2-Forward-and-reverse-KL-in-Probabilistic-Programming"><a href="#2-Forward-and-reverse-KL-in-Probabilistic-Programming" class="headerlink" title="2. Forward and reverse KL in Probabilistic Programming"></a>2. Forward and reverse KL in Probabilistic Programming</h1><p>Let’s try to approximate some distribution $p$ with $q$ which is parameterized by $\phi$. Define forward KL as</p>
+<p>$KL(p|q)$ and reverse $KL(q|p)$. </p>
+<h2 id="2-1-The-properties-of-forward-KL"><a href="#2-1-The-properties-of-forward-KL" class="headerlink" title="2.1 The properties of forward KL"></a>2.1 The properties of forward KL</h2><p>The support of $p$ have no influence on the support of $q$. The event with zero probability in $p$ may have positive probability in $q$, which potentially overestimate the variance of the distribution $p$.</p>
+<h3 id="The-properties-of-forward-KL-in-mean-field-variational-inference"><a href="#The-properties-of-forward-KL-in-mean-field-variational-inference" class="headerlink" title="The properties of forward KL in mean-field variational inference"></a>The properties of forward KL in mean-field variational inference</h3><h5 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion:"></a>Conclusion:</h5><p>Consider a factored approximation $q(x, y) = q_x(x)q_y(y)$ to a joint distribution $p(x, y)$. The forward KL reaches minimum when $q_x(x) = p(x)$ and $q_y(y) = p(y)$</p>
+<h5 id="Proof"><a href="#Proof" class="headerlink" title="Proof:"></a>Proof:</h5><p>By definition, $KL(p||q)$ can be written as:<br>$KL(p||q) = \mathbb{E}_{p}[\log p(x, y)] - \mathbb{E}_{p}[\log q(x) + \log q(y)]$</p>
+<p>Note that $\mathbb{E}_{p}[\log p(x, y)]$ is constant. Therefore, minimize $KL(p||q)$ is equivalent to maximize the $\mathbb{E}_{p}[\log q(x) + \log q(y)]$. </p>
+<p>Note that we are searching for the optimal $q(\cdot)$ with constraints $\int_{\Omega_x} q(x) dx = 1$. For any integrable function $h(x)$ and real number $\theta$, let’s define function $f(\theta, \lambda)$:</p>
+<p> $f(\theta, \lambda) = \iint\limits_{\Omega} \log [q(x) + \theta h(x)] p(x, y) dx dy - \lambda (\int [q(x) + \theta h(x)] dx - 1)$</p>
+<p>For the optimal $q(x)$, $f(\theta, \lambda)$ reaches optimal when $\theta = 0$. Therefore, </p>
+<p> $\frac{\partial f}{\partial \theta} \Big |_{\theta = 0} = \iint\limits_{\Omega} \frac{h(x)}{q(x)}p(x, y)dxdy - \lambda \int h(x) dx = \int h(x)[\frac{p(x)}{q(x)} - \lambda] dx = 0$</p>
+<p>Due to the arbitrary $h(x)$, we can conclude $\frac{p(x)}{q(x)} - \lambda = 0$<br>Besides, the first order condition over $\lambda$ can be written as:</p>
+<p> $\frac{\partial f}{\partial \lambda} \Big|_{\theta = 0} = \int q(x) dx - 1 = \lambda \int p(x) dx - 1 = 0 $</p>
+<p>Therefore, $\lambda = 1$, and $p(x) = q(x)$. In the same method, we can also conclude $p(y) = q(y)$. </p>
+<h2 id="2-2-The-properties-of-reverse-KL"><a href="#2-2-The-properties-of-reverse-KL" class="headerlink" title="2.2 The properties of reverse KL"></a>2.2 The properties of reverse KL</h2><p>Again, start from the properties of absolute continuity, all the event with zero event in $p$ will be rigorously subject to 0 in $q$. Therefore, we will underestimate the variance of $p$ if we try to use $q$ to approximate $p$.  The advantage of the reverse KL is that we can efficiently sample from $q$. In most situation, we use the simple distribution functions like Gaussian or functions in exponential distribution family, which can be easily sampled. </p>
+<p>Therefore, we prefer the reverse KL in both CAVI and BBVI. </p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Probabilistic-Programming/">#Probabilistic Programming</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Machine-learning/">#Machine learning</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2020/11/04/A-review-of-Merton-Problem/">A review of Merton Problem-Part 1</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/11/01/differentiation-programming-notes/">Differentiation Programming-Notes</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/11/02/Probabilistic-programming-Notes-KL-Divergence-3/';
+        this.page.identifier = '2020/11/02/Probabilistic-programming-Notes-KL-Divergence-3/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Statistical Inference-Notes-Part5-Likelihood method - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Score function, Fisher Information, Cramer-Rao Lower Bound, asymptotic properties of likelihood estimator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Statistical Inference-Notes-Part5-Likelihood method">
+<meta property="og:url" content="http://peimou.top/2021/01/14/Statistical-inference-Part5-Likelihood/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Score function, Fisher Information, Cramer-Rao Lower Bound, asymptotic properties of likelihood estimator">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-13T18:02:54.000Z">
+<meta property="article:modified_time" content="2021-02-19T16:55:35.388Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Statistical Inference">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Score-function-and-Fisher-information-matrix">1&nbsp;&nbsp;<b>1. Score function and Fisher information matrix</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-The-Cramer-Rao-Lower-Bound">2&nbsp;&nbsp;<b>2. The Cramer-Rao Lower Bound</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-Asymptotic-properties-of-maximum-likelihood-estimators">3&nbsp;&nbsp;<b>3. Asymptotic properties of maximum likelihood estimators</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-1-A-review-of-asymptotic-theorems">3.1&nbsp;&nbsp;3.1 A review of asymptotic theorems</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-2-Consistency-of-MLE-estimator">3.2&nbsp;&nbsp;3.2 Consistency of MLE estimator</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-3-The-asymptotic-distribution-of-the-maximum-likelihood-estimator">3.3&nbsp;&nbsp;3.3 The asymptotic distribution of the maximum likelihood estimator</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">4&nbsp;&nbsp;<b>Reference</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Statistical Inference-Notes-Part5-Likelihood method
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-13T18:02:54.000Z" itemprop="datePublished">Jan 14 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Score function, Fisher Information, Cramer-Rao Lower Bound, asymptotic properties of likelihood estimator</p>
+<a id="more"></a>
+
+<h1 id="1-Score-function-and-Fisher-information-matrix"><a href="#1-Score-function-and-Fisher-information-matrix" class="headerlink" title="1. Score function and Fisher information matrix"></a>1. Score function and Fisher information matrix</h1><p>The score function is defined as the first order derivatives of the log likelihood function. Note that the log likelihood function or score function themselves are random variables. Let $u(x; \theta) = \frac{\partial \log f(x; \theta)}{\partial \theta}$</p>
+<p>$\mathbb{E}(u(x;\theta)) = \int_{\mathcal{X}} \frac{1}{f(x; \theta)} f(x; \theta) \frac{\partial f(x; \theta)}{\partial \theta} dx = \frac{\partial}{\partial \theta}\int_{\mathcal{X}} f(x; \theta) dx = \frac{\partial}{\partial \theta} 1  = 0$ </p>
+<p>$\frac{\partial}{\partial \theta^T}\mathbb{E}(\frac{\partial \log f(x; \theta)}{\partial \theta}) = \mathbb{E}(\frac{\partial l(x; \theta)^2}{\partial \theta \partial \theta^T}) + \mathbb{E}(\frac{\partial l(x; \theta)}{\partial \theta} \frac{\partial l(x; \theta)}{\partial \theta^T}) = 0$</p>
+<p>Therefore, $\mathbb{E}(\frac{\partial l(x; \theta)^2}{\partial \theta \partial \theta^T}) =- \mathbb{E}(\frac{\partial l(x; \theta)}{\partial \theta} \frac{\partial l(x; \theta)}{\partial \theta^T}) = -var(u(x; \theta))$</p>
+<p>Note that $-\frac{\partial l(x; \theta)}{\partial \theta} \frac{\partial l(x; \theta)}{\partial \theta^T}$ is called observed information matrix(denoted by $e_{i}$ for the ith observation in n iid rv)), and its expectation is called Fisher information matrix (denoted by $i_{n}$ for n iid rv). </p>
+<p>If the observations are independent, it will be obvious that $i_n(\theta) = n i_1(\theta)$</p>
+<h1 id="2-The-Cramer-Rao-Lower-Bound"><a href="#2-The-Cramer-Rao-Lower-Bound" class="headerlink" title="2. The Cramer-Rao Lower Bound"></a>2. The Cramer-Rao Lower Bound</h1><p>Let $W(X)$ be any estimator of $\theta$ and let $m(\theta) = \mathbb{E}_{\theta}\{W(x)\}$. Let $Y = W(X)$ and $Z = \frac{\partial}{\partial \theta} \log f(X; \theta)$. Based on Cauchy inequality, we can conclude that:</p>
+<p>$\text{var}(Y)\text{var}{Z} \ge \{\text{cov}(Y, Z)\}^2$</p>
+<p>Note that $\text{cov}(Y, Z) = \int w(x) \big\{ \frac{\partial}{\partial \theta} \log f(x; \theta)\big\} f(x; \theta)dx = m^{\prime}(\theta)$</p>
+<p>（微分积分换序的一个充分条件是含参积分对参数一致收敛，更严格的条件有被积函数在参数上的偏导数连续；另外这里的cov里没有减去均值，但是这里的均值可以被 $\bar{W}(X)\nabla_{\theta}\int_{\mathcal{X}}f(x; \theta)dx = 0$消除。这里还有另外一个有趣的事情是 $\int_{\mathcal{X}} (W(X) - \bar{W}(X)) \frac{\partial f(X; \theta)}{\partial \theta} dx \neq \frac{\partial}{\partial \theta}\int_{\mathcal{X}} (W(X) - \bar{W}(X)) f(X; \theta) dx$。这里体现了规范书写的重要性，偷懒省略了参数$\theta$时就要想到会有求导忘了它的一天。–再论善恶终有报。）</p>
+<p>Note that $\text{var}(Z) = \mathbb{E}\Big\{\frac{\log f(X; \theta)}{\partial \theta} \frac{\log f(X; \theta)}{\partial \theta^T}\Big\}$</p>
+<p>Therefore $\text{var}\{W(X)\} \ge \frac{\{m^{\prime}(\theta)\}^2}{i(\theta)}$.</p>
+<p>If we have an unbiased estimator, we can further conclude that $m(\theta) = \theta, m^{\prime}(\theta) = 1$. </p>
+<p>For any unbiased estimator which achieves the lower bound can be seen to be a MVUE, a minimum variance unbiased estimator. </p>
+<p>Let‘s further consider the condition that the equality rather than the inequality holds. Note that $\text{cov(Y, Z)} = \text{var}(Y)\text{var}(Z)$ iff $\text{corr}(Y, Z) = 1, -1$, which means $Y$ must be proportional to $Z$. Thus $\frac{\partial}{\partial \theta} \log f(X;\theta) = a(\theta) W(X) - b(\theta)$, and $\log f(X;\theta) = A(\theta)W(X) + B(\theta) + C(X)$, which is of the form of exponential family. (指数分布族性质太好了，当然Gaussian 尤其好， 对于指数分布族来说，我们只需要找到一个$\frac{m^{\prime}(\theta)^2}{i(\theta)}$)最小的就能天然获得MUE. ）</p>
+<p>For multi-dimension parameter space, the CRB can be written as:</p>
+<p>$cov_{\theta}(W(X)) \ge \frac{\partial m(\theta)}{\partial \theta} [I(\theta)]^{-1}\frac{\partial m(\theta)}{\partial \theta}^T$. </p>
+<p>, where $\frac{\partial m(\theta)}{\partial \theta}$ is the Jacobian matrix, and $A \ge B$ means $A-B$ is semi-definite. </p>
+<h1 id="3-Asymptotic-properties-of-maximum-likelihood-estimators"><a href="#3-Asymptotic-properties-of-maximum-likelihood-estimators" class="headerlink" title="3. Asymptotic properties of maximum likelihood estimators"></a>3. Asymptotic properties of maximum likelihood estimators</h1><h2 id="3-1-A-review-of-asymptotic-theorems"><a href="#3-1-A-review-of-asymptotic-theorems" class="headerlink" title="3.1 A review of asymptotic theorems"></a>3.1 A review of asymptotic theorems</h2><p>The strong law of large number (SLLN) says the sequence of random variables $Y_n = n^{-1} (X_1 + X_2 + \dots + X_n)$ converges almost surely to $\mu$ iff $\mathbb{E} (|X_i|)$ is finite. The weak law of larger number (WLLN) says that $Y_n = n^{-1} (X_1 + X_2 + \dots + X_n)$ converge to $\mu$ with probability if $X_i$ have finite estimation $Y_n \xrightarrow{p} \mu$. Note that we the technical condition for WLLN and SLLN are the same, i.e. finite estimation (<strong>the finite variance is not necessary</strong>). CLT says that under the condition that $X_i$ are of finite variance $\sigma^2$, $Z_n = \frac{\sqrt{n}(Y_n - \mu)}{\sigma}$, <strong>converges in distribution</strong> to a random variable $Z$ having the standard normal distribution $N(0, 1)$($Z_n \xrightarrow{d} N(0, 1)$). (SLLN和WLLN的要求是不同的，一些更加复杂的SLLN需要用Borel-Cantelli构造序列；CLT是最弱的收敛（recall：特征函数泰勒展开忽略高阶项），而且分布函数依分布收敛到正态分布，不一定能保证密度函数也以分布收敛到正态。)</p>
+<p><strong>Slutsky’s Theorem</strong>:  if $Y_n \xrightarrow{d} Y$ and $Z_n \xrightarrow{p} c$(WLLN, let alone SLLN), where finite constant $c$. If $g$ is a continuous function (recall the $\epsilon-\delta$ language for continuous, it is obvious since we can always control the difference in state space by control the domain) , $g(Y_n, Z_n) \xrightarrow{d} g(Y, c))$. For example, $Y_n + Z_n \xrightarrow{d} Y + c$, $Y_n Z_n \xrightarrow{d} cY$ , $Y_n/Z_n \xrightarrow{d} Y/c$</p>
+<h2 id="3-2-Consistency-of-MLE-estimator"><a href="#3-2-Consistency-of-MLE-estimator" class="headerlink" title="3.2 Consistency of MLE estimator"></a>3.2 Consistency of MLE estimator</h2><p>$\hat{\theta}_n \xrightarrow{p} \theta$ is called weak consistent; $\hat{\theta}_n \xrightarrow{a.s.} \theta$ is called strong consistent. </p>
+<p>Suppose $f(x; \theta)$ is a family of probability densities or probability mass functions and let $\theta_0$ denote the true value of the parameter $\theta$. For any $\theta \neq \theta_0$ we have by Jenson’s inequality:</p>
+<p>$\mathbb{E}_{\theta_0}\{\log \frac{f(X; \theta)}{f(X; \theta_0}\} \le \log\mathbb{E}_{\theta_0}\{ \frac{f(X; \theta)}{f(X; \theta_0}\} = \log \int_{\mathcal{X}} f(x; \theta) dx = 0$. Note that the inequality is strict unless $\frac{f(X; \theta)}{f(X; \theta_0)} = 1$</p>
+<p>Let  $\mu_1 = \mathbb{E}_{\theta_0} \{\log \frac{f(X; \theta_0- \delta)}{f(X; \theta_0)}\} \le 0$, $\mu_2 = \mathbb{E}_{\theta_0} \{\log \frac{f(X; \theta_0+ \delta)}{f(X; \theta_0)}\} \le 0$</p>
+<p>Note that $\frac{l_n(\theta_0)}{n} = \frac{l(x_1; \theta_0) + \dots + l(x_n; \theta_0) }{n}$ if $\mathbb{E}_{\theta_0}(|l(x; \theta_0)|) < +\infty$, $\frac{l_n(\theta_0)}{n} \xrightarrow{a.s.} \mathbb{E}_{\theta_0}(\log f(X; \theta_0))$.</p>
+<p><strong>lemma 3.2.1</strong> $\mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|)$ is finite.</p>
+<p><em>Proof</em>:</p>
+<p>$\mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|) = \mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|\Big |f(x; \theta_0) \ge 1) \textbf{Pr}\{f(x; \theta_0) \ge 1\}+ \mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|\Big |0 \le f(x; \theta_0) < 1)\textbf{Pr}\{0 \le f(x; \theta_0) < 1\} \le \mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|\Big |f(x; \theta_0) \ge 1) + \mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|\Big |0 \le f(x; \theta_0) < 1)$</p>
+<p>Let’s further consider $-\int_{0 \le f(x; \theta) < 1} \log (f(x; \theta)) f(x; \theta) dx \le \int_{0 \le f(x; \theta) < 1} \log (e) e dx = e \textbf{Pr}(0 \le f(x; \theta) < 1)  \le e$</p>
+<p>Therefore $\mathbb{E}_{\theta_0}(|\log f(x; \theta_0)|) \le 2e$, and we can apply SLLN (let alone WLLN).</p>
+<p>Since $\mu_1 = \mathbb{E}_{\theta_0} \{\log \frac{f(X; \theta_0- \delta)}{f(X; \theta_0)}\} \le 0$, according to Slutsky’s theorem, we can conclude that</p>
+<p> $\frac{i_n(x; \theta_0 - \delta) - i_n(x; \theta)}{n} \xrightarrow{a.s.} \mu_1 < 0$.</p>
+<p>By the same logic, we can conclude that $\frac{i_n(x; \theta_0 + \delta) - i_n(x; \theta)}{n} \xrightarrow{a.s.} \mu_2 < 0$</p>
+<p>We can control the $\mu_1, \mu_2 \xrightarrow{} 0$, by controlling $\delta \xrightarrow{} 0$ with $n \xrightarrow{} \infty$. Note that it is a general result. Not necessarily need differentiable over $\theta$ (but need continuous i.e. not necessarily absolute continuous).</p>
+<p><strong>Conclusion</strong>: SLLN and continuity guarantees the strongly asymptotic consistency of likelihood estimator. （这个强行构造零测集的办法真是暴力美学…）. Although we cannot make any assumptions about the uniqueness of the likelihood estimation, it is unique on any sufficiently small neighborhood.</p>
+<h2 id="3-3-The-asymptotic-distribution-of-the-maximum-likelihood-estimator"><a href="#3-3-The-asymptotic-distribution-of-the-maximum-likelihood-estimator" class="headerlink" title="3.3 The asymptotic distribution of the maximum likelihood estimator"></a>3.3 The asymptotic distribution of the maximum likelihood estimator</h2><p>The strong consistency can be guaranteed without any differentiation assumptions on log-likelihood function on $\theta$. However, if we want to figure out the asymptotic properties of distribution, we need assumptions that the log-likelihood function is twice continuously differentiable. Let’s further assume there is a solution for the $l^{\prime}_n(\theta) = 0$. </p>
+<p>According to the Taylor expansion with Lagrange remainder, we can conclude that:</p>
+<p>$-l^{\prime}_n(\theta_0) = l^{\prime}_n(\hat{\theta}_n) - l^{\prime}_n(\hat{\theta}_0) = (\hat{\theta}_n - \theta_0) l^{\prime\prime}_n(\theta_n^*)$</p>
+<p>Let’s first consider a scalar scenario. $\sqrt{n i_1(\theta_0)}(\hat{\theta}_n - \theta_0) = \frac{l_n^\prime(\theta_0)}{\sqrt{n i_1(\theta_0)}} \cdot \frac{l^{\prime\prime}_n(\theta_0)}{l^{\prime\prime}_n(\theta_n^*)} \cdot \Big\{-\frac{l^{\prime\prime}_n(\theta_0)}{n i_1(\theta_0)} \Big\}^{-1}$.</p>
+<p><strong>lemma 3.3.1</strong>: $\frac{l_n^\prime(\theta_0)}{\sqrt{n i_1(\theta_0)}} \xrightarrow{d} N(0, 1)$</p>
+<p>Let’s consider the random variable $l_n^\prime(\theta_0)$. We have known that $\mathbb{E}_{\theta_0}(l_1^\prime(\theta_0)) = 0$ and $\mathbb{E}_{\theta_0}(l_1^\prime(\theta_0) l_1^\prime(\theta_0)) = \mathbb{E}_{\theta_0}(-\frac{\partial l_1(\theta_0^2)}{\partial \theta^2}) = i_1(\theta_0)$. Therefore, according to $CLT$, $\frac{\sum l_i^{\prime}(\theta_0)}{\sqrt{n i_1(\theta_0)}} \sim N(0, 1)$. </p>
+<p><strong>lemma 3.3.2</strong>:  $\frac{l^{\prime\prime}_n(\theta_0)}{l^{\prime\prime}_n(\theta_n^*)} \xrightarrow{p} 1$</p>
+<p>$\frac{l^{\prime\prime}_n(\theta_0)}{l^{\prime\prime}_n(\theta_n^*)} - 1 = \frac{l^{\prime\prime}_n(\theta_0) - l^{\prime\prime}_n(\theta_n^*)}{n} \cdot \Big \{\frac{l^{\prime\prime}_n(\theta_n^*)}{n}\Big\}^{-1}$</p>
+<p>Note that $l^{\prime\prime}_i(\theta_n^*)$ is also a random variable, and it follows the SLLN. Therefore $\Big \{\frac{l^{\prime\prime}_n(\theta_n^*)}{n}\Big\}^{-1} \xrightarrow{a.s} -\frac{1}{i_1(\theta_0)}$</p>
+<p>Further note that $|\frac{l^{\prime\prime}_n(\theta_0) - l^{\prime\prime}_n(\theta_n^*)}{n}| \le |\theta_n^* - \theta_0| \frac{\sum g(X_i)}{n}$, where $|\frac{\partial^3 \log f(x; \theta)}{\partial \theta^3}| \le g(x)$, i.e. we need further assume $|\frac{\partial^3 \log f(x; \theta)}{\partial \theta^3}|$ is uniformly bounded. Since we know the strong consistency, $|\theta_n^{*} - \theta_0| \xrightarrow{a.s.} 0$. Therefore, $\frac{l^{\prime\prime}_n(\theta_0)}{l^{\prime\prime}_n(\theta_n^*)} \xrightarrow{p} 1$</p>
+<p><strong>lemma 3.3.3</strong>: $\Big\{-\frac{l^{\prime\prime}_n(\theta_0)}{n i_1(\theta_0)} \Big\}^{-1} \xrightarrow{p} 1$</p>
+<p>(自证不难)</p>
+<p><strong>Remark</strong>：基于score function良好的性质，以及CLT 和 Slutsky’s Lemma. 在做asymptotic的分析时应该多从score function上找。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Essentials of Statistics Inference</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Statistical-Inference/">#Statistical Inference</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/16/Statistical-inference-Part6-Wilks-Theorem/">Statistical Inference-Notes-Part6-Wilks&#39; Theorem</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/13/Statistical-inference-Part4-Lehmann-Scheffe/">Statistical Inference-Notes-Part4-Lehmann Scheffe Theorem</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/14/Statistical-inference-Part5-Likelihood/';
+        this.page.identifier = '2021/01/14/Statistical-inference-Part5-Likelihood/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

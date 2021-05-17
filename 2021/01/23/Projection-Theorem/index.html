@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Projection Theorem in the Hilbert space - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Closed Subspace, Orthogonal Complement, The Projection Theorem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Projection Theorem in the Hilbert space">
+<meta property="og:url" content="http://peimou.top/2021/01/23/Projection-Theorem/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Closed Subspace, Orthogonal Complement, The Projection Theorem">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-22T20:00:56.000Z">
+<meta property="article:modified_time" content="2021-01-23T16:37:11.885Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Abstract Algebra">
+<meta property="article:tag" content="Linear regression">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Definitions">1&nbsp;&nbsp;<b>1. Definitions</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Projection-mapping">2&nbsp;&nbsp;<b>2. Projection mapping</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Projection Theorem in the Hilbert space
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-22T20:00:56.000Z" itemprop="datePublished">Jan 23 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Closed Subspace, Orthogonal Complement, The Projection Theorem</p>
+<a id="more"></a>
+
+<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p><strong>Closed Subspace</strong> A linear subspace $\mathcal{M}$ of a Hilbert space $\mathcal{H}$ is said to be a closed subspace of $\mathcal{H}$ if $\mathcal{M}$ contains all of its limit points (i.e. if $x_n \in \mathcal{M}$ and $|x_n - x| \xrightarrow{} 0$ imply that $x \in \mathcal{M}$).</p>
+<p><strong>Orthogonal Complement</strong>: The orthogonal complement of a subset $\mathcal{M}$ of $\mathcal{H}$ is defined to be the set $\mathcal{M}^{\perp}$ of all elements of $\mathcal{H}$ which are orthogonal to every element of $\mathcal{M}$. Thus</p>
+<p>$x \in M^{\perp}$ if and only if $(x, y) = 0$ for all $y \in \mathcal{M}$</p>
+<p><strong>Proposition:</strong> If $\mathcal{M}$ is any subset of a Hilbert space $\mathcal{H}$, then its orthogonal complement is a closed subspace of $\mathcal{H}$.</p>
+<p><strong>Proof</strong>: For any Cauchy sequence $x_n \in \mathcal{M}^{\perp}$, $(x_n, y) = 0 \forall y \in \mathcal{M}$. According to the continuity of inner product (triangle inequality), if $|x_n - x| \xrightarrow{} 0$, we can conclude that $(x, y) = 0$. Therefore, the $\mathcal{H}^{\perp}$ must be complete. QED.</p>
+<p><strong>Lemma Parallelogram law</strong>: If $\mathcal{\Hilbert}$ is an inner-product space, then</p>
+<p>$|x + y|^2 + |x - y|^2 = 2 |x|^2 + 2 |y|^2$ (显然)</p>
+<p><strong>Projection Theorem</strong> : If $\mathcal{M}$ is a closed subspace of the Hilbert space $\mathcal{H}$ and $x \in \mathcal{H}$, then</p>
+<p>(1) There is a unique element $\hat{x} \in \mathcal{M}$ such that $|x - \hat{x}| = \inf\limits_{y \in \mathcal{M}} |x - y|$ </p>
+<p>(2) $\hat{x} \in \mathcal{M}$ and $|x - \hat{x}| = \inf\limits_{y \in \mathcal{M}} |x - y|$ if and only if $\hat{x} \in \mathcal{M}$ and $(x - \hat{x}) \in \mathcal{M}^{\perp}$</p>
+<p><strong>Proof</strong>: </p>
+<p>(1) By the definition of closed subspace, there exist a Cauchy sequence $y_n \in \mathcal{M}, |y_n| \xrightarrow{} y$, such that $|y_n - x| \xrightarrow{} \inf\limits_{y \in \mathcal{M}} |y - x|$. Therefore, by Cauchy criterion there exist $\hat{x} \in \mathcal{H}$, such that $|x - \hat{x}|^2 = \lim\limits_{n \xrightarrow{} \infty} |x - y_n|^2 = d$. Existence proved. </p>
+<p>To prove the uniqueness, we need to prove that for any $\hat{y} \in \mathcal{M}$ and that $|x - \hat{y}| = |x - \hat{x}| = d$, $|\hat{x} -\hat{y}| = 0$. Apply the parallelogram law:</p>
+<p>$$</p>
+<p>$0 \le|\hat{x} - y|^2 = -4|(\hat{x} + \hat{y})/2 - x|^2 + 2(|\hat{x} - x|^2 + |\hat{y} - x|^2) \le -4d + 4d = 0$</p>
+<p><strong>Remark</strong>: 三角不等式一下会把上面的式子的右边放得太大，在证明唯一性的时候一定要优先使用严格等号。</p>
+<p>Hence $\hat{y} \overset{a.s.}{=} \hat{x}$</p>
+<p>(2) </p>
+<p>step 1: $\hat{x} \in M$ and $(x - \hat{x}) \in \mathcal{M}^{\perp} \xrightarrow{} |x - \hat{x}| = \inf |x-y|$:</p>
+<p>(易证)</p>
+<p>step 2: $\hat{x} \in M$ and $(x - \hat{x}) \in \mathcal{M}^{\perp} \xleftarrow{} |x - \hat{x}| = \inf |x-y|$:</p>
+<p>Prove it by contradiction. (是构造性证明，技巧上类似Cauchy-Schwarz)</p>
+<p><strong>Remark</strong>: 映射的存在性和唯一性都是基于Closed subspace上的性质成立的。</p>
+<h1 id="2-Projection-mapping"><a href="#2-Projection-mapping" class="headerlink" title="2. Projection mapping"></a>2. Projection mapping</h1><p>If $\mathcal{M}$ is a closed subspace of the Hilbert space $\mathcal{H}$ and $I$ is the identity mapping on $\mathcal{H}$, then there is a unique mapping $P_{\mathcal{M}}$ of $\mathcal{H}$ onto $\mathcal{M}$ such that $I - P_{\mathcal{M}}$ maps $\mathcal{H}$ on to $\mathcal{M}^{\perp}$.</p>
+<p><strong>Proof</strong>:</p>
+<p>By projection theorem, for each $x \in \mathcal{H}$ there is a unique $\hat{x} \in \mathcal{M}$ such that $x-\hat{x} \in \mathcal{M}^{\perp}$. The required mapping is therefore $P_{\mathcal{M}}x = \hat{x}$</p>
+<p><strong>Remark</strong>: 这里的映射的定义来源于距离该元素最近的点是唯一的。映射定理也可以因此表述为，一定存在一个映射，使得Hilbert空间中任何的元素都能够被映射到某个Closed subspace中，并且$I - P_{\mathcal{M}}$可以把这个元素映射到Closed subspace的正交补空间上。</p>
+<p><strong>Properties</strong></p>
+<p>(1) $P_{\mathcal{M}}(\alpha x + \beta y) = \alpha P_{\mathcal{M}}(x) + \beta P_{\mathcal{M}}(y)$</p>
+<p>(2) $|x|^2 = |P_{\mathcal{M}}x|^2 + |(I - P_{\mathcal{M}})x|^2$ </p>
+<p>(3) $x = P_{\mathcal{M}}x + (I -  P_{\mathcal{M}})x$</p>
+<p>(4) If $|x_n - x| \xrightarrow{} 0$, $P_{\mathcal{M}}x_n \xrightarrow{} P_{\mathcal{M}}x$</p>
+<p>(5) $x \in \mathcal{M}$ iff $P_{\mathcal{M}} x=x $</p>
+<p>(6) (5) $x \in \mathcal{M}^{\perp}$ iff $P_{\mathcal{M} x=0 $</p>
+<p><strong>Remark</strong>: 在内积空间的连续性中，$|x_n - x| \xrightarrow{} 0$可以推出$|x_n| \xrightarrow |x|$, 反之不成立，除非$x_n$可以被$x$线性表示。</p>
+<p><strong>Prediction Equation</strong>: Given a Hilbert space $\mathcal{H}$, a closed subspace $\mathcal{M}$, and an element $x \in \mathcal{H}$. The element of $\mathcal{M}$ closest to x, is the $\hat{x}$ such that</p>
+<p>$(x - \hat{x}, y) = 0 \forall y \in \mathcal{M}$</p>
+<p><strong>Remark</strong>: Note that $P_{\mathcal{M}}(P_{\mathcal{M}}x)  = P_{\mathcal{M}}x$. Therefore, the projection mapping must satisfy that $P_{\mathcal{M}}^n = P_{\mathcal{M}}$. Recall 线性回归中的一些投影矩阵，实际就是$\mathbb{R}^n$空间中的$P_{\mathcal{M}}$, 而$\mathcal{M}$ 是有observation 构成的closed span. </p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Abstract-Algebra/">#Abstract Algebra</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Linear-regression/">#Linear regression</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/23/Orthonomal-set/">Orthonormal Set and Bessel&#39;s Inequality</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/22/Inner-product-space-and-Hilbert-space/">Inner product space and Hilbert space</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/23/Projection-Theorem/';
+        this.page.identifier = '2021/01/23/Projection-Theorem/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

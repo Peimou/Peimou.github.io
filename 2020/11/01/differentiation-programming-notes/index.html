@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Differentiation Programming-Notes - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: AD algorithm, evaluation trace, Dual number">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Differentiation Programming-Notes">
+<meta property="og:url" content="http://peimou.top/2020/11/01/differentiation-programming-notes/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: AD algorithm, evaluation trace, Dual number">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-31T21:26:10.000Z">
+<meta property="article:modified_time" content="2021-01-11T23:09:21.967Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Differentiation Programming">
+<meta property="article:tag" content="machine learning">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Prerequisite">1&nbsp;&nbsp;<b>1. Prerequisite</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Numerical-differentiation">1.1&nbsp;&nbsp;1.1 Numerical differentiation</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Remark">1.1.1&nbsp;&nbsp;Remark</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Symbolic-differentiation">1.2&nbsp;&nbsp;1.2 Symbolic differentiation</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Main-modes-in-AD">2&nbsp;&nbsp;<b>2. Main modes in AD</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Notation">2.1.1&nbsp;&nbsp;Notation:</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Forward-Mode">2.2&nbsp;&nbsp;2.1 Forward Mode</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-1-Properties">2.2.1&nbsp;&nbsp;2.1.1 Properties</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-2-Dual-numbers">2.2.2&nbsp;&nbsp;2.1.2 Dual numbers</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Reverse-mode-of-AD">2.3&nbsp;&nbsp;2.2 Reverse mode of AD</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">3&nbsp;&nbsp;<b>Reference</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Differentiation Programming-Notes
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2020-10-31T21:26:10.000Z" itemprop="datePublished">Nov 1 2020</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: AD algorithm, evaluation trace, Dual number</p>
+<a id="more"></a>
+
+<h1 id="1-Prerequisite"><a href="#1-Prerequisite" class="headerlink" title="1. Prerequisite"></a>1. Prerequisite</h1><h2 id="1-1-Numerical-differentiation"><a href="#1-1-Numerical-differentiation" class="headerlink" title="1.1 Numerical differentiation"></a>1.1 Numerical differentiation</h2><p>According to Tayler extension with Lagrange reminder:</p>
+<p>$$f(x + h) = f(x) + hf^{\prime}(x) + \frac{1}{2}h^2f^{\prime\prime}(\xi_1)$$</p>
+<p>$$f(x - h) = f(x) - hf^{\prime}(x) + \frac{1}{2}h^2f^{\prime\prime}(\xi_2)$$</p>
+<p>,where $\xi_{*} \in (0, h)$ or $(h, 0)$.</p>
+<h3 id="Remark"><a href="#Remark" class="headerlink" title="Remark"></a>Remark</h3><p>a) The error of forward (or backward) definition of the numerical differentiation is $O(h)$.</p>
+<p>b) The error of $\frac{f(x + h) - f(x - h)}{2h}$ is $O(h^2)$. The difference of the reminders is $O(h^2)$.</p>
+<h2 id="1-2-Symbolic-differentiation"><a href="#1-2-Symbolic-differentiation" class="headerlink" title="1.2 Symbolic differentiation"></a>1.2 Symbolic differentiation</h2><p>Chains rule.</p>
+<p>Note that AD is not numerical differentiation or symbolic differentiation.</p>
+<h1 id="2-Main-modes-in-AD"><a href="#2-Main-modes-in-AD" class="headerlink" title="2. Main modes in AD"></a>2. Main modes in AD</h1><p>All numerical computations are ultimately compositions of a finite set of elementary operations for which derivatives are known (Verma, 2000; Griewank and Walther, 2008). </p>
+<h3 id="Notation"><a href="#Notation" class="headerlink" title="Notation:"></a>Notation:</h3><p>Let’s consider a function $f: \mathbb{R}^n \xrightarrow{} \mathbb{R}^m$</p>
+<p>a) $v_{i - n} = x_{i}, \quad i = 1, \dots, n$ are the input variables. </p>
+<p>b) $v_{i} \quad i = 1, \dots, l are the working variables$</p>
+<p>c) $y_{m-i} = v_{l-i}, \quad i=m-1, \dots, 0$</p>
+<p>Note that any numerical code will eventually result in a numerical evaluation trace. Therefore, the AD can differentiate not only the closed-formed expressions in the classical sense, but also the algorithms making use of control flow such as branching, loops, recursion and procedure. </p>
+<p>Evaluation trace includes all the binary and unary operations that generate the function. </p>
+<h2 id="2-1-Forward-Mode"><a href="#2-1-Forward-Mode" class="headerlink" title="2.1 Forward Mode"></a>2.1 Forward Mode</h2><p>Each forward pass of AD (or evaluation trace) is initialized by setting only one of the variables $\dot{x}_i = 1$ and setting the rest to zero. Therefore, a forward run will generate a column of Jacobian matrix. </p>
+<h3 id="2-1-1-Properties"><a href="#2-1-1-Properties" class="headerlink" title="2.1.1 Properties"></a>2.1.1 Properties</h3><p>a) Need n evaluations to compute the Jacobian matrix. </p>
+<p>b) A very efficient method to computing Jacobian-vector products. (Simply by initializing with $\dot{x} = r$)</p>
+<p>c) Efficient for $f: \mathbb{R} \xrightarrow{} \mathbb{R}^m$. NOT decent for $f: \mathbb{R}^m \xrightarrow{} \mathbb{R}$.</p>
+<h3 id="2-1-2-Dual-numbers"><a href="#2-1-2-Dual-numbers" class="headerlink" title="2.1.2 Dual numbers"></a>2.1.2 Dual numbers</h3><p>Forward AD can be viewed as evaluating a function using dual numbers, which can be defined as truncated Taylor series of the form $v + \dot{v}\epsilon$, where $v, \dot{v} \in \mathbb{R}$ and $\epsilon$ is a nilpotent number such that $\epsilon^2 = 0$ and $\epsilon \neq 0$. With this notation, the operations between $v$ and $\dot{v}$ can be written as:</p>
+<p>$v + \dot{v} \epsilon + u + \dot{u} \epsilon = (u + v) + (\dot{u} + \dot{v}) \epsilon$</p>
+<p>$(v+\dot{v} \epsilon)(u + \dot{u}\epsilon) = vu + (v\dot{u} + \dot{v}u)\epsilon$</p>
+<p>Note that the coefficient of nilpotent mirror the symbolic differentiation rules.  We can further define that:</p>
+<p>$f(v + \dot{v} \epsilon) = f(v) + f^{\prime}(v)\dot{v}\epsilon$.</p>
+<p>Therefore, the coefficient of nilpotent can express the chain rules.  Recall the differences between variables and constant in Pytorch or TF. The dual number of variables can be written as $v + 1\epsilon$, while the constant can be written as $v + 0 \epsilon$.</p>
+<p>The chains rule can be expressed as:</p>
+<p>$g(f(v + \dot{v}\epsilon)) = g(f(v) + f^{\prime}(v)\dot{v}\epsilon) = g(f(v)) + g^{\prime}(f(v))f^{\prime} \dot{v} \epsilon$</p>
+<h2 id="2-2-Reverse-mode-of-AD"><a href="#2-2-Reverse-mode-of-AD" class="headerlink" title="2.2 Reverse mode of AD"></a>2.2 Reverse mode of AD</h2><p>Reverse mode of AD correspond to a generalized backpropagation algorithm. The reverse mode propagates derivatives backward from a given output. In the Dual number model, we can compute the derivatives based on the value of intermediate variables. However, in the reverse mode of AD, we require the value of the output. </p>
+<p>For each variables $v_i$, there is an adjoint variable $\bar{v_i}$, where $\bar{v_i}$ is defined as the sensitivity of an interested output $y$ wrt the changes in $v_i$.</p>
+<p>$\bar{v_i} = \frac{\partial y}{\partial v_i}$</p>
+<p>Note that we need a pre-defined function here, which means we can easily get the expression of $\bar{v_i}$. Clearly, this mode is much more quickly for a function $\mathbb{R}^m \xrightarrow{} \mathbb{R}^n$, where $m >> n$</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Automatic Differentiation in Machine Learning: a Survey</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Differentiation-Programming/">#Differentiation Programming</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/machine-learning/">#machine learning</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2020/11/02/Probabilistic-programming-Notes-KL-Divergence-3/">Probabilistic programming-Notes-KL Divergence-Part3</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/10/16/Stochastic%20Control-Notes-1/">Stochastic Control-Notes-Part1-Ito operator and its L2-adjoint</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/11/01/differentiation-programming-notes/';
+        this.page.identifier = '2020/11/01/differentiation-programming-notes/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

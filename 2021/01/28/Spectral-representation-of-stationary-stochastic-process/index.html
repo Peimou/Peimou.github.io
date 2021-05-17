@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Spectral representation of stationary stochastic process - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Complex-valued ACF, Spectral Distribution, Herglotz’s Theorem, Isomorphism, Orthogonal-increment process">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spectral representation of stationary stochastic process">
+<meta property="og:url" content="http://peimou.top/2021/01/28/Spectral-representation-of-stationary-stochastic-process/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Complex-valued ACF, Spectral Distribution, Herglotz’s Theorem, Isomorphism, Orthogonal-increment process">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-27T17:36:15.000Z">
+<meta property="article:modified_time" content="2021-02-04T03:36:14.870Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Time series">
+<meta property="article:tag" content="Spectral analysis">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Definitions-and-Properties">1&nbsp;&nbsp;<b>1. Definitions and Properties</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Fourier-Series">2&nbsp;&nbsp;<b>2. Fourier Series</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-The-spectral-distribution-of-a-linear-combination-of-sinusoids">3&nbsp;&nbsp;<b>3. The spectral distribution of a linear combination of sinusoids</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#4-Corollaries-for-stationary-time-series">4&nbsp;&nbsp;<b>4. Corollaries for stationary time series</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Theorem-4-1">4.1&nbsp;&nbsp;Theorem 4.1</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Theorem-4-2-Spectral-Density-of-an-ARMA-p-q-Process">4.2&nbsp;&nbsp;Theorem 4.2 Spectral Density of an ARMA(p, q) Process</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#5-Spectral-representation-from-a-isomorphism-perspective">5&nbsp;&nbsp;<b>5. Spectral representation from a isomorphism perspective</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#6-Inversion-Formulae">6&nbsp;&nbsp;<b>6. Inversion Formulae</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#7-Prediction-in-Frequency-Domain">7&nbsp;&nbsp;<b>7. Prediction in Frequency Domain</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">8&nbsp;&nbsp;<b>Reference</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Spectral representation of stationary stochastic process
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-27T17:36:15.000Z" itemprop="datePublished">Jan 28 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Complex-valued ACF, Spectral Distribution, Herglotz’s Theorem, Isomorphism, Orthogonal-increment process</p>
+<a id="more"></a>
+
+<h1 id="1-Definitions-and-Properties"><a href="#1-Definitions-and-Properties" class="headerlink" title="1. Definitions and Properties"></a>1. Definitions and Properties</h1><p><strong>Complex-valued stationary process</strong>: The process $\{X_n\}$ is a complex values stationary process if $\mathbb{E}|X_t|^2 < \infty$, $\mathbb{E}X_t$ is independent of $t$ and $\mathbb{E}(X_{t+h}\bar{X}_t)$ is independent of $t$. </p>
+<p>Note that in the complex vector space, the inner product is defined as $(x, y) = \mathbb{E}(X\bar{Y})$, and the <strong>autocovariance function</strong>(ACF) $\gamma(\cdot)$ of a complex-valued stationary process $\{X_t\}$ is $\gamma(h) = (X_{t+h}, X_t) - (X_{t + h}, 1)(1, X_t)$, i.e. $\gamma(h) = \mathbb{E}(X_{t + h}\bar{X_t}) - \mathbb{E}(X_{t + h})\mathbb{E}(\bar{X_t})$ (复数域一定要小心顺序和复共轭的问题)</p>
+<p>The properties of complex-valued ACF includes:</p>
+<p>(1) $\gamma(0) \ge 0$</p>
+<p>(2) $|\gamma(h)| \le \gamma(0)$ (Complex-valued Cauchy-Schwarz)</p>
+<p>(3) $\gamma(\cdot)$ is a Hermitian function, i.e. $\gamma(h) = \bar{\gamma(-h)}$</p>
+<p><strong>Theorem 1: The relationship between ACF and Stochastic process</strong></p>
+<p>A function $K(\cdot)$ defined on the integers is the autocovariance function of a stationary time series if and only if $K(\cdot)$ is Hermitian and non-negative definite, i.e. if and only if $K(n) = \bar{K(-n)}$ and $\sum\limits_{i, j}^n a_i K(i - j) \bar{a_j} \ge 0$ for any integer $n$ and all vectors $a = (a_1, \dots, a_n)^\prime \in \mathbb{C}^n$ (还是用构造法设计一个符合Kolmogorov‘s Theorem的离散时间随机过程)</p>
+<h1 id="2-Fourier-Series"><a href="#2-Fourier-Series" class="headerlink" title="2. Fourier Series"></a>2. Fourier Series</h1><p>Consider the complex Hilbert space $L^2[-\pi, \pi] = L^2([-\pi, \pi], \mathcal{B}, U)$, where $\mathcal{B}$ is the Borel set of $[-\pi, \pi]$, $U$ is the uniform probability measure $U(dx) = d(U(x)) = \frac{1}{2\pi} dx$. The inner product in the complex space is defined as usual by $(f, g) = Ef\bar{g} = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x)\bar{g}(x)dx$.</p>
+<p>Consider $\{e_n(x) = e^{inx}\}, n \in \mathbb{Z}$.</p>
+<p>Note that $(e_n(x), e_m(x)) = \frac{1}{2\pi} \int_{-\pi}^{\pi} e^{i(m - n)x}dx = 0$, therefore $e_i(x), i \in \mathbb{Z}$ is the orthonormal set of this complex $L^2[-\pi, \pi]$.  </p>
+<p><strong>Fourier approximation</strong>: The nth order Fourier approximation to any function $f \in L^2[-\pi, \pi]$ is defined to be the projection of f onto $\bar{sp}(e_j)$, with the same logic of Parseval’s identity, we can write the nth order of Fourier approximation as: $S_n f = \sum_{i = -n}^{i = n} (f, e_i) e_i$. The Fourier coefficients can be written as $(f, e_j) = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x) e^{-ijx}dx$</p>
+<p><strong>Theorem $Sf = f$</strong>:</p>
+<p>(a) The sequence $\{S_n f\}$ has a mean square limit as $n \xrightarrow{} \infty$. Let $Sf$ denote $\lim\limits_{n \xrightarrow{} \infty}S_nf =  \lim\limits_{n \xrightarrow{} \infty} \sum_{|j| < n} (f, e^{ijt}) e^{ijt}$.</p>
+<p>(b) $Sf = f$.</p>
+<p><strong>Proof</strong>: </p>
+<p>(a) From Bessel inequality, we have $\sum_{|j| < n}|(f, e_j)|^2 \le |f|^2$. (Note that $(f, f) = \frac{1}{2\pi} \int_{-\pi}^{\pi}f(x)\bar{f}(x)dx$). Note that we are working in the $L^2$ space. Therefore, we have a converge Cauchy sequence. </p>
+<p>(b) For $|j| < n$, $(S_n f, e_j) = (f, e_j)$ (by the definition of orthonormal set), $(Sf, e_j) = \lim\limits_{n \xrightarrow{} \infty} (S_nf, e_j) = (f, e_j)$ ($Sf \xrightarrow{} f$ and continuity of inner-product space)</p>
+<h1 id="3-The-spectral-distribution-of-a-linear-combination-of-sinusoids"><a href="#3-The-spectral-distribution-of-a-linear-combination-of-sinusoids" class="headerlink" title="3. The spectral distribution of a linear combination of sinusoids"></a>3. The spectral distribution of a linear combination of sinusoids</h1><p>Let’s consider a specific stochastic process in this section. Let’s assume $X_t$ can be written as:</p>
+<p>$X_t = \sum_{j = 1}^n A(\lambda_j)e^{it\lambda_j}$, </p>
+<p>where $-\pi < \lambda_1 < \lambda_2 < \dots < \lambda_n < \pi$, and $A(\lambda_i)$ are uncorrelated complex-valued random coefficients (may follow Dirac distribution) such that </p>
+<p>$\mathbb{E}(A(\lambda_j)) = 0$, $j \in \mathbb{Z}$ and $\mathbb{E}(A(\lambda_j)\bar{A(\lambda_j)}) = \sigma_j^2$</p>
+<p>Note that the autocorrelation function can be written via a distribution function, i.e.,</p>
+<p>$\gamma(h) = \int_{(-\pi, \pi]} e^{ihv} d F(v)$, where $F(\lambda) = \sum\limits_{j:\lambda_j < \lambda} \sigma^2_j$ (Spectral distribution function)</p>
+<p>The remarkable feature of this example is that every zero-mean stationary process has a representation which is a natural generalization $X_t = \int_{(-\pi, \pi]} e^{itv}dZ(v)$, which is a stochastic integral w.r.t. an orthogonal-increment process.</p>
+<p>The ACF of a stationary process can be written as $\gamma_X(h) = \int_{(-\pi, \pi]} e^{ihv} dF(v)$, where $F(\cdot)$ is a distribution function with $F(-\pi) = 0$ and $F(\pi) = \mathbb{E}(X_t^2)$</p>
+<p><strong>Herglotz’s Theorem</strong>: A complex-valued function $\gamma(\cdot)$ defined on the integers is non-negative definite *<em>if and only if *</em></p>
+<p>$\gamma(h) = \int_{(-\pi,\pi]} e^{ihv} d F(v)$, where $F(\cdot)$ is a right-continuous, non-decreasing, bounded function on $[-\pi, \pi]$ and $F(-\pi) = 0$. (Function F is called the spectral distribution function of $\gamma$ and if $F(\lambda) = \int_{-\pi}^\lambda f(v) dv, -\pi < \lambda < \pi$, then f is called a spectral density function.)</p>
+<p>结合Herglotz’s Theorem和Theorem 1， 我们得到了谱概率分布和时间序列之间的关系。</p>
+<p><strong>Inverse Transform</strong>: If $K(\cdot)$ is any complex-valued function on the integers such that</p>
+<p>$\sum_{-\infty}^{\infty}|K(n)| < \infty$</p>
+<p> Then $K(h) = \int_{-\pi}^{\pi} e^{ihv} f(v) dv$, where $f(v) = \sum_{-\infty}^{\infty} e^{-in\lambda}K(n)$</p>
+<p><strong>Proof</strong>: Use Dirac function </p>
+<p><strong>Corollary</strong>: An absolutely summable complex-valued function $\gamma(\cdot)$ defined on the integers is the autocovariance function of a stationary process iff  $f(\lambda) = \frac{1}{2\pi} \sum_{-\infty}^{\infty} e^{-in\lambda}\gamma(n)$, where $f(\lambda)$ is the spectral density of the $\gamma(\cdot)$, i.e. $\gamma(h) = \int_{-\pi}^{\pi}e^{ihv}f(v)dv$</p>
+<h1 id="4-Corollaries-for-stationary-time-series"><a href="#4-Corollaries-for-stationary-time-series" class="headerlink" title="4. Corollaries for stationary time series"></a>4. Corollaries for stationary time series</h1><h2 id="Theorem-4-1"><a href="#Theorem-4-1" class="headerlink" title="Theorem 4.1"></a>Theorem 4.1</h2><p>If $\{Y_t\}$ is any zero-mean, possibly complex-valued stationary process with spectral distribution function $F_{Y}(\cdot)$, and $\{X_t\}$ is the process $$X_t = \sum_{j = -\infty}^{+\infty} \varphi_{j}Y_{t - j}$$, where $\sum_{j = -\infty}^{+\infty} |\varphi_{j}| < + \infty$ (绝对可积老条件了，一个充分条件是指数衰减，保证某个N之后的和有界即可) then $\{X_t\}$ is stationary with spectral distribution function $F_{X}(\lambda) = \int_{(-\pi, \lambda]} |\sum_{j = -\infty}^{\infty} \varphi_j e^{-ijv}|^2 dF_y(v)$</p>
+<p><strong>Proof</strong>:</p>
+<p>$\mathbb{E}(X_{t + h} \bar{X}_{t}) = \mathbb{E}(\sum_{j = -\infty}^{j = \infty}\varphi_{t + h + j}Y_{t + h + j} \sum_{k = -\infty}^{k = \infty}\bar{\varphi}_{t + k}\bar{Y}_{t + k}) = \sum_{j, k}^{\infty}\varphi_{t + h + j}\bar{\varphi}_{t + k} \mathbb{E}(Y_{t + h + j}\bar{Y}_{t + k}) = \sum_{j, k}^{\infty}\varphi_{t + h + j}\bar{\varphi}_{t + k} \mathbb{E}(Y_{t + h + j}\bar{Y}_{t + k}) = \sum_{j, k}^{\infty}\varphi_{t + h + j}\bar{\varphi}_{t + k} \gamma_Y(h + j - k) = \gamma_X(h)$</p>
+<p>$\gamma_X(h) = \sum_{j, k}^{\infty}\varphi_{t + h + j}\bar{\varphi}_{t + k} \gamma_Y(h + j - k) = \sum_{j, k}^{\infty}\varphi_{t + h + j}\bar{\varphi}_{t + k} \int_{(-\pi, \pi]} e^{i(h + j - k)v}dF_Y(v) = \int_{(-\pi, \pi]} |\sum_{j = -\infty}^{\infty} \varphi_j e^{-ijv}|^2 e^{ihv}dF_Y(v) = \int_{(-\pi, \pi]} e^{ihv}dF_X(v)$</p>
+<h2 id="Theorem-4-2-Spectral-Density-of-an-ARMA-p-q-Process"><a href="#Theorem-4-2-Spectral-Density-of-an-ARMA-p-q-Process" class="headerlink" title="Theorem 4.2 Spectral Density of an ARMA(p, q) Process"></a>Theorem 4.2 Spectral Density of an ARMA(p, q) Process</h2><p>Let $\{X_t\}$ be an ARMA(p, q) process (not necessarily causal and invertible) satisfying $\phi(B) X_ t= \theta(B) Z_t$, $Z_t \sim WN(0, \sigma^2)$. $\phi(\cdot)$ has no zeroes on the unit circle. Then $\{X_t\}$ has spectral density $f_{X}(\lambda) = \frac{\sigma^2 |\theta(e^{-i\lambda})|^2}{2\pi |\phi(e^{-i\lambda})|^2}$</p>
+<p><strong>Proof</strong>:</p>
+<p>$U(t) = \phi(B)X_t = \theta(B)Z_t$ (滞后算子值得借鉴). According to Theorem 4.1, we can conclude that:</p>
+<p>$f_U(\lambda) = |\phi(e^{-iv})|^2 f_X(\lambda) = |\theta(e^{-iv})|^2 f_Z(\lambda)$</p>
+<p>$f_X(\lambda)  = \frac{|\theta(e^{-iv})|^2}{|\phi(e^{-iv})|^2}f_Z(\lambda)$</p>
+<p>Note that $Z_t$ is white noise, the autocovariance function is $\gamma_Z(h) = \sigma^2\delta_0(h)$</p>
+<p>According to the last corollary in the last section, we can conclude that </p>
+<p>$f_z(\lambda) = \frac{1}{2\pi} \sum_{n = -\infty}^{+\infty} \gamma_z(h) e^{-in\lambda} = \frac{\sigma^2}{2\pi}$</p>
+<p>$\therefore f_X(\lambda) = \frac{|\theta(e^{-iv})|^2}{|\phi(e^{-iv})|^2}\frac{\sigma^2}{2\pi}$</p>
+<h1 id="5-Spectral-representation-from-a-isomorphism-perspective"><a href="#5-Spectral-representation-from-a-isomorphism-perspective" class="headerlink" title="5. Spectral representation from a isomorphism perspective"></a>5. Spectral representation from a isomorphism perspective</h1><p>Let $\{X_t\}$ be a zero mean stationary process with spectral distribution function $F$, i.e. $\mathbb{E}[X_{t + h}\bar{X_t}] = \int_{(-\pi, \pi]}e^{ihv}dF(v)$ (according to Herglotz’s theorem, such spectral distribution function $F$ is a sufficient and necessary condition for a non-negative definite function). We need to find a isomorphism between the subspace $\mathcal{H} = sp\{X_t, t \in \mathbb{Z}\} \subset L^2(\Omega, \mathcal{F}, P)$ and $\mathcal{K} = sp\{e^{it\cdot}, t\in \mathbb{Z}\} \subset L^2([-\pi, \pi], \mathcal{B}, F)$, which connected the random variables in the time domain and the functions in the frequency domain.</p>
+<p>Note that the mapping </p>
+<p>$T(\sum_{j = 1}^n a_j X_{tj}) = \sum_{j = 1}^n a_je^{it\cdot}$</p>
+<p>defines an isomorphism between $\mathcal{H}$ and $\mathcal{K}$. This mapping T has the property that:</p>
+<p>$(T(\sum_{j = 1}^n a_j X_{tj}), T(\sum_{k = 1}^m b_k X_{sk})) = (\sum_{j = 1}^n a_j e^{it_j \cdot}, \sum_{k = 1}^m b_k e^{is_k \cdot})_{L^2(F)} = \sum_{i, j = 1}^{n, m} a_j \bar{b}_k(e^{it_j \cdot}, e^{is_k \cdot})_{L^2(F)} = \sum_{i, j = 1}^{n, m} a_j \bar{b}_k \int_{(-\pi, \pi]}e^{iv(t_j - s_k)}dF(v) = \sum_{i, j = 1}^{n, m} a_j \bar{b}_k \mathbb{E}[X_{t_j}\bar{X}_{s_k}] = \sum_{i, j = 1}^{n, m} a_j \bar{b}_k (X_{t_j}, X_{s_k}) = (\sum_{j = 1}^n a_j X_{tj}, \sum_{k = 1}^m b_k X_{sk})$</p>
+<p>If $(\sum_{j = 1}^n a_j X_{tj}, \sum_{k = 1}^m b_k X_{sk}) \xrightarrow{} 0$, $(T(\sum_{j = 1}^n a_j X_{tj}), T(\sum_{k = 1}^m b_k X_{sk}))$ also converge to zero. Therefore, this isomorphism is well-defined. We can further extend the mapping to a complete inner-product space. </p>
+<p><strong>Theorem 5.1</strong>: If $F$ is the spectral distribution function of the stationary process $\{X_t, t \in \mathbb{Z}\}$, then there is a <strong>unique</strong> isomorphism T of $\bar{sp}\{X_t, t\in \mathbb{Z}\}$ onto $L^2(F)$ such that $T(X_t) = e^{it\cdot}$ (证明略，这里的unique大概又是范数为零，a.s.搞过来的)</p>
+<p>Comment: T是一个把随机变量映射(概率空间映射到状态空间的函数)到deterministic function的映射. 我们希望基于T找到一个正交增量过程，用它来表示平稳随机过程$X_t$.</p>
+<p><strong>Theorem 5.2 (The spectral Representation Theorem)</strong> If $\{X_t\}$ is a stationary sequence with mean-zero and spectral distribution function $F$, then there exists a right-continuous orthogonal-increment process $\{Z(\lambda), -\pi < \lambda < \pi\}$ such that:</p>
+<p>(i) $\mathbb{E}|Z(\lambda) - Z(-\pi)|^2 = F(\lambda)$ (Recall: $F(\lambda) = \frac{1}{2\pi} \sum_{h = -\infty}^{\infty} e^{-ih\lambda} \gamma(h)$, where $\gamma(\cdot)$ is the autocovariance function)</p>
+<p>(ii) $X_t = \int_{(-\pi, \pi]} e^{itv} dZ(v)$</p>
+<p>Comment: 谱分解定理表明，我们总是可以找到一个定义在某概率空间上的正交增量过程，使得由改正交增量过程构成的最小闭子空间与$L^2([-\pi, \pi], \mathcal{B}, F)$同构。($\{Z_{\lambda}\}$)同样是定义在</p>
+<p><strong>Proof</strong>:</p>
+<p><strong>Lemma 5.2</strong>: If T is defined as in Theorem 5.1, then the process $\{Z(\lambda), -\pi \le \lambda \le \pi\}$ defined by $Z(\lambda) = T^{-1}(I_{(-\pi, \lambda]}(\cdot))$ ($I$ is the identification function), $-\pi\le \lambda \le \pi$ is an orthogonal increment process. Moreover the distribution function associated with $\{Z(\lambda)\}$ is exactly the spectral distribution function $F$ of $\{X_t\}$.</p>
+<p>Proof of Lemma 5.2: Since $Z(\lambda) \in \bar{sp}\{X_t, t\in \mathbb{Z}\}$ there is a sequence $\{Y_n\}$ of elements of $\bar{sp}\{X_t, t\in \mathbb{Z}\}$ (Note: $\bar{\cdot}$ means closed subspace) such that $|Y_n - Z(\lambda)| \xrightarrow{} 0$ as $n \xrightarrow{} \infty$. By the continuity of inner-product, we can conclude that $(Z(\lambda), 1) = \lim\limits_{n \xrightarrow{} \infty}(Y_n, 1) = 0$ since each $\{Y_n\}$ has zero mean. </p>
+<p>Finally, if $-\pi \le \lambda_1 \le \lambda_2 \le \lambda_3 \le \lambda_4 \le \pi$, $(Z(\lambda_4) - Z(\lambda_3), Z(\lambda_2) - Z(\lambda_1))_{L^2(\Omega, \mathcal{F}, P)} = (TZ(\lambda_4) - TZ(\lambda_3), TZ(\lambda_2) - Z(\lambda_1))_{L^2(F)} = (I_{(\lambda_3, \lambda_4]}(\cdot), I_{(\lambda_1, \lambda_2]}(\cdot))_{L^2(F)} = 0$. Therefore, $Z(\lambda)$ is an orthogonal increment process. Moreover, if we take $(Z(\mu) - Z(\lambda), Z(\mu) - Z(\lambda))_{L^2(\Omega, \mathcal{F}, P)} = (TZ(\mu) - TZ(\lambda), TZ(\mu) - Z(\lambda))_{L^2(F)} = \int_{(-\pi, \pi]}I_{(\lambda, \mu]}(v)I_{(\lambda, \mu]}(v)dF(v) = F(\mu) - F(\lambda)$ $\therefore Q.E.D$</p>
+<p>Let $\{Z_t\}$ be the process defined in Lemma 5.2. and let $I$ (not the identification function we used in Lemma 5.1) be the isomorphism $I(f) = \int_{(-\pi, \pi]} f(v)dZ(v)$. In the blog ‘Orthogonal-increment process’, we know if $\mathcal{D} = L^2(F)$ onto $I(\mathcal{D}) \subset L^2(\Omega, \mathcal{F}, P)$. For a Borel measurable function $f \in \mathcal{D}$, we can represent f as:</p>
+<p>$I(f) = \sum_{i = 0}^n f_{i}(Z(\lambda_{i + 1}) - Z(\lambda_{i})) = \sum_{i = 0}^n f_{i}T^{-1}I_{(\lambda_{i}, \lambda_{i + 1}]} = T^{-1}(f)$. Therefore, we can conclude that both stochastic integral operator $I(\cdot)$ and $T^{-1}$ are isomorphisms between $L^2(F)$ and $L^2(\Omega, \mathcal{F}, P)$. Theorem 5.2 Q.E.D.</p>
+<p>Comment: 谱表示实际上是一个构造性的证明。这一整套来源于两个Hilbert空间上的两个同构。其中$\mathcal{K} = L^2(F)$是一个辅助空间, 对于概率空间$\mathcal{H} = L^2(\Omega, \mathcal{F}, P)$ $T: \mathcal{H} \xrightarrow{} \mathcal{K}$, 和$I:  \mathcal{K} \xrightarrow{} \mathcal{H}$ 是两个同构，而且恰好 $TI(f) = f \quad \forall f \in \mathcal{K}$</p>
+<p><strong>Corollary</strong>: If $\{X_t\}$ is a zero-mean stationary sequence then there exists a right continuous orthogonal increment process $\{Z(\lambda), -\pi \le \lambda \le \pi\}$ such that $Z(-\pi) = 0$ and </p>
+<p>$X_t = \int_{-\pi, \pi} e^{itv}dZ(v)$ with probability one. If $\{Y(\lambda)\}$ and $\{Z(\lambda)\}$ are two such processes then $P(Y(\lambda) = Z(\lambda)) = 1$</p>
+<p>We can easily prove the above statement with the help of $L^2(F)$. The spectral presentation does not reveal how to construct $\{Z(\lambda)\}$. We need the inversed transformation to solve the $\{Z(\lambda)\}$</p>
+<h1 id="6-Inversion-Formulae"><a href="#6-Inversion-Formulae" class="headerlink" title="6. Inversion Formulae"></a>6. Inversion Formulae</h1><p>With the same logic, we want to find a random variable which equals $Z(\lambda)$ almost surely (mean square convergence). Recall that $T(Z(w) - Z(v)) = I_{(v, w]}(\cdot)$ and $TX_t = e^{it\cdot}$. Therefore, if we can find $\sum_{|j| < n} \alpha_j e^{ij\cdot}\xrightarrow{L^2(F)} I_{(v, w]}(\cdot)$, then by the isomorphism, $\sum_{|j| \le n} \alpha_j X_j \xrightarrow{m.s.} Z(w) - Z(v)$.</p>
+<p>Let $h_n(\lambda) = \sum_{|j| < n} \alpha_je^{ij\lambda} $ denote the nth-order Fourier series approximation to $\frac{1}{2\pi}\int_{(-\pi, \pi]}I_{(v, w]}(\lambda) e^{-ij\lambda} d \lambda = \frac{1}{2\pi}\int_{(v, w]}e^{-ij\lambda} d \lambda$ </p>
+<p><strong>Theorem</strong>: If $\{X_n\}$ is a stationary sequence with autocovariance function $\gamma(\cdot)$, spectral distribution function F, and spectral representation $X_t = \int_{(-\pi, \pi]} e^{itv}dZ(v)$, and if v and w ($-\pi < v < w < \pi$) are continuity points of F, then as $n \xrightarrow{} \infty$, </p>
+<p>$\frac{1}{2\pi}\sum_{|j| \le n} X_j (\int_v^w e^{-ijv}dv) \xrightarrow{m.s.} Z(w) - Z(\lambda)$ (Note it is the Fourier transformation of the indicator function, 易错)</p>
+<p>$\frac{1}{2\pi}\sum_{|j| \le n} \gamma(j) (\int_v^w e^{-ijv}dv) \xrightarrow{} F(w) - F(\lambda)$</p>
+<h1 id="7-Prediction-in-Frequency-Domain"><a href="#7-Prediction-in-Frequency-Domain" class="headerlink" title="7. Prediction in Frequency Domain"></a>7. Prediction in Frequency Domain</h1><p>The stochastic integral $I$ defined on the associated orthogonal increment process $\{Z(\lambda), -\pi < \lambda < \pi\}$ is an isomorphism of $L^2(F)$ on to the probability space, with the property that</p>
+<p>$I(e^{it\cdot}) = X_t$</p>
+<p>Therefore, we can find the best prediction on the $L^2(F)$. For example, the best linear predictor $P_{\mathcal{M_n}}X_{n + h}$ of $X_{n + h}$ in $\mathcal{M_n} = \bar{sp}\{X_t, -\infty \le t \le n\}$ can be written as:</p>
+<p>$P_{\mathcal{M}_n}X_{n + h} = I(P_{\bar{sp}\{\exp(it\cdot)\}}e^{i(n + h)\cdot})$</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Time Series: Theory and Methods</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Time-series/">#Time series</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Spectral-analysis/">#Spectral analysis</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/02/02/Estimation-in-Time-Series/">Estimation in Time Series</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/27/Trickster-Part1-Random-Walk-with-Shrinking-Step/">Trickster-Part1-Random Walk with Shrinking Steps</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/28/Spectral-representation-of-stationary-stochastic-process/';
+        this.page.identifier = '2021/01/28/Spectral-representation-of-stationary-stochastic-process/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

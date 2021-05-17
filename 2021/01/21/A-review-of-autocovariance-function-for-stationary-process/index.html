@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>A review of autocovariance function for stationary process - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Non-Negative Definiteness, Autocovariance Function,  Sample Autocovariance Function, Kolmogorov’s theorem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A review of autocovariance function for stationary process">
+<meta property="og:url" content="http://peimou.top/2021/01/21/A-review-of-autocovariance-function-for-stationary-process/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Non-Negative Definiteness, Autocovariance Function,  Sample Autocovariance Function, Kolmogorov’s theorem">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-20T23:02:14.000Z">
+<meta property="article:modified_time" content="2021-02-02T03:13:25.502Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Time series analysis">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Stationary-Process">1&nbsp;&nbsp;<b>1. Stationary Process</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-The-existence-of-a-stochastic-process">1.1&nbsp;&nbsp;1.1 The existence of a stochastic process</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Stationarity">1.2&nbsp;&nbsp;1.2 Stationarity</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-The-autocovariance-function-of-a-stationary-process">2&nbsp;&nbsp;<b>2. The autocovariance function of a stationary process</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Elementary-Properties">2.1&nbsp;&nbsp;2.1 Elementary Properties</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Non-Negative-Definiteness">2.2&nbsp;&nbsp;2.2 Non-Negative Definiteness</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-3-Characterization-of-Autocovariance-functions">2.3&nbsp;&nbsp;2.3 Characterization of Autocovariance functions</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-4-Sample-Autocovariance-function-of-an-observed-series">2.4&nbsp;&nbsp;2.4 Sample Autocovariance function of an observed series</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            A review of autocovariance function for stationary process
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-20T23:02:14.000Z" itemprop="datePublished">Jan 21 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Non-Negative Definiteness, Autocovariance Function,  Sample Autocovariance Function, Kolmogorov’s theorem</p>
+<a id="more"></a>
+
+<p>The autocovariance comes from the transition probability between states in $\mathcal{F}_t$, i.e. the probability measure of the probability space. Therefore, just as the martingale, Markov property and independency, the autocovariance is the consequence of specific probability measure. (Kolmogorov theorem某种程度上解决了随机过程逻辑构型上的重要环节，我们能够因此判断论域是否为空，是防止我们掉入逻辑陷阱的重要保险绳)</p>
+<h1 id="1-Stationary-Process"><a href="#1-Stationary-Process" class="headerlink" title="1. Stationary Process"></a>1. Stationary Process</h1><h2 id="1-1-The-existence-of-a-stochastic-process"><a href="#1-1-The-existence-of-a-stochastic-process" class="headerlink" title="1.1 The existence of a stochastic process"></a>1.1 The existence of a stochastic process</h2><p><strong>The distribution of a Stochastic Process</strong></p>
+<p>Let $\mathcal{T}$ be the $\sigma-$algebra defined on discrete time $\{t = (t_1, t_2, \dots, t_n) \in T^n, t_1 < t_2 < \dots < t_n, n = 1, 2, \dots\}$. Then the (finite-dimensional) distribution functions of $\{X_t, t \in T\}$ are the functions $\{F_t(\cdot), t \in \mathcal{F}\}$ defined for $t = (t_1, t_2, \dots, t_n)^\prime$ by</p>
+<p>$F_t(\textbf{x}) = \textbf{Pr}(X_{t1} \leq x_1, \dots, X_{tn} \leq x_n )$</p>
+<p>The distribution function of a stochastic process greatly depends on the time set. We only consider the discrete time problem.</p>
+<p><strong>Kolmogorov’s Theorem</strong></p>
+<p>The probability distribution functions $\{F_t(\cdot), t \in \mathcal{F}\}$ are the distribution functions of some stochastic process if and only if for any $n \in \{1, 2, \dots\}$, $t \in \mathcal{F}$ and $1 \leq i \leq n$,</p>
+<p>$\lim\limits_{x_i \xrightarrow{} \infty} F_t(x) = F_{t(i)}(x(i))$</p>
+<p>where $t(i)$ and $x(i)$ are the $(n - 1)-$component vectors obtained by deleting the $i$th components of $t$ and $x$ respectively. </p>
+<p>If $\phi_t(\cdot)$ is the characteristic function corresponding to $F_t(\cdot)$, the Kolmogorov’s theorem can be written as:</p>
+<p>$\lim\limits_{u_i \xrightarrow{} 0} \phi_t(u) = \phi_{t(i)}(u(i))$</p>
+<p><strong>Remark</strong>: Note that it is always a problem if the stochastic process we defined exists. Some most common stochastic processes, like Brownian motion and Poisson process, have strong constraints and properties. It is a must to check the definition since most logic errors are originated from the empty set. (marginal distribution 存在)</p>
+<h2 id="1-2-Stationarity"><a href="#1-2-Stationarity" class="headerlink" title="1.2 Stationarity"></a>1.2 Stationarity</h2><p> The time series $\{X_t, t \in \mathbb{Z}\}$ is said to be stationary if</p>
+<p>$(i) E(|X_t|^2) < \infty$</p>
+<p>$(ii) E X_t = m$</p>
+<p>$(iii) \gamma_X(r, s) = \gamma_X(r + t, s + t) = \gamma_X(|r- s|, 0) = cov(X_r, X_s)$</p>
+<p>for all $r, s, t \in \mathbb{Z}$</p>
+<p><strong>Remark</strong>: Stationarity only considers the limited properties of the stochastic process (the first moment and the second moment), while the strict stationarity considers all the properties of the distribution of stochastic process. When we are conducting statistical inference, the LLN, CLT, and Levy stable distribution are only based on the second-order properties. Both trend and seasonality are non-stationary features. </p>
+<h1 id="2-The-autocovariance-function-of-a-stationary-process"><a href="#2-The-autocovariance-function-of-a-stationary-process" class="headerlink" title="2. The autocovariance function of a stationary process"></a>2. The autocovariance function of a stationary process</h1><h2 id="2-1-Elementary-Properties"><a href="#2-1-Elementary-Properties" class="headerlink" title="2.1 Elementary Properties"></a>2.1 Elementary Properties</h2><p>$\gamma(0) \ge 0$ (显然)</p>
+<p>$\gamma(h) = \gamma(-h)$ (阿贝尔群， 易证)</p>
+<p>$|\gamma(h)| \le \gamma(0)$ (Cauchy-Schwarz inequality)</p>
+<p><strong>Proof</strong>:</p>
+<p>$|cov(X_{t+h}, X_t)| \le (Var(X_t))^{\frac{1}{2}}(Var(X_{t+h}))^{\frac{1}{2}} = \gamma(0)$</p>
+<h2 id="2-2-Non-Negative-Definiteness"><a href="#2-2-Non-Negative-Definiteness" class="headerlink" title="2.2 Non-Negative Definiteness"></a>2.2 Non-Negative Definiteness</h2><p>A real-values function on the integers, $\kappa: \mathbb{Z} \xrightarrow{} \mathbb{R}$, is said to be non-negative definite <strong>if and only if</strong></p>
+<p>$\sum_{i, j= 1}^n a_i k(t_i - t_j)a_j \ge 0$</p>
+<p>for all positive integers n and for all vectors $\textbf{a}=(a_1, \dots, a_n) \in \mathbb{R}^n$ and $\textbf{t} = (t_1, \dots, t_n) \in \mathbb{Z}^n$ . </p>
+<h2 id="2-3-Characterization-of-Autocovariance-functions"><a href="#2-3-Characterization-of-Autocovariance-functions" class="headerlink" title="2.3 Characterization of Autocovariance functions"></a>2.3 Characterization of Autocovariance functions</h2><p>A real-valued function defined on the integers is the autocovariance function of a stationary time series <strong>if and only if</strong> it is even and non-negative definite. </p>
+<p><strong>Remark</strong>: 这条定理说明了非负定函数和平稳随机过程的关系。从下面的证明中我们亦能发现，所有定义在离散时间上的非负定函数一定能找到对应的定义在离散时间上的随机过程（不止一个，但必然存在），平稳的随机过程的自相关函数也必定是非负定的。</p>
+<p><strong>Proof</strong>:</p>
+<p>$(i)$ For any $a \in \mathbb{R}^n$, $t \in \mathbb{Z}^n$, and $Z_t = (X_{t1} - \mathbb{E}(X_{t1}), X_{t2} - \mathbb{E}(X_{t2}), \dots, X_{tn} - \mathbb{E}(X_{tn}))$.</p>
+<p>$0 \le Var(a^\prime Z_t) = a^\prime \mathbb{E}Z_t Z_t^\prime a = a^{\prime} \Gamma_n a$ </p>
+<p>$(ii)$ Let $K = [\kappa(t_i - t_j)]^n_{i, j = 1}$. Since $\kappa$ is non-negative definite, $k$ is also non-negative. There exists a characteristic function $\phi_t(u) = \exp(-u^\prime K u /2)$. It is clear that </p>
+<p>$\phi_{t(i)}(u(i)) = \lim\limits_{u_i \xrightarrow{} 0} \phi_t(u)$ (线性代数问题，等于把$K$中第i行，第i列全都换成了0， 不影响其他entries). According to Kolmogorov’s theorem, there exists a stochastic process whose covariance matrix is $K$.</p>
+<p><strong>Remark</strong>: For any non-negative definite function, we can find a joint Gaussian distribution. (这其实是一个构造性证明，从感觉上看，不同分布肯定有相同的ACF，因此只要找到一个就得证。)</p>
+<h2 id="2-4-Sample-Autocovariance-function-of-an-observed-series"><a href="#2-4-Sample-Autocovariance-function-of-an-observed-series" class="headerlink" title="2.4 Sample Autocovariance function of an observed series"></a>2.4 Sample Autocovariance function of an observed series</h2><p>The sample ACF of $\{x_1, x_2, \dots, x_n\}$ is defined by:</p>
+<p>$\hat{\gamma}(h) := n^{-1}\sum_{j = 1}^{n - h}(x_{h + j} - \bar{x})(x_{j} - \bar{x})$.</p>
+<p>Note that the coefficient must be $n^{-1}$ to make sure the non-negative definite of ACF.</p>
+<p><strong>Remark</strong>: 虽然我们有很多可能的估计量，但是这里的ACF是定义的，也就是说一旦我们提到样本ACF，定义就是这样，而不用考虑是不是UMVE或者UMVUE, admissible 以及 minimax这样的话题。</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Time-series-analysis/">#Time series analysis</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/22/Inner-product-space-and-Hilbert-space/">Inner product space and Hilbert space</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/16/Statistical-inference-Part6-Wilks-Theorem/">Statistical Inference-Notes-Part6-Wilks&#39; Theorem</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/21/A-review-of-autocovariance-function-for-stationary-process/';
+        this.page.identifier = '2021/01/21/A-review-of-autocovariance-function-for-stationary-process/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>
