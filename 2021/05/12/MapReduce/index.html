@@ -24,7 +24,7 @@
 <meta property="og:description" content="keywords: Functional programming, programming model">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-12T04:31:32.000Z">
-<meta property="article:modified_time" content="2021-05-17T16:01:56.011Z">
+<meta property="article:modified_time" content="2021-05-18T15:51:57.616Z">
 <meta property="article:author" content="Peimou Sun">
 <meta property="article:tag" content="Functional programming">
 <meta name="twitter:card" content="summary">
@@ -139,6 +139,14 @@
                     
                     <a class="navbar-item" href="#2-Fault-tolerance">2&nbsp;&nbsp;<b>2. Fault tolerance</b></a>
                     
+                    
+                    
+                    <a class="navbar-item" href="#2-1-The-identification-of-worker-failure">2.1&nbsp;&nbsp;2.1 The identification of worker failure</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-The-failure-of-master">2.2&nbsp;&nbsp;2.2 The failure of master</a>
+                    
                 </div>
             </div>
             
@@ -188,7 +196,9 @@
 <p>Step5: The reduce worker iterates over the sorted intermediate data and for each unique intermediate key encountered, it passes the key and the corresponding set of intermediate values to the user’s Reduce function. (这里隐含地说明每个reduce worker的工作是处理给定的intermediate key)</p>
 <p>Step6: When all map tasks and reduce tasks have been completed, the master wakes up the user program. </p>
 <p>Remark: The data structure of the master is quite special. It restores the state of the task (idle, in-progress, complete) as well as the identity of the worker machine. The master should also restore the location of R partitions (习题：为什么不用保存M个data split的地址？自证不难).  The information of the location is pushed to workers that have in-progress reduce tasks. (Keep an eye on the granularity!)</p>
-<h1 id="2-Fault-tolerance"><a href="#2-Fault-tolerance" class="headerlink" title="2. Fault tolerance"></a>2. Fault tolerance</h1><p>TODO</p>
+<h1 id="2-Fault-tolerance"><a href="#2-Fault-tolerance" class="headerlink" title="2. Fault tolerance"></a>2. Fault tolerance</h1><p>The library must tolerate machine failures gracefully. </p>
+<h2 id="2-1-The-identification-of-worker-failure"><a href="#2-1-The-identification-of-worker-failure" class="headerlink" title="2.1 The identification of worker failure"></a>2.1 The identification of worker failure</h2><p>The master pings every worker periodically. If no response is received from a worker in a certain amount of time, the master marks the worker as failed. Any map tasks completed by the worker are reset back to their initial idle state, and therefore become eligible for scheduling on other workers. Similarly, any map task or reduce task in progress on a failed worker is also reset to idle and become eligible for rescheduling.  <strong>Note that completed map tasks are re-executed on a  failure because their output is stored on the local disks of the failed machine and is therefore inaccessible. Completed reduce tasks do not need to be re-executed since their output is stored in a global file system.</strong>(再次说明map步骤和reduce步骤的关系)</p>
+<h2 id="2-2-The-failure-of-master"><a href="#2-2-The-failure-of-master" class="headerlink" title="2.2 The failure of master"></a>2.2 The failure of master</h2><p>Write periodic checkpoints!</p>
 </body></html>
     
     </div>
