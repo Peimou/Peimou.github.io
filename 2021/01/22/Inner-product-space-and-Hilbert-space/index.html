@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Inner product space and Hilbert space - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Inner product space and Hilbert space 细节梳理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inner product space and Hilbert space">
+<meta property="og:url" content="http://peimou.top/2021/01/22/Inner-product-space-and-Hilbert-space/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Inner product space and Hilbert space 细节梳理">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-21T23:25:14.000Z">
+<meta property="article:modified_time" content="2021-01-22T19:46:37.669Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Abstract algebra">
+<meta property="article:tag" content="Cauchy-Schwarz inequality">
+<meta property="article:tag" content="Triangle inequality">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Vector-space">1&nbsp;&nbsp;<b>1. Vector space</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Inner-product-space">2&nbsp;&nbsp;<b>2. Inner product space</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Cauchy-Schwarz-inequality">2.1&nbsp;&nbsp;2.1 Cauchy-Schwarz inequality</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Convergence-and-continuity">2.2&nbsp;&nbsp;2.2 Convergence and continuity</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-Hilbert-space">3&nbsp;&nbsp;<b>3. Hilbert space</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-1-Cauchy-Sequence">3.1&nbsp;&nbsp;3.1 Cauchy Sequence</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-2-Definition-of-Hilbert-space">3.2&nbsp;&nbsp;3.2 Definition of Hilbert space</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#4-A-review-of-probability-space-from-the-perspective-of-Inner-product-space">4&nbsp;&nbsp;<b>4 A review of probability space-from the perspective of Inner-product space</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Inner product space and Hilbert space
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-21T23:25:14.000Z" itemprop="datePublished">Jan 22 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Inner product space and Hilbert space 细节梳理</p>
+<a id="more"></a>
+
+<h1 id="1-Vector-space"><a href="#1-Vector-space" class="headerlink" title="1. Vector space"></a>1. Vector space</h1><p>A <strong>vector space</strong> (also called a <strong>linear space</strong>) is a set of objects called vectors, which may be added together and multiplied(“scaled”) by numbers, called scalars. </p>
+<p><strong>Remark</strong>: 所谓空间，就是具备某些性质的元素的集合。大多数空间的定义是先射箭，再画靶的典型。</p>
+<h1 id="2-Inner-product-space"><a href="#2-Inner-product-space" class="headerlink" title="2. Inner product space"></a>2. Inner product space</h1><p>A complex(real) vector space $\mathcal{H}$ is said to be an inner-product space if for each pair of elements $x$ and $y$ in $\mathcal{H}$, there is a complex number $(x, y)$, called the inner product of $x$ and $y$, such that:</p>
+<p>$(a) (x, y) = \bar{(y, x)}$</p>
+<p>$(b) (x+y, z) = (x, z) + (y, z)$</p>
+<p>$(c) (\alpha x, y) = \alpha (x, y)$ $\alpha \in \mathcal{C}$</p>
+<p>$(d) (x, x) \ge 0, \forall x \in \mathcal{H}$</p>
+<p>$(e) (x, x) = 0$ if and only if $x=0$</p>
+<p>The norm of $x$ is defined as $|x| = \sqrt{(x, x)}$</p>
+<h2 id="2-1-Cauchy-Schwarz-inequality"><a href="#2-1-Cauchy-Schwarz-inequality" class="headerlink" title="2.1 Cauchy-Schwarz inequality"></a>2.1 Cauchy-Schwarz inequality</h2><p>If $\mathcal{H}$ is an inner-product space, then</p>
+<p>$|(x, y)| \le |x||y|$</p>
+<p>and the equality holds iff $x=y(x, y)/(y, y)$</p>
+<p><strong>Proof</strong>:</p>
+<p>Let $a = |y|^2$, $b = |(x, y)|$ and $c=|x|^2$. The polar representation of $<x, y>$ is then</p>
+<p>$(x, y) = b e^{i\theta}$ for some $\theta \in (-\pi, \pi])$</p>
+<p>Note that $\forall r \in \mathbb{R}$, </p>
+<p>$(x - re^{i\theta}y, x - re^{i\theta}y) = (x, x) - re^{i\theta}(y, x) - re^{-i\theta}(x, y) + r^2(y, y)$ (Note that $(x, by) = \bar{(by, x)} = \bar{b} \bar{(y, x)} =  \bar{b} (x, y)$)</p>
+<p>Note that $\bar{z_1 z_2} = \bar{z_1}\bar{z_2}$, $(y, x) = e^{-i \theta}$</p>
+<p>$(x - re^{i\theta}y, x - re^{-i\theta}y) = c - 2rb + r^2a \ge 0$ (by definition of inner product)</p>
+<p>The inequality holds for any $a, b, c, r$. Therefore $\min(c - 2rb + r^2a) = c - \frac{b^2}{a} \ge 0$, i.e. $b^2 \le ac$</p>
+<p>The minimum value is achieved when $r = \frac{b}{a}$, i.e. $x = y e^{i\theta}b/a = y(x, y)/(y, y)$</p>
+<h2 id="2-2-Convergence-and-continuity"><a href="#2-2-Convergence-and-continuity" class="headerlink" title="2.2 Convergence and continuity"></a>2.2 Convergence and continuity</h2><p><strong>Definition: Convergence in Norm</strong>: A sequence $\{x_n, n = 1, 2, \dots\}$ of elements of an inner-product space $\mathcal{H}$ is said to converge in norm to $x \in \mathcal{H}$ if $|x_n - x|\xrightarrow{}0$ as $n \xrightarrow{} 0$</p>
+<p><strong>Proposition: Continuity of the Inner Product</strong>: If ${x_n}$ and ${y_n}$ are sequence of elements of the inner-product space $\mathcal{H}$ such that $|x_n - x|\xrightarrow{}0$ and $|y_n - y|\xrightarrow{}0$:</p>
+<p>(a) $|x_n| \xrightarrow{} x$ (易证)</p>
+<p>(b) $(x_n, y_n) \xrightarrow{} (x, y)$</p>
+<h1 id="3-Hilbert-space"><a href="#3-Hilbert-space" class="headerlink" title="3. Hilbert space"></a>3. Hilbert space</h1><p>An inner product space with completeness is called a Hilbert space. </p>
+<h2 id="3-1-Cauchy-Sequence"><a href="#3-1-Cauchy-Sequence" class="headerlink" title="3.1 Cauchy Sequence"></a>3.1 Cauchy Sequence</h2><p>A sequence $\{x_n, n=1, 2, \dots\}$ of elements of an inner-product space is said to be a Cauchy sequence if </p>
+<p>$|x_n - x_m| \xrightarrow{} 0$ as $m, n \xrightarrow{} \infty$</p>
+<p>i.e. if for every $\epsilon > 0$ there exists a positive integer $N(\epsilon)$ such that</p>
+<p>$|x_n - x_m| < \epsilon$ for all $m, n > N(\epsilon)$</p>
+<h2 id="3-2-Definition-of-Hilbert-space"><a href="#3-2-Definition-of-Hilbert-space" class="headerlink" title="3.2 Definition of Hilbert space"></a>3.2 Definition of Hilbert space</h2><p>A Hilbert space $\mathcal{H}$ is an inner-product space which is complete, i.e. an inner-product space in which every Cauchy sequence ${x_n}$ converges in norm to some element $x \in \mathcal{H}$.</p>
+<p><strong>Remark</strong>: 收敛以及连续实际上定义了一种逼近过程，即不断靠近某个值，但是不一定能够等于这个值（我们把等于元素a定义为找不到更加接近a的元素，再收敛中的序列中，我们总能根据$\epsilon-\delta$找到更接近的，因此这是一种动态的感觉，某种程度上类似于$a.s.$和依概率收敛的感觉）。完全的意义在于，这个空间里面不存在一个“空”。我们可以轻松地用Euclidean space中挖去一些点来构造一个不完备的内积空间。Hilbert某种程度上避免了不知逼近到何处的尴尬。</p>
+<p><strong>Norm convergence and the Cauchy criterion</strong>: If $\{x_n\}$ is a sequence of elements belonging to a Hilbert space $\mathcal{H}$, then $\{x_n\}$ converges in norm iff $|x_n - x_m| \xrightarrow{} 0$ as $m, n \xrightarrow{} 0$.</p>
+<p>Note that Cauchy series to norm convergence is the definition of Hilbert space. </p>
+<p>We need to prove norm converge has a corresponding Cauchy series. It is obvious if we consider the following fact:</p>
+<p>if $|x_n - x|\xrightarrow{}0$ $|x_n - x_m| \le |x_n - x| + |x_m - x|$</p>
+<h1 id="4-A-review-of-probability-space-from-the-perspective-of-Inner-product-space"><a href="#4-A-review-of-probability-space-from-the-perspective-of-Inner-product-space" class="headerlink" title="4 A review of probability space-from the perspective of Inner-product space"></a>4 A review of probability space-from the perspective of Inner-product space</h1><p>Consider a probability space $(\Omega, \mathcal{F}, P)$ and the collection $C$ of all random variables X defined on $\Omega$ and satisfying the condition, </p>
+<p>$\mathcal{E}(X^2) = \int_{\Omega} X(\omega)^2P(d \omega) < +\infty$</p>
+<p>Let’s define in the $L2$ space that $(X, Y) = E(XY)$ (注意这是随机变量，即从概率空间映射到向量空间的一个函数，的距离。)</p>
+<p>Note that if $E(X^2) = 0$, then $X(\cdot) \xrightarrow{a.s.} 0$, i.e. $\textbf{Pr}(X = 0) = 1$</p>
+<p>In the L2 space, norm convergence of a sequence $\{x_n\}$ can be written as:<br>$|X_n - X|^2 = \mathbb{E}|X_n - X|^2 \xrightarrow{} 0$. It is also called mean-square convergence and is also written as $X_n \xrightarrow{m.s.} X$</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Abstract-algebra/">#Abstract algebra</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Cauchy-Schwarz-inequality/">#Cauchy-Schwarz inequality</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Triangle-inequality/">#Triangle inequality</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/23/Projection-Theorem/">Projection Theorem in the Hilbert space</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/21/A-review-of-autocovariance-function-for-stationary-process/">A review of autocovariance function for stationary process</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/22/Inner-product-space-and-Hilbert-space/';
+        this.page.identifier = '2021/01/22/Inner-product-space-and-Hilbert-space/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

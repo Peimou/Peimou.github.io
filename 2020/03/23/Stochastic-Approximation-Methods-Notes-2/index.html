@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent">
+<meta property="og:url" content="http://peimou.top/2020/03/23/Stochastic-Approximation-Methods-Notes-2/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-23T03:25:12.000Z">
+<meta property="article:modified_time" content="2021-01-02T19:58:07.849Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Optimization">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Definitions">1&nbsp;&nbsp;<b>1. Definitions</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-The-General-Task">1.1&nbsp;&nbsp;1.1 The General Task</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Training-Error-Empirical-risk">1.2&nbsp;&nbsp;1.2 Training Error (Empirical risk)</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-Tolerance-Error">1.3&nbsp;&nbsp;1.3 Tolerance Error</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-4-Boxes-and-Flat-minima">1.4&nbsp;&nbsp;1.4 Boxes and Flat minima</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Information-entropy-of-the-minima">2&nbsp;&nbsp;<b>2. Information entropy of the minima</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-An-Introduction-to-Gradient-Descent">3&nbsp;&nbsp;<b>3. An Introduction to Gradient Descent</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-1-Full-Gradient-Descent">3.1&nbsp;&nbsp;3.1 Full Gradient Descent</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-2-Stochastic-Gradient-Descent">3.2&nbsp;&nbsp;3.2 Stochastic Gradient Descent</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-3-SGDM">3.3&nbsp;&nbsp;3.3 SGDM</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-4-AdaGrad">3.4&nbsp;&nbsp;3.4  AdaGrad</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-5-RMSProp">3.5&nbsp;&nbsp;3.5  RMSProp</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-6-AdaDelta">3.6&nbsp;&nbsp;3.6 AdaDelta</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-7-ADAM">3.7&nbsp;&nbsp;3.7 ADAM</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-8-Disadvantages-of-SGD-and-full-GD">3.8&nbsp;&nbsp;3.8 Disadvantages of SGD and full GD</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Stochastic Approximation Methods-Notes-Part2-Flat Minima and Gradient Descent
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2020-03-23T03:25:12.000Z" itemprop="datePublished">Mar 23 2020</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>The parameterized function with similar training error widely diverge in the generalization performance. However, the flat minima may imply a low-complexity neural network structure.  Some SGD methods have shown can converge to a flatter minima, which potentially make the solution of nonconvex optimization more robust. The first part of this note is a review of Flat minima( <a href="https://www.bioinf.jku.at/publications/older/3304.pdf" target="_blank" rel="noopener">Hochreiter and Schmidhuber, 1997</a>). The second part contains an introduction to Gradient Descent algorithms’ properties and visualization. </p>
+<a id="more"></a>
+
+<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>A flat minimum is a large connected region in weight space where the error remains approximately constant. It can be rigorously defined with the tolerance error and training error. </p>
+<h2 id="1-1-The-General-Task"><a href="#1-1-The-General-Task" class="headerlink" title="1.1 The General Task"></a>1.1 The General Task</h2><p>We want to approximate the an unknown function f: $\mathbb{R}^n \rightarrow \mathbb{R}$(Note that in the original paper, it is $\mathbb{R}^n \rightarrow \mathbb{R}^k$, and there is no difference if we consider multi-dimensional target space). More specifically, function f mapping a finite set of possible input $X \subset \mathbb{R}^n$ to a finite possible output $Y \subset \mathbb{R}^k$. This function is assumed perfectly describe the real data generation process. The training information is given by a finite set $D_0 \subset D$. We call $D_0$ the training data. Let tuple $(x_p, y_p)$ denotes the pth element in the data set. Let $net(w)$ denotes a realized neural network structure parameterized by $w$. Note that $w_ij$ represent for the weight on the connection from unit $i$to unit $j$.</p>
+<h2 id="1-2-Training-Error-Empirical-risk"><a href="#1-2-Training-Error-Empirical-risk" class="headerlink" title="1.2 Training Error (Empirical risk)"></a>1.2 Training Error (Empirical risk)</h2><p>The squared error of a realized structure over a given training set is defined as:</p>
+<p> $E(net(w), D_0) = \sum_{p}||y_p-f(w,x_p)||^2$</p>
+<p>where $||\cdot||$ is the Euclidean norm. </p>
+<h2 id="1-3-Tolerance-Error"><a href="#1-3-Tolerance-Error" class="headerlink" title="1.3 Tolerance Error"></a>1.3 Tolerance Error</h2><p>Note that we want to define a region in weight space where each parameter in this region has small empirical risk and similar output. The so called structure with ‘small’ risk denotes those of lower empirical risk than a given constant $\mathbf{E}_{tol}$. </p>
+<h2 id="1-4-Boxes-and-Flat-minima"><a href="#1-4-Boxes-and-Flat-minima" class="headerlink" title="1.4 Boxes and Flat minima"></a>1.4 Boxes and Flat minima</h2><p>We want to study the property of a large region of connected acceptable minima, where each weight w in a this set lead to an identical structure (The authors used almost identical here, but I cannot get the point since no definition about any measure or metric space over net function were mentioned in this article).  Since accurately approximation to this region is an absolutely difficult task, we can consider a box (or Hypercuboid) in the parameter space. Assume the parameter space is an L-dimension Euclidian space, we can define the concept of box: For each acceptable minimum $w$, its box $M_w$ is an L-dimension hypercuboid with center w. Each edge of the box is taken to be parallel to one weight axis. Let $\Delta w(x)$ be the maximal values such that for all L-dimensional vectors k whose components ${k_ij}_{i=1,\dots,n}$ are restricted by $|k_ij| \le \Delta w_ij(x)$. We can find this box with the constraint:</p>
+<p>$\mathbf{E}(net(w), net(w+k), X) = \sum_{x \in X} ||o(w,x) - o(w, x+k)||^2 < \epsilon$</p>
+<p>,where the $\epsilon$ represent for the tolerable output change. Note that we assume the target function f is continuous here. </p>
+<p>Box’s volume is defined as $V(\Delta w(X)) = 2^L \Pi_{i,j}\Delta w_{i,j}(x)$</p>
+<h1 id="2-Information-entropy-of-the-minima"><a href="#2-Information-entropy-of-the-minima" class="headerlink" title="2. Information entropy of the minima"></a>2. Information entropy of the minima</h1><p>Let $B$ denote the bits required to describe the weights, whereas the number to describe the $y_p$,given $w$, can be bounded by fixing $\mathbb{E_{tol}}$. In other words, we can control the smoothness of the function by choosing tolerance error. $B$ can be written as:</p>
+<p>$B(w, X_0) = -log(\frac{1}{2^L}V(\Delta w)) = \sum_{i,j} -log(\Delta w_{i,j})$</p>
+<p>Of course, we hope the entropy as low as possible. Therefore, the authors recommend a penalty term into the objective function:</p>
+<p>$E(w, D_0) = E(net(w), D_0) + \lambda B(w, X_0)$</p>
+<p>, where $B(w, X_0) = \sum_{x_p \in X_0} B(w, x_p)$</p>
+<h1 id="3-An-Introduction-to-Gradient-Descent"><a href="#3-An-Introduction-to-Gradient-Descent" class="headerlink" title="3. An Introduction to Gradient Descent"></a>3. An Introduction to Gradient Descent</h1><p>Before the introduction to GD methods, let’s define the optimization problem first. We assume the prediction function $f$ has a fixed form and is parameterized by a real vector $w \in \mathbb{R}^d$. Formally, for some given $f: \mathbb{R}^{d_x} \times \mathbb{R}^d \rightarrow{} \mathbb{R}^{d_y}$, the family of prediction function is:</p>
+<p>$\mathcal{H} = {f(\cdot,w):w \in \mathbb{R}^d}$</p>
+<p>Ideally, we want to minimize the expected risk. We assume there exists a probability space  $(\Omega, \mathcal{F}, \mathbb{P})$, where $\Omega=\mathcal{X}\times \mathcal{Y}$, $\mathcal{F}$ is the filtration of $(x,y)$, and $\mathbb{P}$ is the joint probability measure of $(x, y) \in \Omega$. The expected risk is defined as:</p>
+<p> $R(w) = \int_{\mathbb{R}^{d_x}\times\mathbb{R}^{d_y}}l(f(x;w),y)d\mathbb{P}(x,y) = \mathbb{E}(l(f(x;w),y))$</p>
+<p>,where function $l(\cdot, \cdot)$ is the loss function, which measure the difference between prediction and labels.</p>
+<p>The following statements are all based on the optimization problem we defined above. (<a href="https://ruder.io/optimizing-gradient-descent/index.html#momentum" target="_blank" rel="noopener">Reference: An overview of gradient descent optimization algorithms, Sebastian Ruder</a>)</p>
+<p>It is worth explaining that the convergence speed depends both on the data set and hyperparameters of optimizers. Generally, if the optimizer converge at a slow speed or diverge sometimes, we can adjust the initial step scale. </p>
+<h2 id="3-1-Full-Gradient-Descent"><a href="#3-1-Full-Gradient-Descent" class="headerlink" title="3.1 Full Gradient Descent"></a>3.1 Full Gradient Descent</h2><p>The Gradient Descent is an first order iterative method for finding the local minimum of a differentiable function, which also provides the core optimization methodology in machine learning. Given a function $f(x)$, the basic GD method can be written as:</p>
+<p>$x^{t+1} = x^{t} -\eta \nabla f(x^{t})$</p>
+<p>, where $\eta$ is represented for learning rate. </p>
+<p>In full GD method, we have to run through all the data samples in our training set to accomplish one update for a parameter. Therefore, if the size of data set is very large, the update process will take a lot of time. More specifically, the full GD method can be written as:</p>
+<p>$w^{t+1} = w^{t} - \eta \nabla_w \sum_{i = 0}^{n}{l(f(x_i;w_t), y_i)}$</p>
+<h2 id="3-2-Stochastic-Gradient-Descent"><a href="#3-2-Stochastic-Gradient-Descent" class="headerlink" title="3.2 Stochastic Gradient Descent"></a>3.2 Stochastic Gradient Descent</h2><p>The origin of Stochastic GD method is stochastic approximation. Stochastic GD method is a specific case of Robbins-Monro algorithm. The stochastic GD can be written as:</p>
+<p>$w^{t+1} = w^{t} - \eta \nabla_w l(f(x_i; w_t),y_i)$</p>
+<p>In other words, we use only one sample (or a subset of samples) to update the parameter. Compared to full GD method, the SGD method often converges much faster. Note that ${w_t}_{t\ge0}$ is a stochastic process (a family of random variables defined on the same probability space) which is defined on the filtration generated by $x_i$. Note that we actually want to reduce the expected risk function, which implies that the expectation of gradient should be the best choice. From this perspective, the variance of estimation based on a single data point is much higher than the average over whole samples. Therefore, SGD may lead to a more oscillated convergence compared to full GD (but still good enough).</p>
+<h2 id="3-3-SGDM"><a href="#3-3-SGDM" class="headerlink" title="3.3 SGDM"></a>3.3 SGDM</h2><p>Each update step in SGDM is a combination of the steepest descent direction and the most recent iterate displacement. The iteration process can be written as:</p>
+<p>$v_k = \gamma v_{k-1} + \eta \nabla_w l(f(x_i; w_k),y_i)$<br>$w_{k+1} = w_k - v_k$</p>
+<p>The momentum term increases for dimensions whose gradients point in the same directions and reduces updates for dimensions whose gradients change directions. This method is most effective when the parameters work differently in the system. For example, the data generated linearly with $w_1 = 100$, and $w_2 = 0.1$. </p>
+<h2 id="3-4-AdaGrad"><a href="#3-4-AdaGrad" class="headerlink" title="3.4  AdaGrad"></a>3.4  AdaGrad</h2><p>The AdaGrad method adjusts the learning rate with respect to the the history gradients. The learning rate gradually decreases with the decrements of the risk function. We have articulated that the unsuitable learning rate may lead to oscillation when we approach the local optima. This method update the learning rate in adaptive way. More specifically, </p>
+<p>$ g_{k} = \nabla_w{l(f(x_k;w_k), y_k)}$<br>$ w_{k+1} = w_{k} - \frac{\eta}{\sqrt{G_k+ \epsilon}}\odot g_{k} $</p>
+<p>, where $G_{k}$ is the sum of the square of the gradients up to the $k$-th update, and $\epsilon$ is a smoothing term that avoids division by zero. Adagrad’s main weakness is its accumulation of the squared gradients in the denominator, and this in turn causes the learning rate to shrink, which stop us from learning any information from the data. Moreover, although it is still reasonable in convex optimization problem, it is a bad property when we get stuck on the saddle point. However, AdaGrad performs well in sparse data set. </p>
+<h2 id="3-5-RMSProp"><a href="#3-5-RMSProp" class="headerlink" title="3.5  RMSProp"></a>3.5  RMSProp</h2><p>AdaGrad accumulates all past gradients and the learning rate keeps decreasing, which may make the learning much slower over time. RMSProp does not shrink the learning rate as rapidly due to the use of the decaying average. The moving/decaying average of the $G_k$ in the $k$-th update is defined as:<br>$g_k = \nabla_w{l(f(x_k;w_k), y_k)}$<br>$G_k = \gamma G_{k-1} + (1-\gamma) g_k^2$</p>
+<p>The gradient update under the following method:</p>
+<p>$w_{k+1} = w_{k} - \frac{\eta}{\sqrt{G_k + \epsilon}}\odot g_k$</p>
+<p>According to <a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf" target="_blank" rel="noopener">Geoffrey Hinton’s lecture Notes</a>, the $\gamma$ here was 0.9. </p>
+<h2 id="3-6-AdaDelta"><a href="#3-6-AdaDelta" class="headerlink" title="3.6 AdaDelta"></a>3.6 AdaDelta</h2><p>AdaDelta made some extra improvements compared to AdaGrad and RMSProp (actually, they are developed independently). It reduces AdaGrad’s rapidly decreasing learning rate by using the same exponentially decaying average for past squared gradients as RMSProp. In addition, AdaDelta is aware that, in RMSProp, the base unit of the gradient is $\frac{1}{x’s; unit}$. That is if we assume WLOG that the value of risk function have no base unit, then consider $\frac{\partial f}{\partial w}dw$ should have no base unit, which means the base unit of the gradient is $\frac{1}{x’s; unit}$. We should notice that the RMSProp method changes the base unit of $w$. Therefore, the authors suggested to revised this problem with:</p>
+<p>$W_k = \gamma W_{k-1} + (1-\gamma)w_k^2$<br>$w_{k+1} = w_{k} - \frac{\sqrt{W_k + \epsilon}}{\sqrt{G_k + \epsilon}}\odot g_k$</p>
+<p>Learning rate is removed. Thus, we do not need to set a fixed number for learning rate.</p>
+<h2 id="3-7-ADAM"><a href="#3-7-ADAM" class="headerlink" title="3.7 ADAM"></a>3.7 ADAM</h2><p>Adaptive Moment Estimation (Adam) computes adaptive learning rates considering the first and second order information:<br>$M_t = \beta_1 M_{t-1} + (1-\beta_1) g_{t}$<br>$V_t = \beta_2 V_{t-1} + (1-\beta_2) g_{t}^2$</p>
+<p>Since $M_t$ and $V_t$ are initialized with 0, then the calculation of the first moment and second moment are biased towards zero, which is can be problematic within the first few time steps and when $\beta$’s are close to $1$. To deal with that, we can use the bias-corrected estimations of $V_t$ and $M_t$, which can be written as:<br>$\hat{M_t} = \frac{M_t}{1-\beta_1^t}$<br>$\hat{V_t} = \frac{V_t}{1-\beta_2^t}$<br>,where $\beta_1^t$ and $\beta_2^t$ is the t power of the $\beta_1$ and $\beta_2$</p>
+<p>Then update process can be written as:</p>
+<p>$w_{k+1} = w_{k} - \eta\frac{M_k}{\sqrt{V_k} + \epsilon}$</p>
+<p>The authors proposed default values of 0.9 for $\beta_1$, 0.999 for $\beta_2$, and<br>$1e-8$ for $\epsilon$. </p>
+<h2 id="3-8-Disadvantages-of-SGD-and-full-GD"><a href="#3-8-Disadvantages-of-SGD-and-full-GD" class="headerlink" title="3.8 Disadvantages of SGD and full GD"></a>3.8 Disadvantages of SGD and full GD</h2><p>Note that GD and SGD method are sensitive to learning rate, and it is not easy to choose a optimal learning rate. Moreover, the schedule of learning rate (or the evolution of learning rate) is a even more difficult task. The pre-defined learning rate schedule may not adapt to the data set’s characteristics. Last but not least, the loss function or the feasible region of the optimization problem may not be convex, which means our algorithm has to avoid numerous saddle and local minima. </p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Machine-Learning/">#Machine Learning</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Optimization/">#Optimization</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2020/03/26/Mathematical%20Programming-Notes-1/">Mathematical Programming-Notes-Part 1-Strong Duality in Linear Programming</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/02/01/GMM-NW-Notes-1/">Generalized methods of Moments and Newy-West Adjustment-Notes-Part 1-GMM</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/03/23/Stochastic-Approximation-Methods-Notes-2/';
+        this.page.identifier = '2020/03/23/Stochastic-Approximation-Methods-Notes-2/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

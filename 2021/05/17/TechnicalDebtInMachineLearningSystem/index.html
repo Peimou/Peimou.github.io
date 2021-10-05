@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Technical debt in machine learning system - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords:  QC, boundary erosion, entanglement, hidden feedback loops, undeclared consumers, data dependencies, configuration issues">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Technical debt in machine learning system">
+<meta property="og:url" content="http://peimou.top/2021/05/17/TechnicalDebtInMachineLearningSystem/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords:  QC, boundary erosion, entanglement, hidden feedback loops, undeclared consumers, data dependencies, configuration issues">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-16T21:31:49.000Z">
+<meta property="article:modified_time" content="2021-05-16T14:25:14.759Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Engineering">
+<meta property="article:tag" content="software development">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-The-boundary-erosion-caused-by-complex-model">1&nbsp;&nbsp;<b>1. The boundary erosion caused by complex model</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Entanglement">1.1&nbsp;&nbsp;1.1 Entanglement</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Correction-cascades">1.2&nbsp;&nbsp;1.2 Correction cascades</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-Undeclared-Consumers">1.3&nbsp;&nbsp;1.3 Undeclared Consumers</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Data-dependencies">2&nbsp;&nbsp;<b>2. Data dependencies</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Unstable-data-dependency">2.1&nbsp;&nbsp;2.1 Unstable data dependency</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Underutilized-data-dependency">2.2&nbsp;&nbsp;2.2 Underutilized data dependency</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-Feedback-loops">3&nbsp;&nbsp;<b>3. Feedback loops</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#4-ML-system-Anti-pattern">4&nbsp;&nbsp;<b>4. ML-system Anti-pattern</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#5-Common-smell">5&nbsp;&nbsp;<b>5. Common smell</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#6-Dealing-with-maintenance-cost-in-the-External-World">6&nbsp;&nbsp;<b>6. Dealing with maintenance cost in the External World</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Technical debt in machine learning system
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-05-16T21:31:49.000Z" itemprop="datePublished">May 17 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords:  QC, boundary erosion, entanglement, hidden feedback loops, undeclared consumers, data dependencies, configuration issues</p>
+<a id="more"></a>
+
+<h1 id="1-The-boundary-erosion-caused-by-complex-model"><a href="#1-The-boundary-erosion-caused-by-complex-model" class="headerlink" title="1. The boundary erosion caused by complex model"></a>1. The boundary erosion caused by complex model</h1><p>Strict abstraction boundaries help express the invariants and logical consistency of the information input and output from an given component. Note the ML is required in exactly those cases when the desired behavior cannot be effectively expressed in software logic without dependency on external data. We can hardly assume any independency of the object we extract from the real world (all in all, it is a black box system). (总结的说，就是boosting产生的影响，bagging产生的影响，和可能的未定义行为产生的ensembles的影响)</p>
+<h2 id="1-1-Entanglement"><a href="#1-1-Entanglement" class="headerlink" title="1.1 Entanglement"></a>1.1 Entanglement</h2><p>We can hardly find a set of signals which any of the signal is orthogonal to the closed span generated by other signals. The phenomenon can be described as CACE(change anything change everything) principle. </p>
+<p>One of the solution is to <strong>isolate the model and serve ensembles</strong>(Questions: how should we defined the isolation of the model?). This solution works well when the subproblems decompose naturally such as in disjoint multi-class settings (Recall the structure of LDA).  Ensembles work well when the errors in the component models are uncorrelated. However, the ensembles make the prediction worse when we improve one of the basis model but increase the correlation within the basis model system. </p>
+<p>The second solution is to focus on detecting changes in prediction behavior. </p>
+<h2 id="1-2-Correction-cascades"><a href="#1-2-Correction-cascades" class="headerlink" title="1.2 Correction cascades"></a>1.2 Correction cascades</h2><p>There are often situations in which model $m_{\alpha}$ for problem A exist, and we are tempting to use the model $m_{A}$ to solve a slightly different problem $A^{\prime}$. (随机变量的向量表示是能够通过同构说明的，这里实际上是在考虑只对A到$A^\prime$)的残差建模). The problem is we create a new system dependency on the model $m_{A}$, which makes the evaluation of the improvement on the model $m_{A}$ more difficult (A离B 很近，C离A很近，如果改变C使得C离A更近，并不能保证C离B很近). Therefore, it is possible that the improvement of any model in the system will lead to a systematic detriments. The mitigation is to augment $m_{\alpha}$ to learn the corrections directly within the same model by adding features to distinguish among the cases, or to accept the cost of creating a separate model for $A^\prime$.</p>
+<h2 id="1-3-Undeclared-Consumers"><a href="#1-3-Undeclared-Consumers" class="headerlink" title="1.3 Undeclared Consumers"></a>1.3 Undeclared Consumers</h2><p>The above two scenarios may be caused by the undeclared consumers. They may be the source of the hidden technical debt (entanglement and correction cascade). The only way to prevent from these detrimental events is to set up strict service-level  agreement. </p>
+<h1 id="2-Data-dependencies"><a href="#2-Data-dependencies" class="headerlink" title="2. Data dependencies"></a>2. Data dependencies</h1><h2 id="2-1-Unstable-data-dependency"><a href="#2-1-Unstable-data-dependency" class="headerlink" title="2.1 Unstable data dependency"></a>2.1 Unstable data dependency</h2><p>类似于onehot编码中加入了新的一类，导致数据输入不稳定。One common strategy is to create a versioned copy of a given signal. Create a frozen version of this mapping, and freeze it until the quality of the next version is fully controlled. Note that version control has it own cost. </p>
+<h2 id="2-2-Underutilized-data-dependency"><a href="#2-2-Underutilized-data-dependency" class="headerlink" title="2.2 Underutilized data dependency"></a>2.2 Underutilized data dependency</h2><p>Underutilized data are the data sets with little increment to the prediction task. The typical examples of such kind of data includes:</p>
+<p>a) A feature $F$ is included in a model early in the development. However, we include a new features, for example $f(F) = F + 1$, which makes the feature $F$ redundant. </p>
+<p>b) Bundled features: we know a group of features is evaluated and found to be beneficial. However, some of the signals are actually has little or no value. (<strong>Question: how to define “has little value”</strong>)</p>
+<p>c)  $\epsilon-$Features: 糟糕的工程目标设定会导致研究员追求增益小，复杂度高的模型。</p>
+<p>d) Correlated Features: (<strong>Important</strong>) the machine learning model can hardly recognize the differences between two correlated model A and B. For example, A is more naturally causal, while B is temporarily more correlated. Then model will think B is a better signal than A, and the residual of the projection on B will has limited projection on A. The result is brittleness if world behavior later changes the correlations. (这里作者的描述其实是缺乏概念上的严密性，然而实际上其实是这样的特征使得模型不够稳健，容易受到特征变化微弱的影响。)</p>
+<p>Underutilized dependencies can be detected via exhaustive leave-one-feature-out evaluations (feature sampling). These should be run regularly to identify and remove unnecessary features.  One solution is to use the feature management system, which enables data sources and features to be annotated. This kind of tooling can make migration and deletion much safer in practice.</p>
+<h1 id="3-Feedback-loops"><a href="#3-Feedback-loops" class="headerlink" title="3. Feedback loops"></a>3. Feedback loops</h1><p> The key features of the live machine learning system is that research can hardly predict the performance of a machine learning system before it is released. （在线机器学习模型的表现是难于分析的）The reasons include that:</p>
+<p>a) <strong>Direct feedback loops</strong>: the models will influenced by their own choices. Can be solved by the randomized policy (but costly to analyze).</p>
+<p>b) <strong>Hidden feedback loops</strong>: two system influence each other indirectly through the world. (例如市场冲击问题，多个预测模型之间的博弈)</p>
+<p>Remark: 机器模型的表现实际受到许多因素的影响。</p>
+<h1 id="4-ML-system-Anti-pattern"><a href="#4-ML-system-Anti-pattern" class="headerlink" title="4. ML-system Anti-pattern"></a>4. ML-system Anti-pattern</h1><p>Avoid the patterns listed below.</p>
+<p>a) Glue code: Using generic packages often results in a glue code system design pattern, in which a massive amount of supporting code is written to get data into and out of general-purpose packages. Create a clean native solution rather than re-use a generic package.  An important strategy is to wrap black-box packages into common API’s. (反对过度设计，从你我开始)</p>
+<p>b)不要写太多的数据管道。数据管道的一项重要问题就是问题的定位困难。</p>
+<p>c) Dead Experimental Codepaths: 这是过多的通用package和数据管道的后果，一旦管道发生变化，可能会产生系统性的灾害。一个要求的预防措施是做好严格的代码test。</p>
+<h1 id="5-Common-smell"><a href="#5-Common-smell" class="headerlink" title="5. Common smell"></a>5. Common smell</h1><p>a) Plain-old data type smell. A robust system is all to often encoded with plain data types like raw floats and integers.</p>
+<p>b) Multiple-language smell. Hard to transfer ownership to other individuals.</p>
+<p>c) Prototype smell: 在小样本上的测试可能会导致在大样本上的鲁棒性确实。一直使用小样本数据在落地时是有额外成本的。</p>
+<h1 id="6-Dealing-with-maintenance-cost-in-the-External-World"><a href="#6-Dealing-with-maintenance-cost-in-the-External-World" class="headerlink" title="6. Dealing with maintenance cost in the External World"></a>6. Dealing with maintenance cost in the External World</h1><p> a) Fixed threshold in Dynamic systems: Pick a decision threshold for a given model to perform some action. Learn the threshold via simple evaluation on held out validation data.</p>
+<p>b) 测试问题：端对端测试很难检测一个实时系统是否按照预期工作。一些检测指标包括: </p>
+<p>​    Prediction Bias: $\mathbb{E}(x) = \int_{\Omega_{z}}\mathbb{E}(x | z) dP(z)$。</p>
+<p>​    Action limits: 一旦出发某种行为(action function specified)应该自动触发人工检查。</p>
+<p>​    Up-stream producers: 通过监控上游app的行为来确定底层逻辑的问题。这种上游app的检查应该层层传递。</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Engineering/">#Engineering</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/software-development/">#software development</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/05/24/Foundation-of-Machine-Learning-Part1-PAC/">Foundation of Machine Learning-Part1-PAC</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/05/12/MapReduce/">MapReduce</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/05/17/TechnicalDebtInMachineLearningSystem/';
+        this.page.identifier = '2021/05/17/TechnicalDebtInMachineLearningSystem/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>HDF5-Notes - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: HDF5 information set, HDF5 dataset, HDF5 group, HDF5 links, HDF5 datatypes, HDF5 attributes, hyperlabs, MPI-based application, independent mode &amp; collaborative mode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDF5-Notes">
+<meta property="og:url" content="http://peimou.top/2021/04/26/HDF5/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: HDF5 information set, HDF5 dataset, HDF5 group, HDF5 links, HDF5 datatypes, HDF5 attributes, hyperlabs, MPI-based application, independent mode &amp; collaborative mode">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://peimou.top/images/hdf5_links.png">
+<meta property="og:image" content="http://peimou.top/images/hdf5_software_interface.png">
+<meta property="og:image" content="http://peimou.top/images/hdf5_datapipeline.png">
+<meta property="article:published_time" content="2021-04-26T02:55:40.000Z">
+<meta property="article:modified_time" content="2021-05-02T08:45:12.566Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="IO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peimou.top/images/hdf5_links.png">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Data-model">1&nbsp;&nbsp;<b>1. Data model</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-HDF5-dataset-Layout-strategies-and-their-advantages">1.1&nbsp;&nbsp;1.1 HDF5 dataset-Layout strategies and their advantages</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-HDF5-Groups">1.2&nbsp;&nbsp;1.2 HDF5 Groups</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-HDF5-links">1.3&nbsp;&nbsp;1.3 HDF5 links</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-4-HDF5-Datatypes">1.4&nbsp;&nbsp;1.4 HDF5 Datatypes</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-5-HDF5-Attributes">1.5&nbsp;&nbsp;1.5 HDF5 Attributes</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Software-architecture">2&nbsp;&nbsp;<b>2. Software architecture</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-Performance">3&nbsp;&nbsp;<b>3. Performance</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-1-Parallel-I-O">3.1&nbsp;&nbsp;3.1 Parallel I/O</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-2-Indexing">3.2&nbsp;&nbsp;3.2 Indexing</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            HDF5-Notes
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-04-26T02:55:40.000Z" itemprop="datePublished">Apr 26 2021</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: HDF5 information set, HDF5 dataset, HDF5 group, HDF5 links, HDF5 datatypes, HDF5 attributes, hyperlabs, MPI-based application, independent mode & collaborative mode</p>
+<a id="more"></a>
+
+<p><strong>Preface</strong>: 学好抽象代数，走遍天下都不怕。</p>
+<p>Note: For non-commercial use only.</p>
+<h1 id="1-Data-model"><a href="#1-Data-model" class="headerlink" title="1. Data model"></a>1. Data model</h1><p>HDF5 data model defines HDF5 data information set, i.e.  a container for annotated associations of array variables, groups, and types.  A HDF5 information set is represented by an HDF5 file with a designated root. The elements in a HDF5 dataset include HDF5 datasets, HDF5 groups, and HDF5 data objects. </p>
+<h2 id="1-1-HDF5-dataset-Layout-strategies-and-their-advantages"><a href="#1-1-HDF5-dataset-Layout-strategies-and-their-advantages" class="headerlink" title="1.1 HDF5 dataset-Layout strategies and their advantages"></a>1.1 HDF5 dataset-Layout strategies and their advantages</h2><p>HDF5 datasets are array variables whose data elements are logically laid out or shaped as a multidimensional array. The two key properties of the HDF5 dataset includes the rank of the dataset (the number of dimensions), as well as the maximum extant in the respective dimensions (dataspace). With the help of dataspace, the HDF5 dataset can be viewed as as relational variables with the HDF5 dataspace as a system-defined candidate key space.</p>
+<p><strong>Remark</strong>: the key here is how to understand the structure of multidimensions. Recall the existence of a mapping such that a dataset is linear separable. </p>
+<p>Depending on the layout strategy, the maximum extent may be unlimited. Currently, there are three different layout strategy in the HDF5. </p>
+<p>a) Contiguous, array elements are laid out as a collection of a linear sequence. The properties of this layout strategy is that we can easily conduct slicing operation on the dataset. However, there is a limit among the maximum extent. (Nearly constant time to get access to any element of the data.)</p>
+<p>b) Chunked, Array elements are laid out as a collection of fixed-size regular sub-arrays, or chunks. With the chunked layout strategy, we can extent the dataset to the unlimited size in some or all of the dimensions. </p>
+<p>c)_Compacted, the data set smaller than 64KB can be stored in the meta data or can be retrieved from the header (a data type in HDF5).</p>
+<p>There is no free lunch in the decision of the layout strategy. HDF5 also provides the users with filter pipelines for the customized and standard raw data. The filter pipelines includes compression and error checking.  The chunked layout strategy allows the definition of new filter pipeline. Note that HDF5 do not support filter pipeline for contiguous layout strategy. </p>
+<p>Although we can compress the data chunk to gain additional performance improvement, we should be very careful to the determination of the size of the chunk, since it is a trade off between the IO and added pipelines and functionalities. </p>
+<h2 id="1-2-HDF5-Groups"><a href="#1-2-HDF5-Groups" class="headerlink" title="1.2 HDF5 Groups"></a>1.2 HDF5 Groups</h2><p>An HDF5 group is an explicit representation of an association between zero or more HDF5 information items (includes the HDF5 groups themselves). The association or relationship represented by an HDF5 group is made explicit through a collection of named links to the participating HDF5 information items. </p>
+<p><strong>Remark</strong>: 在数学里，群是一类特定的代数结构。当然，代数结构本身其实是定义了至少一种运算的非空集合，归根到底还是具备某种性质的集合。运算的本质其实是一种映射，所以群实际上是具备了某些特定类型映射的非空集合。当然，数学上某些具备特殊性质的映射又会产生别的性质，归根到底是在研究映射的性质。这里link的概念实际是从HDF5 information item $\xrightarrow{}$ HDF5 information item的映射。</p>
+<p>Link traversal from the HDF5 root group generates the HDF5 information set graph, a rooted, directed, connected graph (是可以有环的).</p>
+<p>In one H5 file, there is only one root group. Link traversal from the HDF5 root group generates the HDF5 information set graph, a tooted, directed, multiple edges.  Users and applications can refer to the specific information set via the HDF5 pathname. </p>
+<h2 id="1-3-HDF5-links"><a href="#1-3-HDF5-links" class="headerlink" title="1.3 HDF5 links"></a>1.3 HDF5 links</h2><p>Currently, HDF5 only support unidirectional, single source/destination links only. Further more, the <strong>source</strong> must be a HDF5 group. The different kinds of HDF5 links can be distinguished by the destination and whether they affect the commitment state of an HDF5 information item. </p>
+<p><img src="/images/hdf5_links.png" alt="hdf5_links"></p>
+<p>An HDF5 dataset, group, or datatype object is committed to an HDF5 infoset by linking it to at least one HDF5 group using an HDF5 <strong>hard link</strong>. (the hard link is determined by the identifiers of the source and the link. Note that there is only one source and one destination in a linked pair). </p>
+<p>HDF5 soft and external links are so-called symbolic links because they refer to their destination via an HDF5 pathname or a file name/HDF5 pathname combination. The soft links and external links will not change the commitment of the destination. Note that the destination of the soft and external links may not even exist during the creation of the symbolic links. The destination may cease or even change during the life time of a symbolic links. </p>
+<h2 id="1-4-HDF5-Datatypes"><a href="#1-4-HDF5-Datatypes" class="headerlink" title="1.4 HDF5 Datatypes"></a>1.4 HDF5 Datatypes</h2><p>The non-scalar HDF5 array variable type has two key ingredients: an HDF5 dataspace which describes its shape, and an HDF5 datatype which describe the type of its data element. Ten families or classes of HDF5 datatypes are currently supported: integer, floating-point, string, bitfield, opaque, compound, reference, enum, variable-length sequence and array. </p>
+<p>Note that the compound type is a collection of different datatypes(of course given specific length, 不然对齐毛线). </p>
+<p>The reference family includes HDF5 datatype references and HDF5 region references.  While the HDF5 data groups can be treated as the explicit representation of a set of HDF5 information items, the reference can be treated as an implicit representation of such association. <strong>It is not an association in the HDF5 data model</strong>, but it does when it comes to users and applications. </p>
+<h2 id="1-5-HDF5-Attributes"><a href="#1-5-HDF5-Attributes" class="headerlink" title="1.5 HDF5 Attributes"></a>1.5 HDF5 Attributes</h2><p>HDF5 is used to annotate HDF5 dataset,  groups and datatype objects. The name of an HDF5 attribute must be unique in the scope of the HDF5 info item they attached to (kind of key-value pairs). </p>
+<h1 id="2-Software-architecture"><a href="#2-Software-architecture" class="headerlink" title="2. Software architecture"></a>2. Software architecture</h1><p><img src="/images/hdf5_software_interface.png" alt="hdf5_interface"></p>
+<p><img src="/images/hdf5_datapipeline.png" alt="hdf5_data_pipeline"></p>
+<p>HDF5 hyperslabs are the higher-dimensional analogue of a one-dimensional [start, stride, count, block] pattern. (高维slice)</p>
+<h1 id="3-Performance"><a href="#3-Performance" class="headerlink" title="3. Performance"></a>3. Performance</h1><h2 id="3-1-Parallel-I-O"><a href="#3-1-Parallel-I-O" class="headerlink" title="3.1 Parallel I/O"></a>3.1 Parallel I/O</h2><p>The HDF5 library can be used for accessing HDF5 files in parallel in MPI-based parallel applications.  Parallel access can be independent or collective. The independent mode, the individual MPI process perform IO operation will not be influenced by other MPI process in the same application accessing the same HDF5 file (独立模式下，MPI进程不会被相同应用下的访问相同HDF5文件的进程影响). In collective mode, parallel access is a highly coordinated, cooperative effort involving all MPI processes in an application. 考虑到独立模式下需要考虑各种竞争条件和因此带来的进程交流和同步成本，无非必要，不要上独立模式。</p>
+<h2 id="3-2-Indexing"><a href="#3-2-Indexing" class="headerlink" title="3.2 Indexing"></a>3.2 Indexing</h2><p>As the introduction in HDF5 dataset, the dataspace attribute can be treated as the system defined key for a relational variable. Simple queries targeting attributes in dataspace-ware attribute (integer lattice coordinates) can take advantage of the quasi-random access or HDF5 region references, and then use traditional indexing techniques to work on the complementary of dataspace-aware attributes. An optimizer (programmer or system component) decides if there is an index (one or more) such that an efficient data access path can be devised.</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/IO/">#IO</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/05/05/ProcessManagement/">进程管理</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/04/09/C-%E5%B9%B6%E5%8F%91cheating-Paper/">C++并发cheating Paper</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/04/26/HDF5/';
+        this.page.identifier = '2021/04/26/HDF5/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

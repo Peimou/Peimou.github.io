@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Statistical Inference-Notes-Part3-Hypothesis Testing - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Neyman-Pearson Theorem,  monotone likelihood ratio (MLR), LRT, Bayes factors,  Frequentist VS Bayesian">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Statistical Inference-Notes-Part3-Hypothesis Testing">
+<meta property="og:url" content="http://peimou.top/2021/01/11/Statistical-inference-Part3-Hypothesis-Testing/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Neyman-Pearson Theorem,  monotone likelihood ratio (MLR), LRT, Bayes factors,  Frequentist VS Bayesian">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://peimou.top/images/Bayes-Factor-Interpretation.png">
+<meta property="article:published_time" content="2021-01-10T20:02:54.000Z">
+<meta property="article:modified_time" content="2021-01-11T23:10:14.443Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Statistical Inference">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peimou.top/images/Bayes-Factor-Interpretation.png">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Formulation">1&nbsp;&nbsp;<b>1. Formulation</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Power-of-testing">2&nbsp;&nbsp;<b>2. Power of testing</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Likelihood-ratio-test-in-simple-test">2.1&nbsp;&nbsp;2.1 Likelihood ratio test in simple test</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Neyman-Pearson-Theorem">2.2&nbsp;&nbsp;2.2 Neyman-Pearson Theorem</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-3-Uniform-most-powerful-UMP-test-and-MLR">2.3&nbsp;&nbsp;2.3 Uniform most powerful (UMP) test and MLR</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-Bayes-factor">3&nbsp;&nbsp;<b>3. Bayes factor</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-1-Bayes-factor-in-simple-test">3.1&nbsp;&nbsp;3.1 Bayes factor in simple test</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-2-Bayes-factor-in-composite-test">3.2&nbsp;&nbsp;3.2 Bayes factor in composite test</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-3-BIC">3.3&nbsp;&nbsp;3.3 BIC</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#3-4-Other-improvement-on-Bayes-Factor">3.4&nbsp;&nbsp;3.4 Other improvement on Bayes Factor</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">4&nbsp;&nbsp;<b>Reference</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Statistical Inference-Notes-Part3-Hypothesis Testing
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-10T20:02:54.000Z" itemprop="datePublished">Jan 11 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Neyman-Pearson Theorem,  monotone likelihood ratio (MLR), LRT, Bayes factors,  Frequentist VS Bayesian</p>
+<a id="more"></a>
+
+<h1 id="1-Formulation"><a href="#1-Formulation" class="headerlink" title="1. Formulation"></a>1. Formulation</h1><p>For a parameter space $\Theta$, and consider the hypothesis of the form:</p>
+<p>$H_0: \theta \in \Theta_0$ vs. $H_1: \theta \in \Theta_1$</p>
+<p>where $\Theta_0$ and $\Theta_1$ are two adjoint subsets of $\Theta$. Note that if $\Theta_0 = \{\theta_0\}$, then we call this simple hypothesis; otherwise composite hypothesis. (Watch out for nuisance parameters).</p>
+<p>Note that when we are testing hypothesis based on the decision theorem, we have to calculate the risk function given a specific $\theta$. Since $\theta$ can at most in one of the hypothesis set, it is asymmetric between those two hypothesis. </p>
+<p>The usual way is to construct a test statistic $t(X)$ and a critical region $C_\alpha$, then reject $H_0$ based on $X = x$ if and only if $t(x) \in C_\alpha$. The critical region must be chosen to satisfy $\text{Pr}_{\theta}\{t(X) \in C_\alpha\}$. The critical region must be chosen to satisfy:</p>
+<p>$\text{Pr}_{\theta}\{t(X) \in C_{\alpha}\} \le \alpha $ for all $\theta \in \Theta_0$.</p>
+<h1 id="2-Power-of-testing"><a href="#2-Power-of-testing" class="headerlink" title="2. Power of testing"></a>2. Power of testing</h1><p>We need to consider if a test function $\phi$ is better then others. This criterion is call power of test. The definition of <strong>power function</strong> can be written as:</p>
+<p>$w(\theta) = \text{Pr}\{Reject H_0\} = \mathbb{E}_{\theta} \{\phi(X)\}$</p>
+<p>In most situation, the power of a test is the value of power function on alternative hypothesis, i.e. $w(\theta_1)$.</p>
+<p>When we are considering a simple test, the power can be rephrased as the probability to reject the null hypothesis when the alternative hypothesis is true.  </p>
+<p>The idea of formulating a good test is to make $w(\theta)$ as large as possible on $\Theta_1$, while satisfying the constraint $w(\theta) \le \alpha$ for all $\theta \in \Theta_0$. (在保证原假设被拒绝的情况下，让critical region在备择假设下得measure尽可能得大)</p>
+<p>In general, we will consider the following three scenarios. </p>
+<p>1) Simple $H_0$ and simple $H_1$: use Neyman-Pearson Theorem to construct the best test.</p>
+<p>2) Simple $H_0$ and composite $H_1$: use a representative $\theta$ in $\Theta_1$, and apply Neyman-Pearson theorem. This is called UMP (uniformly most powerful) test. </p>
+<p>3) Composite $H_0$ and composite $H_1$: Harder.</p>
+<p>Define the test function (loss function in Hypothesis test):</p>
+<p>$\phi(x) = 1 \quad \text{if}\quad t(x) \in C_\alpha$ otherwise $0$.</p>
+<p><strong>Comments</strong>: The definition of power shows the logic of minimax. The setting is favorable to null hypothesis. If we can reject the null hypothesis in the worst situation, then we should be more confident to our decision. Therefore, people always choose the hypothesis they are more interested in to be the alternative hypothesis. </p>
+<p>In conclusion, finding the most powerful testing function can be written as:</p>
+<p>$\max w(\theta_1)$</p>
+<p>$s.t. w(\theta_0) = \alpha $</p>
+<h2 id="2-1-Likelihood-ratio-test-in-simple-test"><a href="#2-1-Likelihood-ratio-test-in-simple-test" class="headerlink" title="2.1 Likelihood ratio test in simple test"></a>2.1 Likelihood ratio test in simple test</h2><p>Consider simple null hypothesis and simple alternative hypothesis. Define the likelihood ratio $\Lambda(x)$ by:</p>
+<p>$\Lambda(x) = \frac{f(x; \theta_1)}{f(x;\theta_2)}$</p>
+<p>, where $f$ is the probability density function or probability mass function. According to NP theorem, the best test of size $\alpha$ is of the form: reject $H_0$ when $\Lambda(X) > k_\alpha$.</p>
+<p>The randomized test with test function $\phi_0$ is said to be a likelihood ratio test if it is of the form:</p>
+<p>$\phi_0(x) = 1$ if $f_1(x) > Kf_0(x)$, $\gamma(x)$ if $f_1(x) = Kf_0(x)$, $0$ if $f_1(x) < Kf_0(x)$. </p>
+<p>$0< \gamma(x) < 1$ and $K \ge 0$</p>
+<p><strong>Note</strong>: Test function is the loss function and decision rule in decision theory, while power is the risk function in the decision theory </p>
+<h2 id="2-2-Neyman-Pearson-Theorem"><a href="#2-2-Neyman-Pearson-Theorem" class="headerlink" title="2.2 Neyman-Pearson Theorem"></a>2.2 Neyman-Pearson Theorem</h2><p>Given the LRT define in 2.1, we can conclude that:</p>
+<p>(a) (Optimality). For any K and $\gamma(x)$, the test $\phi_0$ has maximum power among all tests whose size are no greater than the size of $\phi_0$.</p>
+<p>(b) (Existence). Given $\alpha \in (0, 1)$, there exist constants $K$ and $\gamma_0$ st the LRT defined by this K and $\gamma(x) = \gamma_0$ for all x has size exactly $\alpha$. </p>
+<p>(c) (Uniqueness). If the test $\phi$ has size $\alpha$, and is maximum power amongst all possible tests of size $\alpha$, then $\phi$ is necessarily a likelihood ratio test, except possibly on a set of values of x which has probability 0 under $H_0$ and $H_1$. (给定$\alpha$和最强检验，则这个test function几乎处处是likelihood ratio test.)</p>
+<p><strong>Technical Condition</strong>: Probability density function or probability mass function of alternative hypothesis should <strong>Absolute continuous</strong> wrt the null hypothesis.</p>
+<p>The proof follows common tricks used on decision theorem.</p>
+<p><strong>Proof</strong>:</p>
+<p>(a) Let $\phi$ denote any test for $\mathbb{E}_{\theta_0} \phi(X) \le \mathbb{E}_{\theta_0} \phi_0(X)$ (any test function which has smaller size of critical region). Define $U(x) = [\phi_0(x) - \phi(x)][f_1(x) - kf_0(x)]$.  Note that the state space of test function is 0 or 1 but with different domain. When $f_1(x) - Kf_0(x) > 0$, $\phi_0(x) = 1$, $U(x) \ge 0$. We also prove that $U(x) \ge 0$ when $f_1(x) - kf_0(x) < 0$. Therefore,</p>
+<p>$0 \le \int [\phi_0 - \phi][f_1(x) - K f_0(x)] dx = \mathbb{E}_{\theta_1} \phi_0(X) - \mathbb{E}_{\theta_1} \phi(X) + K(\mathbb{E}_{\theta_0} \phi(X) - \mathbb{E}_{\theta_0} \phi_0(X))$</p>
+<p>$\therefore \int [\phi_0 - \phi][f_1(x) - K f_0(x)] dx = \mathbb{E}_{\theta_1} \phi_0(X) - \mathbb{E}_{\theta_1} \phi(X) \ge 0$</p>
+<p><strong>The difference of power between two test function is always larger then K times the difference of size.</strong></p>
+<p>(b) Can be easily proved based on the fact that the cdf is right continuous, non-decreasing, and monotonous. </p>
+<p>(c) Prove by contradiction. （读者自证真的不难）</p>
+<h2 id="2-3-Uniform-most-powerful-UMP-test-and-MLR"><a href="#2-3-Uniform-most-powerful-UMP-test-and-MLR" class="headerlink" title="2.3 Uniform most powerful (UMP) test and MLR"></a>2.3 Uniform most powerful (UMP) test and MLR</h2><p>Just the same as the continuous and uniformly continuous, the UMP test is a global version of the most powerful test. </p>
+<p>A uniformly most powerful or UMP test of size $\alpha$ is a test $\phi_0(\cdot)$ for which</p>
+<p>(i) $\mathbb{E} \phi_0(X) \le \alpha$ for all $\theta \in \Theta_0$</p>
+<p>(ii) given any other test $\phi(\cdot)$ for which $\mathbb{E}_{\theta} \phi(X) \le \alpha$ for all $\theta \in \Theta_0$, we have $\mathbb{E}_{\theta} \phi_0(X) \ge \mathbb{E}_{\theta} \phi (X)$. </p>
+<p>For some family of parameters, the LRT is UMP in one-side testing problem. However, we can never assume LRT is UMP in the composite hypothesis. Such families are said to have monotone likelihood ratio or MLR. </p>
+<p><strong>Definition</strong>: The family of densities $\{f(x; \theta), \theta \in \Theta \in \mathbb{R}\}$ with real scalar parameter $\theta$ is said to be of monotone likelihood ratio if there exist a function t(x) such that the likelihood ratio </p>
+<p>$\frac{f(x; \theta_1)}{x; \theta_0}$</p>
+<p>is a non-decreasing function of $t(x)$ whenever $\theta_0 \le \theta_1$</p>
+<p><strong>Examples of MLR</strong>: $f(x; \theta) = c(\theta)h(x)e^{\theta \tau(x)}$ or the density distribution is irrelevant to $x$.</p>
+<p><strong>Theorem</strong>: Suppose $X$ has a distribution from a family of MLR with respect to a statistic $t(X)$, and that we wish to test $H_0 : \theta \le \theta_0$ against $H_1: \theta > \theta_0$. Suppose the distribution function of $t(X)$ is continuous.</p>
+<p>(a) The test $\phi(x) = 1 $ if $t(x) > t_0$ or 0 otherwise is UMP among all test of size $\le \mathbb{E}_{\theta_0}[\phi_0(X)]$</p>
+<p>(b) Given some $\alpha$, where $0<\alpha<1$, there exist some $t_0$ such that the test in $(a)$ has size exactly $\alpha$.</p>
+<p>(easy to prove)</p>
+<h1 id="3-Bayes-factor"><a href="#3-Bayes-factor" class="headerlink" title="3. Bayes factor"></a>3. Bayes factor</h1><h2 id="3-1-Bayes-factor-in-simple-test"><a href="#3-1-Bayes-factor-in-simple-test" class="headerlink" title="3.1 Bayes factor in simple test"></a>3.1 Bayes factor in simple test</h2><p>Suppose the prior probability that $H_0$ holds is $\pi_0$, and the prior probability that $H_1$ holds is $\pi_1$. The Bayes law leads to $\textbf{Pr}\{H_0 true | X= x\} = \frac{\pi_0 f_0(x)}{\pi_0 f_0(x) + \pi_1 f_1(x)}$.  We can easily get that </p>
+<p>$\frac{\textbf{Pr}(H_0 true | X = x)}{\textbf{Pr}(H_1 true | X = x)} = \frac{\pi_0 f_0(x)}{\pi_1 f_1(x)}$</p>
+<p>We can conclude that:</p>
+<p>Posterior Odds = Prior Odds $\times$ Bayes Factor</p>
+<p><strong>Note that the definition or Odds and Bayes Factor is null over alternative</strong>.</p>
+<p>Interestingly, if we take the decision rule that reject $H_0$ if Bayes factor for some constant $k$ (and ignore randomized tests), then Bayes rule is exactly the same as the class of Neyman-Person rules. </p>
+<p><img src="/images/Bayes-Factor-Interpretation.png" alt="avatar"></p>
+<h2 id="3-2-Bayes-factor-in-composite-test"><a href="#3-2-Bayes-factor-in-composite-test" class="headerlink" title="3.2 Bayes factor in composite test"></a>3.2 Bayes factor in composite test</h2><p>The Bayes Factor in composite test can be written as:</p>
+<p>$B = \frac{\int_{\Theta_0} f(x; \theta) g_{\theta|\theta \in \Theta_0}(\theta) d\theta}{\int_{\Theta_1} f(x; \theta) g_{\theta|\theta \in \Theta_1}(\theta) d\theta}$</p>
+<p>Note that in the hybrid mode like simple $H_0$ vs composite $H_1$, the conditional distribution will degenerate to Dirac distribution. For example, for $H_0 = \theta_0$ and $H_1 \neq \theta$ the Bayes Factor will therefore be written as:</p>
+<p>$B = \frac{f(x; \theta_0)}{\int_{\Theta_1} f(x; \theta) g_{\theta|\theta \in \Theta_1}(\theta) d\theta}$</p>
+<p>Note that the Bayes Factor allow the test conducted on different parameters set. For example, we have two models, i.e.</p>
+<p>$p(x | M_i) = \int f(x; \theta_i, M_i) \pi_i(\theta_i) d\theta_i, i=1, 2$</p>
+<p>The Bayes Factor is the ratio of these:</p>
+<p>$B = \frac{p(x |M_1)}{p(x |M_2)}$</p>
+<p>There is nothing about predictive, but a test about the prior distribution and model itself.</p>
+<h2 id="3-3-BIC"><a href="#3-3-BIC" class="headerlink" title="3.3 BIC"></a>3.3 BIC</h2><p>For large sample sizes n, we can approximate the Bayes Factor that:</p>
+<p>$W = -2\log\frac{\sup_{\theta_1} f(x; \theta_1, M_1)}{\sup_{\theta_2} f(x; \theta_2, M_2)}$</p>
+<p>$\Delta BIC = W - (p_2 - p _1)\log(n)$</p>
+<p>$B \approx \exp(-\frac{1}{2} \Delta BIC)$.</p>
+<p>Smaller $\Delta BIC$ provides more confidence about the null hypothesis, i.e. larger n do favor to more complicated model (with more parameters).</p>
+<p>Note that we do not need know anything about the prior distribution about the parameters (only need to take the best situation). </p>
+<h2 id="3-4-Other-improvement-on-Bayes-Factor"><a href="#3-4-Other-improvement-on-Bayes-Factor" class="headerlink" title="3.4 Other improvement on Bayes Factor"></a>3.4 Other improvement on Bayes Factor</h2><p>(a) Find a reasonable approach to obtain the Bayes factor over a wide class of reasonable choice</p>
+<p>(b) Partial Bayes factors</p>
+<p>(c) Intrinsic Bayes factors</p>
+<p>(d) fractional Bayes factors</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Essentials of Statistics Inference</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Statistical-Inference/">#Statistical Inference</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/13/Statistical-inference-Part4-Lehmann-Scheffe/">Statistical Inference-Notes-Part4-Lehmann Scheffe Theorem</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/10/Statistical-inference-Part2-Bayesian-Method/">Statistical Inference-Notes-Part2-Bayesian Method</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/11/Statistical-inference-Part3-Hypothesis-Testing/';
+        this.page.identifier = '2021/01/11/Statistical-inference-Part3-Hypothesis-Testing/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://peimou.top/2021/07/26/GPU-programming-note1/</loc>
+    
+    <lastmod>2021-07-25T05:57:12.860Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/05/24/Foundation-of-Machine-Learning-Part1-PAC/</loc>
+    
+    <lastmod>2021-05-24T15:55:53.712Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/05/05/ProcessManagement/</loc>
+    
+    <lastmod>2021-05-23T06:03:05.944Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/05/12/MapReduce/</loc>
+    
+    <lastmod>2021-05-18T15:51:57.616Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/about/index.html</loc>
+    
+    <lastmod>2021-05-17T16:03:56.739Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/05/17/TechnicalDebtInMachineLearningSystem/</loc>
+    
+    <lastmod>2021-05-16T14:25:14.759Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/04/26/HDF5/</loc>
+    
+    <lastmod>2021-05-02T08:45:12.566Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/04/09/C-%E5%B9%B6%E5%8F%91cheating-Paper/</loc>
+    
+    <lastmod>2021-04-10T08:32:33.845Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/03/13/Admissibility-and-Consistency%20-of-Informed-search/</loc>
+    
+    <lastmod>2021-03-12T15:19:23.744Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/03/01/Game-Theory-Notes1-Strategic-form-Games-with-Complete-Information/</loc>
+    
+    <lastmod>2021-03-03T05:15:20.338Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/14/Statistical-inference-Part5-Likelihood/</loc>
+    
+    <lastmod>2021-02-19T16:55:35.388Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/02/19/Eigenfunction-and-Mercer-s-Theorem/</loc>
+    
+    <lastmod>2021-02-18T21:43:48.909Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/27/Trickster-Part1-Random-Walk-with-Shrinking-Step/</loc>
+    
+    <lastmod>2021-02-13T21:39:16.043Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/02/13/Mckean-SDE/</loc>
+    
+    <lastmod>2021-02-13T06:03:25.533Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/02/07/Trickster-Part2-The-number-of-integer-solution/</loc>
+    
+    <lastmod>2021-02-06T20:21:28.981Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/02/04/Periodogram/</loc>
+    
+    <lastmod>2021-02-06T19:11:03.678Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/28/Spectral-representation-of-stationary-stochastic-process/</loc>
+    
+    <lastmod>2021-02-04T03:36:14.870Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/02/02/Estimation-in-Time-Series/</loc>
+    
+    <lastmod>2021-02-02T23:01:40.123Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/21/A-review-of-autocovariance-function-for-stationary-process/</loc>
+    
+    <lastmod>2021-02-02T03:13:25.502Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/26/Orthogonal-Increment-Process/</loc>
+    
+    <lastmod>2021-01-28T20:20:04.846Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/23/Orthonomal-set/</loc>
+    
+    <lastmod>2021-01-23T21:53:56.181Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/23/Projection-Theorem/</loc>
+    
+    <lastmod>2021-01-23T16:37:11.885Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/13/Statistical-inference-Part4-Lehmann-Scheffe/</loc>
+    
+    <lastmod>2021-01-23T00:15:12.373Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/22/Inner-product-space-and-Hilbert-space/</loc>
+    
+    <lastmod>2021-01-22T19:46:37.669Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/16/Statistical-inference-Part6-Wilks-Theorem/</loc>
+    
+    <lastmod>2021-01-15T21:39:48.886Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/11/Statistical-inference-Part3-Hypothesis-Testing/</loc>
+    
+    <lastmod>2021-01-11T23:10:14.443Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/10/Statistical-inference-Part2-Bayesian-Method/</loc>
+    
+    <lastmod>2021-01-11T23:10:05.296Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/02/Statistical-inference-Part1-Decision-Theorem/</loc>
+    
+    <lastmod>2021-01-11T23:09:56.486Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/11/02/Probabilistic-programming-Notes-KL-Divergence-3/</loc>
+    
+    <lastmod>2021-01-11T23:09:40.407Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/11/01/differentiation-programming-notes/</loc>
+    
+    <lastmod>2021-01-11T23:09:21.967Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/11/04/A-review-of-Merton-Problem/</loc>
+    
+    <lastmod>2021-01-11T23:09:12.369Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/12/10/Stochastic-Control-Notes-2/</loc>
+    
+    <lastmod>2021-01-11T23:08:48.149Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2021/01/03/Levy-Stable-Distributions/</loc>
+    
+    <lastmod>2021-01-10T20:05:27.724Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/03/23/Stochastic-Approximation-Methods-Notes-2/</loc>
+    
+    <lastmod>2021-01-02T19:58:07.849Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/10/14/CUDA-notes-1/</loc>
+    
+    <lastmod>2021-01-02T01:37:34.775Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/10/11/Probabilistic-programming-Notes-Varational-inference-1/</loc>
+    
+    <lastmod>2020-11-02T02:01:41.500Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/10/16/Stochastic%20Control-Notes-1/</loc>
+    
+    <lastmod>2020-10-24T19:18:09.401Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/10/11/Probabilistic-programming-Notes-Varational-inference-2/</loc>
+    
+    <lastmod>2020-10-12T21:28:22.864Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/02/01/GMM-NW-Notes-1/</loc>
+    
+    <lastmod>2020-10-12T03:17:27.172Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/02/Hello%20World/</loc>
+    
+    <lastmod>2020-09-06T05:20:00.263Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/17/Kalman%20Filter-Notes-Part1/</loc>
+    
+    <lastmod>2020-09-06T05:18:47.449Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/03/26/Mathematical%20Programming-Notes-1/</loc>
+    
+    <lastmod>2020-04-06T02:19:52.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/04/03/Metric-Embedding-Notes-1/</loc>
+    
+    <lastmod>2020-04-03T04:26:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/03/30/Numpy-Notes-1/</loc>
+    
+    <lastmod>2020-03-29T23:04:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/14/Stochastic-Approximation-Methods-Notes-1/</loc>
+    
+    <lastmod>2020-03-23T05:31:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/2020/01/19/Kalman%20Filter-Projects-Part1/</loc>
+    
+    <lastmod>2020-03-23T05:31:06.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/tags/index.html</loc>
+    
+    <lastmod>2020-01-13T07:36:36.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://peimou.top/categories/index.html</loc>
+    
+    <lastmod>2020-01-13T07:36:26.000Z</lastmod>
+    
+  </url>
+  
+</urlset>

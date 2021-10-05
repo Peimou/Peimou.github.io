@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Statistical Inference-Notes-Part2-Bayesian Method - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Posterior distribution,  Bayesian decision problems, James-Stein estimator, Stein’s Lemma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Statistical Inference-Notes-Part2-Bayesian Method">
+<meta property="og:url" content="http://peimou.top/2021/01/10/Statistical-inference-Part2-Bayesian-Method/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Posterior distribution,  Bayesian decision problems, James-Stein estimator, Stein’s Lemma">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-09T21:38:40.000Z">
+<meta property="article:modified_time" content="2021-01-11T23:10:05.296Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Statistical Inference">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-A-review-of-Bayesian-risk">1&nbsp;&nbsp;<b>1. A review of Bayesian risk</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-From-Bayes-rule-to-Minimax-rule">2&nbsp;&nbsp;<b>2. From Bayes rule to Minimax rule</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Statistical Inference-Notes-Part2-Bayesian Method
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-09T21:38:40.000Z" itemprop="datePublished">Jan 10 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Posterior distribution,  Bayesian decision problems, James-Stein estimator, Stein’s Lemma</p>
+<a id="more"></a>
+
+<h1 id="1-A-review-of-Bayesian-risk"><a href="#1-A-review-of-Bayesian-risk" class="headerlink" title="1. A review of Bayesian risk"></a>1. A review of Bayesian risk</h1><p>The Bayesian risk of decision rule $d$ can be written as:</p>
+<p> $r(\pi, d) = \int_{\Theta} R(\theta, d) \pi(\theta) d\theta = \int_{\Theta} \int_{\mathcal{X}} L(\theta, d(x)) f(x; \theta) dx d\theta$</p>
+<p>$\quad =  \int_{\Theta} \int_{\mathcal{X}} L(\theta, d(x)) f(x; \theta) dx \pi(\theta)d\theta = \int_{\Theta} \int_{\mathcal{X}} L(\theta, d(x)) f(x; \theta) \pi(\theta) dx d\theta$</p>
+<p>$\quad = \int_{\mathcal{x}} f(x) \int_{\Theta} L(\theta, d(x)) \pi(\theta | x) d\theta dx$</p>
+<p>Note that if $\theta$  is deterministic, $f(x; \theta) = f(x |\theta)$ by the definition of conditional probability (Indicator function for conditional expectation). </p>
+<p>Since $f(x)$ is the same for every decision rule, it suffices to minimize the posterior loss, i.e. for each $x$ we choose $d(x)$ to minimize $\int_{\Theta} L(\theta, d(x)) \pi(\theta | x) d\theta$.</p>
+<p>Some well-known decision rule is actually based on the action set and loss function. For example, for the mean-square loss function, the decision should be the mean of the posterior distribution. However, for an indicator form loss function, the optimal decision will be the MAP (in this framework, someone call the highest of posterior distribution HPD) estimator. </p>
+<h1 id="2-From-Bayes-rule-to-Minimax-rule"><a href="#2-From-Bayes-rule-to-Minimax-rule" class="headerlink" title="2. From Bayes rule to Minimax rule"></a>2. From Bayes rule to Minimax rule</h1><p>in the part1 of these notes, we proved that if Bayes rule (or $\epsilon$ extended Bayes rule) is an equalizer decision rule, then this decision rule is minimax. (Equalizer is the sufficient condition of minimax principle).</p>
+<p><strong>Example 1</strong>: Find a minimax estimator of $\theta$ based on a single observation $X \sim \text{Bin}(n, \theta)$ with n known, under squared error loss $L(\theta, d) = (\theta - d)^2$</p>
+<p>Solution: Although the space of prior distribution is all admissible, let’s select the conjugate distribution as the prior distribution. The conjugate distribution of Binomial distribution is Beta distribution (for multinomial distribution, the conjugate distribution is Dirichlet distribution). We can use the conclusion that the Bayesian estimator is the mean of the posterior distribution given squared error loss. </p>
+<p>The Bayesian risk can be written as $\int_{\theta} (\theta - d(X))^2 \pi(\theta | X) d\theta$. Let $d_1$ denote the $d(x) = \int_{\theta} \theta \pi(\theta | X) d\theta$, and $d_2$ denote any other decision rule which $\neq d_1$. </p>
+<p>$r(\pi, d_1) - r(\pi, d_2) = \mathbb{E}_{X|\theta}[(\bar{\theta} - \bar{\theta})^2] - \mathbb{E}_{X|\theta}[(\bar{\theta} - d_2)^2] = - \mathbb{E}_{X|\theta}[(\bar{\theta} - d_2)^2] \leq 0$.</p>
+<p>Therefore, we can never find a better decision rule apart from the mean of the $\theta$ given mean-error loss function. </p>
+<p>Given the conjugate prior, we can conclude that $\bar{\theta} = \frac{a + \sum x_i}{a + b + n}$ ($x_i = 0$ or $1$). We want to find a prior which make the decision rules an equalizer decision.  Let $C$ denote $a + b + n$</p>
+<p>The risk function can be written as (recall the definition of the equalizer decision rule):</p>
+<p>$\mathbb{E}[(\frac{a + X}{c} - \theta)^2] = \frac{1}{c^2}\mathbb{E}[(X + a - c\theta)^2]$</p>
+<p>$\quad = \frac{1}{c^2}(n\theta(1-\theta) + n^2 \theta^2 + 2n\theta (a - c\theta) + (a - c\theta)^2$</p>
+<p>It is obvious that it is of the quadratic form of $\theta$. We need to select proper $a$ and $b$ to make the coefficient of $\theta$ and $\theta^2$ be zero. Therefore, the result can be written as $d(x) = \frac{\sum x_i + \sqrt{n}/2}{n + \sqrt{n}/2}$</p>
+<p><strong>Example 2</strong>: A review of tank problem. The tanks are identified by the ID range from 1 to an unknown number N. We observe a tank whose ID is k. What is the minimax estimation of N? The loss function is $(N - d(k))^2$.</p>
+<p>With the same logic, the Bayesian estimator should be $\hat{d(k)} = \sum_{N=1}^{+\infty} N \text{Pr} (N |k)$. We need to find a good enough prior distribution to make sure the expectation converge. The risk function can be written $\mathbb{E}[(N - d(x))^2|N] = N^2 - 2N \mathbb{E}(d(x)|N) + \mathbb{E}(d(x)^2|N)$. Let’s assume the number of tanks is uniformly distributed over $[k, \Omega]$, we want to find the proper $\Omega$ to make the decision rule minimax.</p>
+<p>Therefore, the decision rule can be written as $d(k) = \sum_{N=k}^{\Omega} N\frac{\text{Pr}(k|N) \text{Pr}(N)}{\text{Pr}(k)}$. Note that $\text{Pr}(k) = \sum_{N=k}^{\Omega} \text{Pr}(k|N) \text{Pr}(N) = \sum_{N=k}^{\Omega} \frac{1}{N} \frac{1}{\Omega - k}$. </p>
+<p>Therefore $d(k) = \frac{\Omega - k}{\sum_{N=k}^{\Omega} \frac{1}{N}}$. The risk function can be written as:</p>
+<p>$N^2 - \sum_{k=1}^N \frac{2(\Omega - k)}{\sum_{i=k}^\Omega \frac{1}{i}} + \sum_{k=1}^N \frac{(\Omega - k)^2}{(\sum_{i=k}^\Omega \frac{1}{i})^2N}$, which is almost impossible to solve the $\Omega$ analytically. Therefore, let’s consider a numerical methodology. We want to find the $\Omega$ that maximize the Bayesian risk. The classic method is the use the frequentist’s view to construct the unbiased sufficient estimator.   We will further discuss this problem in the following notes. </p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Statistical-Inference/">#Statistical Inference</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/11/Statistical-inference-Part3-Hypothesis-Testing/">Statistical Inference-Notes-Part3-Hypothesis Testing</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/03/Levy-Stable-Distributions/">Levy Stable Distributions</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/10/Statistical-inference-Part2-Bayesian-Method/';
+        this.page.identifier = '2021/01/10/Statistical-inference-Part2-Bayesian-Method/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

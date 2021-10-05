@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Orthogonal Increment Process - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: stochastic integral, spectral representation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Orthogonal Increment Process">
+<meta property="og:url" content="http://peimou.top/2021/01/26/Orthogonal-Increment-Process/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: stochastic integral, spectral representation">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-25T22:48:41.000Z">
+<meta property="article:modified_time" content="2021-01-28T20:20:04.846Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Stochastic analysis">
+<meta property="article:tag" content="Orthogonal Process">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Definitions">1&nbsp;&nbsp;<b>1. Definitions</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Orthogonal-increment-process">1.1&nbsp;&nbsp;1.1 Orthogonal-increment process</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-Right-continuous-process">1.2&nbsp;&nbsp;1.2 Right-continuous process</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-Stochastic-Integration-wrt-an-Orthogonal-Increment-Process">2&nbsp;&nbsp;<b>2. Stochastic Integration wrt an Orthogonal Increment Process</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Definition-of-stochastic-integral">2.1&nbsp;&nbsp;2.1 Definition of stochastic integral</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Properties-of-the-Stochastic-Integral">2.2&nbsp;&nbsp;2.2 Properties of the Stochastic Integral</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Orthogonal Increment Process
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-25T22:48:41.000Z" itemprop="datePublished">Jan 26 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: stochastic integral, spectral representation</p>
+<a id="more"></a>
+
+<p>定义在正交增量随机过程上的随机积分算子是一个测度为F的Hilbert空间的同构(或者说具有Borel集的拓扑空间)， 且这个测度F和正交增量随机过程是一一对应的。我们可以证明这个同构well-defined。这里都是基于某个特定的随机变量的内积定义来的。如果我们换了随机变量的内积，这里都要变化（例如，我们要研究一个更大的Hilbert空间，例如$L^1$, 即强大数率的tech条件）。</p>
+<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>Again, let’s consider a $L^2[-\pi, \pi]$ Hilbert space, whose inner product of random variable $X$ and $Y$ are defined as $\mathbb{E}(X\bar{Y})$, and $\int_{\Omega} X(\omega) \bar{Y}(\omega)P(d\omega)$</p>
+<h2 id="1-1-Orthogonal-increment-process"><a href="#1-1-Orthogonal-increment-process" class="headerlink" title="1.1 Orthogonal-increment process"></a>1.1 Orthogonal-increment process</h2><p>An orthogonal-increment process on $[-\pi, \pi]$ is a complex-valued stochastic process $\{Z(\lambda), -\pi \le \lambda \le \pi\}$ such that $(Z(\lambda), Z(\lambda)) < \infty$, $(Z(\lambda), 1) = 0$, $(Z(\lambda_4) - Z(\lambda_3), Z(\lambda_2) - Z(\lambda_1)) = 0$ if $(\lambda_1, \lambda_2] \cap (\lambda_3, \lambda_4] = \phi$</p>
+<h2 id="1-2-Right-continuous-process"><a href="#1-2-Right-continuous-process" class="headerlink" title="1.2 Right-continuous process"></a>1.2 Right-continuous process</h2><p>The process $\{Z(\lambda, -\pi \le \lambda \le \pi)\}$ will be called right-continuous if for all $\lambda \in [-\pi, \pi)$</p>
+<p>$|Z(\lambda + \delta) - Z(\lambda)|^2 = \mathbb{E}(|Z(\lambda + \delta) - Z(\lambda)|^2) \xrightarrow{} 0$ as $\lambda \xrightarrow{} 0 $</p>
+<p><strong>Proposition 1.1</strong>:  If $\{Z(\lambda), -\pi < \lambda < \pi\}$ is an orthogonal-increment process, then there is a unique distribution function $F$ (i.e. a unique non-decreasing, right-continuous function) such that</p>
+<p>$F(\lambda) = 0, \lambda \le -\pi$</p>
+<p>$F(\lambda) = F(\pi), \lambda \ge \pi$</p>
+<p>$F(\mu) - F(\lambda) = |Z(\mu) - Z(\lambda)|^2$</p>
+<p><strong>Proof</strong> :(构造法证明)</p>
+<p>$F(\mu) = |Z(\mu) - Z(-\pi)|^2$,   $-\pi \le \mu \le \pi$</p>
+<p>According to the orthogonality of $Z(\mu) - Z(\lambda)$ and $Z(\lambda) - Z(-\pi)$, $-\pi \le \lambda \le \mu \le \pi$</p>
+<p>$F(\mu) = |Z(\mu) - Z(\lambda) + Z(\lambda) - Z(-\pi)|^2 = |Z(\mu) - Z(\lambda)|^2 + |Z(\lambda) - Z(-\pi)||^2 \ge |Z(\lambda) - Z(-\pi)|^2 = F(\lambda)$</p>
+<p>$F(\mu + \delta) - F(\mu) = |Z(\mu + \delta) - Z(\mu)|^2 \xrightarrow{} 0$ as $\delta \xrightarrow{} 0$</p>
+<p><strong>Remark</strong>： In many field the properties of proposition 1.1 will be written as $\mathbb{E}(dZ(\lambda)d\bar{Z}(\mu)) = \delta_{\lambda, \mu} dF(\lambda)$</p>
+<h1 id="2-Stochastic-Integration-wrt-an-Orthogonal-Increment-Process"><a href="#2-Stochastic-Integration-wrt-an-Orthogonal-Increment-Process" class="headerlink" title="2. Stochastic Integration wrt an Orthogonal Increment Process"></a>2. Stochastic Integration wrt an Orthogonal Increment Process</h1><p>Suppose $\{Z(\lambda), -\pi \le \lambda \le \pi\}$ is an orthogonal-increment process defined on the probability space $(\Omega, \{\mathcal{F}\}_{\lambda}, P)$. Note that the inner-product defined on this Hilbert space is:</p>
+<p>$(Z_{\lambda}, Z_{\lambda}) = \int_{\Omega}Z_\lambda(\omega) P(d\omega)$ </p>
+<p>Let $f$ be a Borel measurable function on complex-valued space Hilbert space $([-\pi, \pi], \mathcal{B}, F)$. Let $I(f)$ denote $\int_{(-\pi, \pi])}f(\lambda) dZ(\lambda)$ , which is a random variable of the $L^2(\Omega, \mathcal{F}, P)$ (of course there exist some technical condition like $\int_{(-\pi, \pi])} f(\lambda)^2 dF(\lambda)$ to make sure this random variable is square integrable. We can easily verify this condition based on the isomorphism later). <strong>We want to solve the unknown measure $F(\lambda)$, such that $(I(f), I(g)) = \int_{(-\pi, \pi])} f(\lambda)\bar{g}(\lambda) dF(\lambda)$</strong></p>
+<p>Note that any measurable function can be written as the summation of simple function. Therefore, let $f(\lambda) = \sum_{i = 0}^n f_i I_{(\lambda_i, \lambda_{i + 1}]}(\lambda)$, where $-\pi = \lambda_0 < \lambda_1 < \dots < \lambda_{n + 1} = \pi$. Therefore, we can rewrite the stochastic integral $I(f) = \int_{(-\pi, \pi]}f(v)dZ(v)$ as $I(f) = \sum_{i = 0}^n f_i[Z({\lambda_{i + 1}}) - Z(\lambda_{i})]$. </p>
+<p>The measure F can be solved based on the definition of isomorphism can be shown as:</p>
+<p>$(I(f), I (g)) = (\sum_{i = 0}^{n}f_i[Z(\lambda_{i + 1}) - Z(\lambda_{i})], \sum_{i = 0}^{n}g_i[Z(\lambda_{i + 1}) - Z(\lambda_{i})]) = \sum_{i = 0}^{n} f_i\bar{g}_i(F(\lambda_{i + 1} - F(\lambda_i)))$</p>
+<p>The measure $F$ is nothing but the associated distribution function we defined in the proposition 1.1. </p>
+<p><strong>Remark</strong>: $F$ is unique due to the proposition 1.1. The continuous version can be written as $\int_{-\pi, \pi} f(v)\bar{g}(v)dF(v) = (f, g)_{L^2(F)}$</p>
+<p>We can further prove the technical condition of $f$ that $I(f)$ belongs to $L^2(\Omega, \mathcal{F}, P)$, and verify that $F$ is the measure of a Hilbert space. (我们必须要证明这样的一个Hilbert空间是存在的，或者说是well-defined。 这种well-defined必须通过概率空间的well-defined证明。这里的过程虽然在逻辑上重要，但是在应用上可以忽略）</p>
+<h2 id="2-1-Definition-of-stochastic-integral"><a href="#2-1-Definition-of-stochastic-integral" class="headerlink" title="2.1 Definition of stochastic integral"></a>2.1 Definition of stochastic integral</h2><p>If $\{Z(\lambda)\}$ is an orthogonal-increment process on $[-\pi, \pi]$ with associated distribution function $F$ and if $f \in L^2(F)$ (F is constructed in Proposition 1.1), then the stochastic integral $\int_{(-\pi, \pi])} f(\lambda) d Z(\lambda)$ is defined as the random variable $I(f)$ constructed above, i.e.</p>
+<p>$\int_{(-\pi, \pi]} f(v)dZ(v) = I(f)$</p>
+<h2 id="2-2-Properties-of-the-Stochastic-Integral"><a href="#2-2-Properties-of-the-Stochastic-Integral" class="headerlink" title="2.2 Properties of the Stochastic Integral"></a>2.2 Properties of the Stochastic Integral</h2><p>(a) The stochastic integral operator $I$ is a linear operator, i.e, $I(af + bg) = aI(f) + bI(g)$</p>
+<p>(b) Isometry: $\mathbb{E}(I(f)\bar{I(g)}) = \int_{(-\pi, \pi])}f(v)\bar{g}(v)dv$</p>
+<p>(c) $\mathbb{E}(I(f)) = 0$ (正交增量过程的期望是0)</p>
+<p>Note that if $Z(\lambda)$ is any orthogonal increment process on $[-\pi, \pi]$ with associated distribution function $F$, then </p>
+<p>$X_t = I(e^{it \cdot}) = \int_{(-\pi, \pi]} e^{itv} dZ(v)$ $t \in \mathbb{Z}$</p>
+<p>is a stationary process with mean zero and autocovariance function:</p>
+<p>$\mathbb{E}(X_{t + h}\bar{X}_t) = \int_{(-\pi. \pi]} e^{iv(t+h)}e^{-ivt}dF(v) =  \int_{(-\pi. \pi]} e^{ivh}dF(v)$</p>
+<p>Note that the converse also holds: if $\{X_t\}$ is any stationary process, then $\{X_t\}$ has the representation for an appropriately chosen orthogonal process whose associated distribution function is the same as the spectral distribution function of $\{X_t\}$</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Stochastic-analysis/">#Stochastic analysis</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Orthogonal-Process/">#Orthogonal Process</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/27/Trickster-Part1-Random-Walk-with-Shrinking-Step/">Trickster-Part1-Random Walk with Shrinking Steps</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/01/23/Orthonomal-set/">Orthonormal Set and Bessel&#39;s Inequality</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/26/Orthogonal-Increment-Process/';
+        this.page.identifier = '2021/01/26/Orthogonal-Increment-Process/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

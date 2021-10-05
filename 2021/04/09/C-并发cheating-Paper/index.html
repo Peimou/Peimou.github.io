@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>C++并发cheating Paper - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="keywords:  RAII, daemon threads, race condition">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++并发cheating Paper">
+<meta property="og:url" content="http://peimou.top/2021/04/09/C-%E5%B9%B6%E5%8F%91cheating-Paper/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="keywords:  RAII, daemon threads, race condition">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-08T20:19:14.000Z">
+<meta property="article:modified_time" content="2021-04-10T08:32:33.845Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Coding">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-线程管理">1&nbsp;&nbsp;<b>1.  线程管理</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-线程的初始化">1.1&nbsp;&nbsp;1.1 线程的初始化</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-线程等待和分离">1.2&nbsp;&nbsp;1.2 线程等待和分离</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-1-RAII技巧">1.2.1&nbsp;&nbsp;1.2.1 RAII技巧</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-1-守护线程及其应用场景">1.2.2&nbsp;&nbsp;1.2.1 守护线程及其应用场景</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-给线程传递参数">1.3&nbsp;&nbsp;1.3 给线程传递参数</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-1-将指针直接传入新线程中的后果：悬浮指针">1.3.1&nbsp;&nbsp;1.3.1 将指针直接传入新线程中的后果：悬浮指针</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-2-在新线程直接传输数据（数据对象而非引用或者指针）的后果和解决方法">1.3.2&nbsp;&nbsp;1.3.2 在新线程直接传输数据（数据对象而非引用或者指针）的后果和解决方法</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-3-3-move-语义在多线程上的优化">1.3.3&nbsp;&nbsp;1.3.3 move 语义在多线程上的优化</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-线程间共享数据和竞争条件">2&nbsp;&nbsp;<b>2. 线程间共享数据和竞争条件</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-互斥元保护共享数据">2.1&nbsp;&nbsp;2.1 互斥元保护共享数据</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-同步结构防死锁">2.2&nbsp;&nbsp;2.2 同步结构防死锁</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-3-优化技巧和锁粒度">2.3&nbsp;&nbsp;2.3 优化技巧和锁粒度</a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            C++并发cheating Paper
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-04-08T20:19:14.000Z" itemprop="datePublished">Apr 9 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>keywords:  RAII, daemon threads, race condition</p>
+<a id="more"></a>
+
+<p>注意：这篇博客是对《C++并发编程实战》的整理，在原文的基础上重新梳理逻辑关系和要点分析，无任何原创内容。</p>
+<h1 id="1-线程管理"><a href="#1-线程管理" class="headerlink" title="1.  线程管理"></a>1.  线程管理</h1><h2 id="1-1-线程的初始化"><a href="#1-1-线程的初始化" class="headerlink" title="1.1 线程的初始化"></a>1.1 线程的初始化</h2><p>每一个线程都需要有一个初始函数（一个函数指针），std::thread可以和任何可调用类型(callable，通俗的说就是后面可以接括号的)一起使用，即可以把一个实例传递给std::thread的构造函数。注意实例被<strong>复制</strong>到新线程的栈里，并从这个新的储存器中调用；另外，如果传递一个临时的且未命名的函数对象（函数对象是重载了函数调用符的对象，优点是可以有自己的状态，并且有自己的类型，可以用于初始化C++的stl模板），那么编译器会将这个线程的初始化编译为返回一个std::thread 对象的函数的声明，此时的初始化方法是使用std::thread my_thread{callable_object()}来避免这种情况；另一种避免临时的，未命名的函数对象的编译问题的方法是使用lambda表达式。</p>
+<h2 id="1-2-线程等待和分离"><a href="#1-2-线程等待和分离" class="headerlink" title="1.2 线程等待和分离"></a>1.2 线程等待和分离</h2><p>在线程初始化结束后，我们需要显示地确定主线程是等待新线程(join)还是让这个线程继续运行(detaching)。只有在线程joinable属性为True的时候，我们才能进行join或者detach。</p>
+<h3 id="1-2-1-RAII技巧"><a href="#1-2-1-RAII技巧" class="headerlink" title="1.2.1 RAII技巧"></a>1.2.1 RAII技巧</h3><p>为了防止任务在主线程发生异常的情况下没有及时join新线程，导致主线程没有等待新线程结束而提前终止的情况，我们应使用RAII（资源获取即初始化）的方法。这种技巧主要依靠构造函数的逆序销毁特性，在新线程初始化后，在主线程中新建一个thread_guard类，并在这个thread_guard()析构的时候判断新线程是否是joinable的, True则调用join。注意这个判断joinable是很重要的一步，防止在异常发生时新线程已经被等待，此时如果继续调用join则会报错。另外构造RAII时的细节是一定要把thread_guard的复制构造函数和赋值操作符给去掉（在c++11中使用 “= delete“更加优雅可读些），防止这个thread_guard在新线程的生命周期之外继续存续。在互斥锁中，为了保证unlocking被顺利调用，也会用到类似的技巧。</p>
+<h3 id="1-2-1-守护线程及其应用场景"><a href="#1-2-1-守护线程及其应用场景" class="headerlink" title="1.2.1 守护线程及其应用场景"></a>1.2.1 守护线程及其应用场景</h3><p>如果我们将线程分离(detaching)，那么将没有办法继续与这个线程通信或者继续调用这个线程的join。此时这个线程的控制权会交給C++运行时库，以保证线程相关的资源在线程推出后被正常回收。被分离的线程也别叫做守护线程(daemon thread, 参考守护进程的概念)。这种线程一般在整个应用程序的周期都存续，并在后台运行。常见的应用场景包括监控文件系统，清除对象缓存中未使用的对象或者优化数据结构等。</p>
+<h2 id="1-3-给线程传递参数"><a href="#1-3-给线程传递参数" class="headerlink" title="1.3 给线程传递参数"></a>1.3 给线程传递参数</h2><p>如果将主线程中的数据移交给新线程，那么这个数据就会被copy。即使我们在新线程调用的函数中将这个数据声明为引用，我们也仅仅是在新线程内部调用这个数据的时候使用引用机制。总之，在新线程中使用主线程的数据肯定是要深拷贝的，不要抱有不切实际的幻想。</p>
+<h3 id="1-3-1-将指针直接传入新线程中的后果：悬浮指针"><a href="#1-3-1-将指针直接传入新线程中的后果：悬浮指针" class="headerlink" title="1.3.1 将指针直接传入新线程中的后果：悬浮指针"></a>1.3.1 将指针直接传入新线程中的后果：悬浮指针</h3><p>不要使用指针传递参数到新线程里，否则主线程结束后，新线程中就无法找到这个指针指向的对象，产生悬浮指针。一个可能的解决方法是强制转换为原子类型（如果可以的话，例如char数组转化为string）。</p>
+<h3 id="1-3-2-在新线程直接传输数据（数据对象而非引用或者指针）的后果和解决方法"><a href="#1-3-2-在新线程直接传输数据（数据对象而非引用或者指针）的后果和解决方法" class="headerlink" title="1.3.2 在新线程直接传输数据（数据对象而非引用或者指针）的后果和解决方法"></a>1.3.2 在新线程直接传输数据（数据对象而非引用或者指针）的后果和解决方法</h3><p>结果是：在线程中对数据进行的更改将在新线程结束后一起被销毁，即没有任何在新线程中的操作结果被保留。解决方法是使用std:ref。这其实是一个reference wrapper，可以通过一个右值初始化，其.get()方法返回的就是正常的引用。使用ref的另一个好处是，在新线程析构时，其栈中的内存也会被释放，因此被复制的数据是不会被保留的，如果多线程计算最终是为了返回数据，记得加ref。</p>
+<h3 id="1-3-3-move-语义在多线程上的优化"><a href="#1-3-3-move-语义在多线程上的优化" class="headerlink" title="1.3.3 move 语义在多线程上的优化"></a>1.3.3 move 语义在多线程上的优化</h3><p>如果给函数或者新线程传递一个右值，那么这个临时变量的所有权会自动转移到新函数或者新线程中，原scope中的改变量会被释放。如果我们确定某个很大动态数据结构不会再在原空间内使用，那么我们可以强行把左值move到右值，从而节约内存开销。</p>
+<h1 id="2-线程间共享数据和竞争条件"><a href="#2-线程间共享数据和竞争条件" class="headerlink" title="2. 线程间共享数据和竞争条件"></a>2. 线程间共享数据和竞争条件</h1><p>竞争条件是指运行结果依赖于线程相对操作顺序的一些事物。一般race condition指恶性的情况，即可能发生未定义的事宜。避免竞争条件在并发中的影响的方式主要有优化数据结构中的不变量（无锁编程， lock free programming）以及使用互斥锁（mutex，mutual exclusion）保护数据。</p>
+<h2 id="2-1-互斥元保护共享数据"><a href="#2-1-互斥元保护共享数据" class="headerlink" title="2.1 互斥元保护共享数据"></a>2.1 互斥元保护共享数据</h2><p>互斥锁是跟随数据资源的。在共享数据之前，锁定于该数据相关的互斥元，访问完成后，解锁互斥元。C++的线程库保证了一个线程在访问一个互斥锁的时候另外一个线程必须等待，直到该数据的互斥元被解锁。在设计互斥元的时候应该避免通过指针过引用传出被互斥元保护的数据。这些数据一旦被传出，那么无论是在主线程还是在其他调用该数据的线程中都可能与其他线程中的调用形成竞争条件。一旦脱离mutex_guard的作用域，数据就不再被mutex保护。所以在多线程的共享数据的时候我们有时不得不返回一个动态结构的副本，以内存开销为代价，所以在设计接口的时候记得避免。</p>
+<p>在特定函数中的互斥锁不能保证一个函数调用序列的安全，在设计接口中应该考虑避免这样的情况发生。</p>
+<h2 id="2-2-同步结构防死锁"><a href="#2-2-同步结构防死锁" class="headerlink" title="2.2 同步结构防死锁"></a>2.2 同步结构防死锁</h2><p>如果一个函数中需要调用两个被互斥锁保护的数据块，可能出现的情况就是一个线程锁住了其中一个数据块，而另一个线程锁住了另一个数据块，此时两个线程就会互相等待对方释放互斥元，形成<strong>死锁</strong>。一个理所当然的处理方法就是在一个函数调用两个被互斥元保护的数据前，把这两个互斥元提前锁定（如果这两个互斥元不能被同时锁定，threading库就会等待直到能够同时锁住为止）。</p>
+<p><strong>一些防止死锁的原则和技巧</strong>：</p>
+<p>这种描述本身其实也体现了防止死锁最基础的原则：在一个函数中只有一个锁（或者把多个互斥元同时锁定，从行为上看只等于有一个锁）；上一个原则衍生出来的另一个准则就是不要在函数内调用其他用户代码，因为这些函数中就可能有锁，从而违背第一原则；如果必需使用多个锁，那么必须用相同的顺序调用(反证法，自证不难)。</p>
+<p>在使用lock的RAII时，应该注意unique_lock的性能稍弱于lock_guard, 但是unique_lock有一个非常强力的特性，那就是可以安全地在scope之外转移锁, 例如，某个带锁定的互斥元取决于某个程序的运行状态，而我们又懒得使用conditional variable时。</p>
+<h2 id="2-3-优化技巧和锁粒度"><a href="#2-3-优化技巧和锁粒度" class="headerlink" title="2.3 优化技巧和锁粒度"></a>2.3 优化技巧和锁粒度</h2><p>首先不要给IO bounded的任务上互斥锁，如果不加会出错，就老老实实改API。另外，养成在代码不需要调用共享数据块的时候unlock(注意为了不造成可能的死锁，不要在这种时候放两个lock)的好习惯。</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Coding/">#Coding</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/04/26/HDF5/">HDF5-Notes</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/03/13/Admissibility-and-Consistency%20-of-Informed-search/">Admissibility and consistency of informed search</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/04/09/C-%E5%B9%B6%E5%8F%91cheating-Paper/';
+        this.page.identifier = '2021/04/09/C-并发cheating-Paper/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

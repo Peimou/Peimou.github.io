@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>进程管理 - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="keywords: 进程管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程管理">
+<meta property="og:url" content="http://peimou.top/2021/05/05/ProcessManagement/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="keywords: 进程管理">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-05T03:36:38.000Z">
+<meta property="article:modified_time" content="2021-05-23T06:03:05.944Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Computer science">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-程序的并发执行">1&nbsp;&nbsp;<b>1 程序的并发执行</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-进程的描述-（PCB-和上下文）">2&nbsp;&nbsp;<b>2 进程的描述 （PCB 和上下文）</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-进程的控制">3&nbsp;&nbsp;<b>3 进程的控制</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#4-进程的互斥和实现">4&nbsp;&nbsp;<b>4 进程的互斥和实现</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#5-同步和生产者-消费者问题">5&nbsp;&nbsp;<b>5 同步和生产者-消费者问题</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            进程管理
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-05-05T03:36:38.000Z" itemprop="datePublished">May 5 2021</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>keywords: 进程管理</p>
+<a id="more"></a>
+
+
+
+<p>进程是在现代操作系统保证执行并发，资源共享和用户随机的特点下，用来描述程序执行下的资源分配基本单位（进程用于描述资源分配的基本单位，这是功能而非定义）。 为了讨论进程管理，首先应该先对程序下定义。程序是有独立功能的，在时间次序上严格相继（上一条指令执行结束是下一条指令开始执行的充分必要条件）的指令集合，是一个静态的概念。程序具有顺序性，封闭性和可重复性的特征。与程序相对的，进程是一个动态执行过程，或者说程序在CPU上的执行活动被称为进程。进程在执行过程中动态地创建，并在调度执行中消亡。逻辑上，这种动态过程应该存在时间轴上的静态切片，系统中也对应应该存在描述进程存在的物理实体，或者说进程的静态描述（事实上也去是如此，任何动态在某一时间点上都应该存在静态切片，否则动态，或者说另外一个维度上的参数化，就不是well-defined）。进程的静态描述包括：进程控制块（PCB，掌握进程的状态，是系统掌握进程的唯一实体，部分或全部存于内存里），有关程序段和对该数据段进行操作的数据结构集合。</p>
+<p>注意并发和并行的区别：并发是指在一段时间内同时执行，而并行是指在某一时间点上同时执行。并发实际上是CPU的分时行为，通过快速在时间上分片使得某一特定程序在其他程序执行没有结束前就开始执行。并行只有在有多个计算通道存在的情况下才能真实发生。（Recall: python 全局解释器锁）。</p>
+<h2 id="1-程序的并发执行"><a href="#1-程序的并发执行" class="headerlink" title="1 程序的并发执行"></a>1 程序的并发执行</h2><p>多个程序可以执行并发的条件是：任意程序的读和剩余程序的写的交集为空；任意程序的写和其余程序的写的交集为空（对同时读取是没有要求的，这里主要是考虑到并发执行过程中的随机性，Bernstein 1966）。竞争条件等概念可参考C++并发编程。</p>
+<h2 id="2-进程的描述-（PCB-和上下文）"><a href="#2-进程的描述-（PCB-和上下文）" class="headerlink" title="2 进程的描述 （PCB 和上下文）"></a>2 进程的描述 （PCB 和上下文）</h2><p>进程是被PCB标识和描述的。PCB全部或部分地存在内存中，其记录了进程页表指针和CPU现场(Recall 陷阱处理机构)。除此之外，进程的静态描述除了当前时点的信息外（注意联系PCB中的信息和正文的关系， PCB中记录了<strong>进程的标识，控制信息，资源管理信息和CPU现场</strong>），还包括程序段和数据集的上下文，体现静态关联顺序。例如，在进程执行过程中，由于中断，等待和程序出错等原因导致进程中断时，操作系统需要记忆进程运行到了什么阶段；另外一个常见的情景是条用子程序。在等待子程序后，进程将返回何处执行，执行结果将放在何处都需要进行记忆。</p>
+<p>已经执行过的进程指令和数据在相关寄存器和堆栈中的内容被称为上文，正在被执行的指令和数据在相关寄存器和堆栈中的内容被称为正文，在时间序列上将要被执行的指令和数据被称为进程的下文。</p>
+<p>进程的上下文切换发生在不同进程而不是相同进程中（进程不能唤醒自己）。进程上下文切换总共包括三个部分，并涉及到三个进程。第一部分为转移被切换进程的正文部分至有关存储区（保存上文）；第二个进程是操作系统进行分配资源，选取新的进程，第三部分是将被切换线程的资源从相关存储器中取出，并送到相关寄存器和堆栈中，激活被选中的新进程。</p>
+<h2 id="3-进程的控制"><a href="#3-进程的控制" class="headerlink" title="3 进程的控制"></a>3 进程的控制</h2><p>原语就是原子类型的（不可分割的）语句。</p>
+<p>进程控制就是使用一些工具来创建，撤销以及完成进程各状态间（5状态2队列）的转换，从而达到多进程高效率并发协调，实现资源共享的目的。</p>
+<p>原语是指系统态下执行的具有特定功能的程序段。原语可以分为机器指令级原语（执行期间不准许间断），另一类是功能级原语（不能并发执行）。由于进程执行的随机性，操作系统中的进程控制程序段会被做成原语。</p>
+<p>操作系统对进程的行为主要包括进程的创建，进程的撤销，进程的阻塞和唤醒。</p>
+<p>进程可以由系统或者父进程创建，由父进程创建的子进程享有父进程所有的资源。进程撤销时，父进程需要检查子线程是否还有子线程，并撤销这些线程的资源。进程被创建后处于<strong>就绪状态</strong>，如果被调度（虽然教材中没有明确说明，但是我意识到调度特别指代从就绪状态到执行状态这一环节）系统选中则进入<strong>执行状态</strong>，如果未被系统选中则进入<strong>等待状态</strong>（存入进程的等待队列，进程归根到底可以用正文，上下文描述工作状态，并由进程控制块PCB唯一标识）。</p>
+<p>进程自身可以在未达到特定条件的情况下自己阻塞自己，但不能自己唤醒自己（因为在等待过程中进程是以正文和上下文的形式储存的，不能执行）。进程的阻塞行为通过阻塞原语实现。一般的阻塞流程是：保留执行状态下的CPU现场，随后在PCB中将进程的状态设置为<strong>阻塞状态</strong>（<strong>等待状态</strong>）并加入等待队列，此后操作系统会再次转至进程调度（即从<strong>就绪队列</strong>中执行一个就绪状态下的进程，防止运算资源空转）。</p>
+<p>进程的唤醒由操作系统的唤醒原语执行。进程可以被系统唤醒（recall 并发）或者被在某一时间发生时被操作系统唤醒，从等待队列中转移到就绪队列，随后等待调度程序或者直接返回值。</p>
+<h2 id="4-进程的互斥和实现"><a href="#4-进程的互斥和实现" class="headerlink" title="4 进程的互斥和实现"></a>4 进程的互斥和实现</h2><p>在现实开发中，Bernstein条件常容易被打破。定义不允许多个并发进程交叉执行的一段程序为临界部分，或者临界区域。对于公共对象的读写如果不是原子操作的，那么在读取或者写入中，为了保证程序的独立性和可重复性不被打破，必须阻塞一些程序，对并发执行速度造成进一步的制约(下减记为<strong>间接约束</strong>)。系统分配和注销相应共有资源的管理办法就是互斥。由用户程序执行开始的随机性可知，把临界区的各个过程按照不同的时间排列调用是不现实的。因此，有些硬件设施设置了test and set指令来解决互斥问题，但是一种更加节约资源的做法是使用信号量和P,V原语。</p>
+<p>在共享资源的时候嵌套一层接口，设计访问该共享资源的流程为: P(semaphore) 读取数据 V(semaphore)。</p>
+<p>信号量(semaphore)是一个能够反映共享资源状态的数值。在互斥锁的情境下，这个值被初始化为1。P原语是如下操作的集合（是原子的）：信息量 -= 1；如果信息量 $\ge 0$，调度程序将该进程设置为执行状态，并开始执行；如果信息量$< 0$，则该进程进入就绪队列，等待调度程序唤醒（在清华这本书上，有时候就绪队列和等待队列是替代使用的，稍微有些让人费解）。这样设计的结果是，只要有进程在使用资源，那么semaphore就不可能 = 1，即semaphore最大就是0。此时如果另有进程尝试调用该数据，只要经过P原语，semaphore数值就必定小于0。P原语起到了判断是否有进程在访问共享数据的作用，这也意味着P原语不能在用于唤醒别的进程，因为P原语不能判断进程是否已经调用共享数据结束。 V 原语是以下指令的集合：semaphore += 1， 如果semaphore $\le$ 0,  此时调度程序唤醒就绪队列中的一个进程，开始读取共享数据；如果semaphore $> 0$， 此时该进程返回调用处继续执行。</p>
+<p>注意这种设计是结合了原语设计上的局限性构建的。可以想象，如果原语本身可以通过进程上的操作来实现，那么也不会存在竞争条件。事实上，原语是在硬件层面上的设计。  </p>
+<h2 id="5-同步和生产者-消费者问题"><a href="#5-同步和生产者-消费者问题" class="headerlink" title="5 同步和生产者-消费者问题"></a>5 同步和生产者-消费者问题</h2><p>   上述的过程实际上是异步的（这里是指开始时间的随机性和运行时间的独立性），即各个进程之间的调用没有先后顺序上的要求：一个进程执行的充分必要条件不由任何在等待队列中的进程产生。如果两个（或多个）进程之间的发生顺序存在约束，例如一个进程需要另一个进程对数据修改完毕后再调用，此时进程必须不断检查另一个进程是否运行结束，此时会造成大量的资源浪费(这个共享资源已经被P, V原语封装过了)。这种异步环境下一组并发进程因直接制约而互发消息，互相等待，使得各进程按一定的速度执行的过程称为进程间的同步。P,V原语同样可以用来实现进程同步，技巧就是用多个信号量交叉使用。同步问题可以抽象为producer-consumer problems。</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Computer-science/">#Computer science</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/05/12/MapReduce/">MapReduce</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/04/26/HDF5/">HDF5-Notes</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/05/05/ProcessManagement/';
+        this.page.identifier = '2021/05/05/ProcessManagement/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

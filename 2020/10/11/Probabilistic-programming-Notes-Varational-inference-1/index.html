@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Probabilistic programming-Notes-Variational Inference-Part1 - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Compared to MCMC, variational Inference is a faster method to approximate difficult-to-compute posterior distribution. Variational Inference is an optimization problem, while MCMC is an asymptotic  me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Probabilistic programming-Notes-Variational Inference-Part1">
+<meta property="og:url" content="http://peimou.top/2020/10/11/Probabilistic-programming-Notes-Varational-inference-1/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Compared to MCMC, variational Inference is a faster method to approximate difficult-to-compute posterior distribution. Variational Inference is an optimization problem, while MCMC is an asymptotic  me">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-10T22:43:43.000Z">
+<meta property="article:modified_time" content="2020-11-02T02:01:41.500Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Probabilistic Programming">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-Notation">1&nbsp;&nbsp;<b>1. Notation</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-KL-divergence">2&nbsp;&nbsp;<b>2. KL divergence</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-ELBO">3&nbsp;&nbsp;<b>3. ELBO</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">4&nbsp;&nbsp;<b>Reference</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Probabilistic programming-Notes-Variational Inference-Part1
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2020-10-10T22:43:43.000Z" itemprop="datePublished">Oct 11 2020</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Notes/">Notes</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Compared to MCMC, variational Inference is a faster method to approximate difficult-to-compute posterior distribution. Variational Inference is an optimization problem, while MCMC is an asymptotic  method. </p>
+<a id="more"></a>
+
+<h1 id="1-Notation"><a href="#1-Notation" class="headerlink" title="1. Notation"></a>1. Notation</h1><p>Consider a joint density of latent variables $\mathbf{z}=z_{1:m}$ and observation $\mathbf{x}=x_{1:m}$:</p>
+<p>$$\mathbb{P}(\mathbf{x}, \mathbf{z}) = \mathbb{P}(\mathbf{x}|\mathbf{z}) \mathbb{P}(\mathbf{z})$$</p>
+<p>The above equation unveils the data generation process.  The inference process can be written as the following form:</p>
+<p>$$\mathbb{P}(\mathbf{x}, \mathbf{z}) = \mathbb{P}(\mathbf{z}|\mathbf{x}) \mathbb{P}(\mathbf{x})$$</p>
+<p>The job is to find the posterior probability of latent variable $\mathbf{z}$. MCMC constructs an ergodic Markov Chain on $\mathbf{z}$$ whose stationary distribution is the posterior $\mathbb{P}(\mathbf{z}|\mathbf{x})$, while VI consider the following optimization problem:</p>
+<p>$$q^{*}(\mathbf{z}) = argmin_{q \in \mathcal{Q}} d(q(\mathbf{z}), p(\mathbf{z}|\mathbf{x}))$$</p>
+<p>, where $\mathcal{Q}$ is a family of approximation densities $\mathcal{Q}$, $d$ is a function which measure the difference of two distribution. The common choices of $d$ are KL divergence and Wasserstein distance. Note that VI cannot guarantee the we are sampling from the exact posterior distribution but one which is similar to the posterior distribution.  In this note, the $d$ function is KL divergence in the following context.  </p>
+<h1 id="2-KL-divergence"><a href="#2-KL-divergence" class="headerlink" title="2. KL divergence"></a>2. KL divergence</h1><p>Note that KL divergence is not a good enough ‘distance’, although KL is always positive , which means if KL is zero, then two distributions are the same almost surely. The following proof will be an exercise for the application of variational calculus. </p>
+<p>$\mathbf{Proof: KL(q(z) | p(z|x)) >=0}$</p>
+<p> Note that g, f  are pdf (measurable functions) over $(\Omega, \sigma_{\Omega})$, we can freely exchange derivative and integral.</p>
+<p>Let’s rewrite this problem as:</p>
+<p>Given $\int_{x \in \Omega} g(x)dx = 1$:</p>
+<p>$$\max \int_{x \in \Omega} g(x) log(f(x))dx$$</p>
+<p>$$s.t. \int_{x \in \Omega} f(x)dx = 1$$</p>
+<p>The Lagrange equation for this optimization problem is:</p>
+<p>$$F(\lambda) = \int_{x\in\Omega} log(f(x))dx - \lambda (\int_{x \in \Omega}f(x)dx - 1)$$</p>
+<p>For the optimal $\bar{f}$, if we add a disturb to this function:</p>
+<p>$$F(\theta, \lambda) = \int_{x\in\Omega} log(\bar{f}(x) + \theta y(x))dx - \lambda (\int_{x \in \Omega}\bar{f}(x)+ \theta y(x)dx - 1)$$</p>
+<p>The first order condition can be written as:</p>
+<p>$$\frac{\partial F}{\partial \theta}\Big | _{\theta = 0} = 0 \Leftrightarrow \forall y \quad \int (\frac{g(x)}{\bar{f}(x)} - \lambda)y(x)dx = 0 \Leftrightarrow \frac{g(x)}{\bar{f}(x)} = \lambda \quad a.s.$$</p>
+<p>$$\frac{\partial F}{\partial \lambda} \Big |_{\theta = 0} \Leftrightarrow \int \frac{1}{\lambda} g(x)dx = 1 \Leftrightarrow \lambda = 1$$</p>
+<p>Therefore, the necessary condition for reaching the maximum of  $\int_{x \in \Omega} g(x) log(f(x))dx$ is $\bar{f} = g$ a.s.</p>
+<p>Based on the definition of KL divergence, we can easily conclude $KL(q(z) | p(z|x)) >=0$.</p>
+<p>Kl divergence is closely related to the concept of entropy. A high self-entropy means chaos(high volatility), while a low self-entropy means lower volatility. </p>
+<p><strong>KL divergence has the following drawbacks</strong>:</p>
+<p>1) KL divergence tends to pay more emphasis on the region where $q$ has little mass (caused by the log function), which means KL underestimate the variance. </p>
+<p>2) KL divergence is not symmetric, so it is not a metric.</p>
+<h1 id="3-ELBO"><a href="#3-ELBO" class="headerlink" title="3. ELBO"></a>3. ELBO</h1><p>According to the definition:</p>
+<p>$KL(q(z)|p(z|x)) = \mathbb{E}_{q}(q(z)) - \mathbb{E}_{q}(p(z|x)) = \mathbb{E}_{q}(q(z)) - \mathbb{E}_{q}(p(z, x)) + log p(x)$</p>
+<p>We can further conclude that $log p(x) = KL(q(z) | p(z|x)) + ELBO(q)$, which means $log p(x) \ge ELBO(q)$ (Lower bond for $log p(x)$)</p>
+<p>Note that in VI, the KL divergence cannot be $KL(p(z|x)|q(z)) $ since the posterior distribution is difficult to sample or approximate. However, given a variational family we are easy to sample from $q$. In the computation process, reparameterization trick (or MC integral for applied mathematics guys) will be helpful. Therefore, minimize the difference between $q$ and posterior distribution is equivalent to maximize the ELBO:</p>
+<p>$$ELBO(q) = \mathbf{E}_{q}(p(z, x)) - \mathbf{E}_{q}(q(z)) $$  (recall EM algo)</p>
+<p>Note that we need the computable gradient of ELBO if we want to use the first order condition of maximization. The most important trick here is MC integral. Let $\Phi$ denote the parameters of variational family $\mathcal{Q}$. The gradient computation can be written as:</p>
+<p>$$\nabla_{\Phi}ELBO = \nabla_{\Phi} \mathbf{E}_{q}[log(p(x, z))] - \nabla_{\Phi} \mathbf{E}_{q}[log(p(z))]$$</p>
+<p>$$= \nabla_{\Phi} \int [log(p(x,z)) - log(q)]q(z) dz = \int \nabla_{\Phi}\Big([log(p(x,z)) - log(q)]q(z)\Big) dz$$</p>
+<p>$$=\int \nabla_{\Phi} \Big(log(p(x, z) - log(q(z))\Big)q(z)dz + \int \nabla_{\Phi} \Big(q(z)\Big)[log(p(x, z)) - log(q(z))]dz$$</p>
+<p>Note that the first term can be easily calculated if we notice the following fact:</p>
+<p>$$\mathbb{E}_{q}\Big[\nabla_{\Phi} log[q(z)]\Big] = \mathbb{E}_{q}\Big[\  \frac{\nabla q(z)}{q(z)} \Big] = \int \frac{\nabla q(z)}{q(z)} q(z) dz = 0$$</p>
+<p>Therefore, the first term is 0. The gradient of ELBO can be further written as:</p>
+<p>$$\nabla_{\Phi}ELBO = \int \nabla_{\Phi} \Big(q(z)\Big)[log(p(x, z)) - log(q(z))]dz$$</p>
+<p>Given the equation:</p>
+<p>$$\nabla_{\Phi}q(z) = q(z) \nabla_{\Phi} log(q(z))$$</p>
+<p>The gradient can be written in a form of expectation:</p>
+<p>$$\nabla_{\Phi}ELBO = \int q(z) \nabla_{\Phi} log(q(z))[log(p(x, z)) - log(q(z))]dz = \mathbf{E}(\nabla_{\Phi} log(q(z))[log(p(x, z)) - log(q(z)))$$</p>
+<p>$$\simeq \frac{1}{S} \sum_{i=1}^S \nabla_{\Phi} log(q(z_i))[log(p(x, z_i)) - log(q(z_i))$$</p>
+<p>The above process is also called vanilla BBVI algorithm. Note that we can further decrease the variance of the estimation with some variance reduction method. </p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Variational Inference: A review for Statisticians</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Machine-Learning/">#Machine Learning</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Probabilistic-Programming/">#Probabilistic Programming</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2020/10/11/Probabilistic-programming-Notes-Varational-inference-2/">Probabilistic programming-Notes-Varational inference-Part2</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/04/03/Metric-Embedding-Notes-1/">Metric Embedding-Notes-Part 1-An overview and Basic Theorems</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2020/10/11/Probabilistic-programming-Notes-Varational-inference-1/';
+        this.page.identifier = '2020/10/11/Probabilistic-programming-Notes-Varational-inference-1/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

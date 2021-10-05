@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>Statistical Inference-Notes-Part1-Decision Theory - Peimou&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Keywords: Parameter space, sample space, risk function For noncommercial propose only. Some figures may be subject to copyright.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Statistical Inference-Notes-Part1-Decision Theory">
+<meta property="og:url" content="http://peimou.top/2021/01/02/Statistical-inference-Part1-Decision-Theorem/index.html">
+<meta property="og:site_name" content="Peimou&#39;s Blog">
+<meta property="og:description" content="Keywords: Parameter space, sample space, risk function For noncommercial propose only. Some figures may be subject to copyright.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://peimou.top/images/Decision-rule-example.png">
+<meta property="article:published_time" content="2021-01-02T01:32:30.000Z">
+<meta property="article:modified_time" content="2021-01-11T23:09:56.486Z">
+<meta property="article:author" content="Peimou Sun">
+<meta property="article:tag" content="Statistical Inference">
+<meta property="article:tag" content="Decision Theory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peimou.top/images/Decision-rule-example.png">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Peimou&#39;s Blog
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories">Categories</a>
+            
+            <a class="navbar-item "
+               href="/tags">Tags</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-The-formulation-of-decision-theory">1&nbsp;&nbsp;<b>1. The formulation of decision theory</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-1-Elements-in-decision-theory">1.1&nbsp;&nbsp;1.1 Elements in decision theory</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#1-2-The-definition-of-risk-function">1.2&nbsp;&nbsp;1.2 The definition of risk function</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#2-The-criterion-for-a-good-decision-rule">2&nbsp;&nbsp;<b>2. The criterion for a good decision rule</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-1-Admissibility">2.1&nbsp;&nbsp;2.1 Admissibility</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-2-Minimax-decision-rules">2.2&nbsp;&nbsp;2.2 Minimax decision rules</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-3-Unbiasedness">2.3&nbsp;&nbsp;2.3 Unbiasedness</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-4-Bayes-decision-rule">2.4&nbsp;&nbsp;2.4 Bayes decision rule</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#2-5-Randomized-decision-rule">2.5&nbsp;&nbsp;2.5 Randomized decision rule</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#3-A-finite-parameter-space-example">3&nbsp;&nbsp;<b>3. A finite parameter space example</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#4-Finding-minimax-rules">4&nbsp;&nbsp;<b>4. Finding minimax rules</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#Reference">5&nbsp;&nbsp;<b>Reference</b></a>
+                    
+                </div>
+            </div>
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/Peimou/Peimou.github.io.git" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Statistical Inference-Notes-Part1-Decision Theory
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2021-01-02T01:32:30.000Z" itemprop="datePublished">Jan 2 2021</time>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Keywords: Parameter space, sample space, risk function</p>
+<p>For noncommercial propose only. Some figures may be subject to copyright.</p>
+<a id="more"></a>
+
+<h1 id="1-The-formulation-of-decision-theory"><a href="#1-The-formulation-of-decision-theory" class="headerlink" title="1. The formulation of decision theory"></a>1. The formulation of decision theory</h1><h2 id="1-1-Elements-in-decision-theory"><a href="#1-1-Elements-in-decision-theory" class="headerlink" title="1.1 Elements in decision theory"></a>1.1 Elements in decision theory</h2><p>1) Parameter space $\mathcal{\Theta}$ which will be a subset of $\mathbb{R}^d$ for some $d > 1$. It is the admissible set of unknown parameters in the decision problem. It is heuristic in this framework.</p>
+<p>2) Sample space $\mathcal{X}$. The admissible set of X. For example, the sample space of stock price must be non-negative real number. The sample space is the possible value for observation.</p>
+<p>3) A family of probability measure on the sample space $\mathcal{X}$. By convention, the probability measure can be written as $\{\mathbb{P}_{\theta}(x), x \in \mathcal{X}, \theta \in \mathcal{\Theta}\}$. </p>
+<p>If we recall the definition of probability space, we can easily find out that the decision theory only consider a subspace of probability measure, which is parameterized by $\mathcal{\Theta}$.</p>
+<p>4) Action space $\mathcal{A}$. This represents the set of all actions or decisions available to the experimenter. For a hypothesis testing problem, the action set is $\{“accept H_0”， “accept H_1”\}$. In an estimation problem, the action set $\mathcal{A} = \mathcal{\Theta}$.</p>
+<p>5) A loss function $L: \mathcal{\Theta} \times A \xrightarrow{} \mathbb{R}$. The function implies the property of a specific action $\mathcal{a}$ when the parameters are $\mathcal{\Theta}$.</p>
+<p>6) A set $\mathcal{D}$ of decision rules. An element d: $\mathcal{X} \xrightarrow{} \mathcal{D}$.  Each point x in $\mathcal{X}$ is associated with a specific action $d(x) \in A$.</p>
+<p>It is easily to connect this formulation with the reinforcement learning. Decision rule is a function mapping from the observation to action, which further implies that the risk function measure the coincidence of the parameter and the observation. </p>
+<h2 id="1-2-The-definition-of-risk-function"><a href="#1-2-The-definition-of-risk-function" class="headerlink" title="1.2 The definition of risk function"></a>1.2 The definition of risk function</h2><p>Risk function is $\mathcal{\Theta} \times \mathcal{D} \xrightarrow{} \mathbb{R}$. Note that the difference between the risk function and loss function is that the loss function measure the relationship of parameters and actions, which is deterministic, while the risk function is defined on the decision rule (since $x \in \mathcal{X}$ is a random variable). Of course, we can use other criterion besides expectation. However, expectation of loss function is the most reasonable one (we can further penalize the variance etc.).  The risk function is trying to consider the influence of random variables. Heuristically, the risk function is defined as:</p>
+<p>$$R(\theta, d) = \mathbb{E}_{\theta} L(\theta, d(X))$$</p>
+<p>Note that the definition of risk function is based on the hypothesis of probability measure space. Once we determine the family of probability measure and decision rule, we can exactly determine the risk function. Risk function is similar to the concept of utility function in the Economics. </p>
+<h1 id="2-The-criterion-for-a-good-decision-rule"><a href="#2-The-criterion-for-a-good-decision-rule" class="headerlink" title="2. The criterion for a good decision rule"></a>2. The criterion for a good decision rule</h1><p>The final output of the decision theory is the decision rule, which is a function of $\mathcal{X} \xrightarrow{} \mathcal{A}$. We need to distinguish the decision rules, and find the better one. </p>
+<h2 id="2-1-Admissibility"><a href="#2-1-Admissibility" class="headerlink" title="2.1 Admissibility"></a>2.1 Admissibility</h2><p>Given two decision rules $d$ and $d^{‘}$, if $R(\theta, d) \le R(\theta, d^{\prime})$ for all $\theta \in \mathcal{\Theta}$,  then $d$ strictly dominates $d^’$. If there exists a decision rule $d$ which strictly dominate decision rule $d^\prime$, then $d^\prime$ is said to be inadmissible (otherwise admissible). However, in practice, it is impossible to get an analytical solution of risk function. (A closed-form solution means we can extend the properties of risk function to any other point in the space). Therefore, it is very hard to determine if a decision rule is admissible or not.</p>
+<h2 id="2-2-Minimax-decision-rules"><a href="#2-2-Minimax-decision-rules" class="headerlink" title="2.2 Minimax decision rules"></a>2.2 Minimax decision rules</h2><p>The maximum risk of a decision rule is defined as:</p>
+<p>$MR(d) = \sup\limits_{\theta \in \mathcal{\Theta}}R(\theta, d)$</p>
+<p>A decision rule is minimax if it minimizes the maximum risk:</p>
+<p>$MR(d) \le MR(d^{\prime})$ for all decision rules $d^{\prime} \in D$</p>
+<p>The idea behind the minimax decision rule is that we want to optimize the worst scenario.  Note that minimax may not be the admissible decision rule and, apparently, may not be unique. However, if you are trying to choose the decision rule based on this criterion, you must follow the minimax idea. </p>
+<p>Note that $\max_{\theta \in \Theta} = \min\limits_{d^\prime \in \mathcal{D}} \max\limits_{\theta \in \Theta} R(\theta, d^\prime)$</p>
+<h2 id="2-3-Unbiasedness"><a href="#2-3-Unbiasedness" class="headerlink" title="2.3 Unbiasedness"></a>2.3 Unbiasedness</h2><p>A decision rule $d$ is defined as unbiased if </p>
+<p>$\mathbb{E}_{\theta} {L(\theta^{\prime}, d(X))} \ge \mathbb{E}_{\theta} {L(\theta, d(X))} $</p>
+<p>Note that this notation is somehow confusing. $\mathbb{E}_{\theta} {L(\theta^{\prime}, d(X))} = \mathbb{E}_{X}(R(\theta, \delta)|\theta)$. Since $\delta$ is the function of $X$, we consider the connection of randomness of $X$. The decision here is </p>
+<p>Note that this definition is quite tricky. We are calculating the expectation over the probability measure of $\mathcal{X}$, which is parameterized by $\theta$ (that’s why we use subscript $\theta$).</p>
+<p>The unbiasedness is a criterion that does not depend on risk function only. The definition of unbiasedness depends on the parameters. This criterion makes the risk function self-consistent. However, the unbiasedness is somehow between a distraction and a total irrelevance. (原来不止我一个人这么想)</p>
+<h2 id="2-4-Bayes-decision-rule"><a href="#2-4-Bayes-decision-rule" class="headerlink" title="2.4 Bayes decision rule"></a>2.4 Bayes decision rule</h2><p>We must specify a prior distribution, which represents our prior knowledge on the value of the parameter $\theta$, and is represented by a function $\pi(\theta), \theta \in \mathcal{\Theta}$. The prior distribution to be absolutely continuous, meaning that $\pi(\theta)$ is taken to be some probability density on $\mathcal{\Theta}$. </p>
+<p>In the continuous case, the Bayes risk of a decision rule $d$ is defined to be $r(\pi, d) = \int_{\theta \in \mathcal{\Theta}}R(\theta, d)\pi(\theta)d\theta$. The decision rule $d$ is said to be a Bayes rule, with respect to a given prior $\pi(\dot)$, if it minimizes the Bayes risk, so that</p>
+<p>$r(\pi, d) = \inf \limits_{d^\prime \in \mathcal{D}} r(\pi, d^\prime) = m_{\pi}$</p>
+<p>Note that if the $\inf$ cannot be reached, we can further consider the $\epsilon$ decision rule, i.e.</p>
+<p>$R(\pi, d_{\epsilon}) < m_{\pi} + \epsilon$. It is nothing but the definition of infimum with a more computable result. </p>
+<h2 id="2-5-Randomized-decision-rule"><a href="#2-5-Randomized-decision-rule" class="headerlink" title="2.5 Randomized decision rule"></a>2.5 Randomized decision rule</h2><p>The Bayes decision rule consider the probability measure over $\theta$, while the randomized decision rule considers the probability measure over decision rules. Note that in the traditional mechanism, the probability measure is independent of the data. The risk function under the randomized decision rule can be written as:</p>
+<p>$R(\theta, d^*) = \sum_{i=1}^l p_i R(\theta, d_i)$</p>
+<p>If we consider the independent (wrt to data), it is easy to construct examples in which $d^{*}$ is formed by randomizing the rules $d_1, \dots, d_l$ but $\sup_{\theta} R(\theta, d^{*}) \le \sup_{\theta} R(\theta, d_i)$ for each i. The statement can be easily proved.</p>
+<p>However, it is only holds for risk neutral decision maker. We also should consider the second order moment (the variance). We can formulate the metric like expected loss in this scenario.</p>
+<p>It will be very interesting if we combine the Bayesian rules and randomized decision rule together.</p>
+<h1 id="3-A-finite-parameter-space-example"><a href="#3-A-finite-parameter-space-example" class="headerlink" title="3. A finite parameter space example"></a>3. A finite parameter space example</h1><p>The discussion in the reference is not accurate. Based on the statement in the reference, we must construct an algebra over decision set. However, if we consider the risk function a measurable function, we can avoid the construction of an algebra. </p>
+<p>If we consider the limited number of parameters $\theta$, we can better understand the property of the decision set. Let’s consider a parameter space which is a finite set: $\mathcal{\Theta} = \{\theta_1, \theta_2 \dots, \theta_t\}$. Let’s consider a $t$ dimensional space. For a specific decision policy $d$ (including randomized policy), there is a specific generic point in this space, which can be written as $((R(\theta_1, d), R(\theta_2, d), \dots, R(\theta_3, d)))$. For any decision rule in set $\mathcal{D}$, let’s consider $d_1$ and $d_2$. </p>
+<p>Since we can always find a randomized decision rule given a specific probability measure, the risk function space is convex over decision. For any $0<\lambda < 1$, </p>
+<p>$\lambda((R(\theta_1, d_1), R(\theta_2, d_1), \dots, R(\theta_3, d_1))) + (1-\lambda)((R(\theta_1, d_1), R(\theta_2, d_1), \dots, R(\theta_3, d_1))) \xrightarrow{} d^*$, where $d^*$ is a randomized decision rule with probability measure $(\lambda, 1-\lambda)$. Therefore, we proved that risk function is convex over decision rules. </p>
+<p>None of the decision rules can guarantee the uniqueness of the decision.</p>
+<p><img src="/images/Decision-rule-example.png" alt="avatar"></p>
+<h1 id="4-Finding-minimax-rules"><a href="#4-Finding-minimax-rules" class="headerlink" title="4. Finding minimax rules"></a>4. Finding minimax rules</h1><p>A natural idea is to use the weak duality. However, we can hardly expect the inequality is tight for arbitrary function. Another idea is to find the minimax rules via Bayes principle. Note that the Bayes principle includes the minimum by definition. </p>
+<p><strong>Theorem 1</strong>:</p>
+<p>If $\delta_n$ is Bayes with respect to prior $\pi_n(\cdot)$, and $r(\pi_n, \delta_n) \xrightarrow{} C$ as $n \xrightarrow{} \infty$, and if $R(\theta, \delta_0) \le C$ for all $\theta \in \Theta$, then $\delta_0$ is minimax.</p>
+<p>Proof:</p>
+<p>Suppose $\delta_0$ satisfies the conditions of the theorem but is not minimax. Then there exist $\delta^\prime$ such that $R(\theta, \delta^\prime) < C$ for every $\theta \in \Theta$. We can find an $\epsilon > 0$ that $R(\theta, \delta^\prime) < C - \epsilon$ for every $\theta \in \Theta$, which is equivalent to the statement that $r(\pi_n, \delta^\prime) < C - \epsilon$ for any n. According to the definition of convergence, we can further conclude that there exist an $n$ such that $r(\pi_n, \delta_n) \ge C - \epsilon / 2$. However, since we have proved that there exist another decision rule $r(\pi_n, \delta^\prime) < C - \epsilon$, then $\delta_n$ cannot be the Bayes rule. $\therefore$  $\delta_0$ must be the minimax. (Make it more adherent compared to the proof in the reference 1).</p>
+<p><strong>Theorem 2</strong>:</p>
+<p>For any $\delta$, we have $\sup\limits_{\theta} R(\theta, \delta) = \sup\limits_{\Lambda (\theta)} \int R(\theta, \delta) d\Lambda(\theta)$</p>
+<p>Proof:</p>
+<p>We can easily prove that $\sup\limits_\theta R(\theta, \delta) \ge \sup\limits_{\Lambda (\theta)} \int R(\theta, \delta) d\Lambda(\theta)$. For the reverse of the equality, we can use a Dirac distribution and the definition of supremum to prove that.  </p>
+<p><strong>Theorem 3</strong>:</p>
+<p>Suppose $\Lambda(\theta)$ is a prior on $\theta$, and $\delta_\Lambda$ is the Bayes estimator under $\Lambda$. Suppose also that $r(\Lambda, \delta_\Lambda) = \sup\limits_\theta R(\theta,\delta_\Lambda)$. We can then conclude that:</p>
+<p>1) $\delta_\Lambda$ is the minimax rules.</p>
+<p>2) $\Lambda$ is least favorable.</p>
+<p>Proof:</p>
+<p>1) If $\delta_\Lambda$ is not the minimax rules. Then there exist $\delta^\prime$ such that $\sup\limits_{\theta} R(\theta, \delta^\prime) < \sup\limits_{\theta} R(\theta, \delta_\Lambda)$. Note that $r(\Lambda, \delta_\Lambda) = \sup\limits_\theta R(\theta,\delta_\Lambda)$ indicates that the $\delta_\Lambda$ is an equalizer decision rule ( $R(\theta, d)$ is the same for any $\theta \in \Theta$). Therefore, $r(\pi, \delta^\prime) < \sup\limits_\theta R(\theta,\delta_\Lambda)$ i.e. $\delta_\Lambda$ cannot be the Bayes rule. $\therefore$  $\delta_\Lambda$ is the minimax rules.</p>
+<p>2) For an prior distribution $\pi^\prime$, the Bayes rule can be written as:</p>
+<p>$r_{\pi^\prime} = \int R(\theta, \delta_{\pi^\prime}) \pi^\prime(\theta) d \theta \le \int R(\theta, \delta_{\pi}) \pi^\prime(\theta) d \theta \le \sup\limits_{\theta} R(\theta, \delta_{\pi}) = r_{\pi}$</p>
+<p><strong>The intuition is that we can always find the minimax via finding the least favorable prior distribution.</strong></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Essentials of Statistical inference. G.A. Young and R.L. Smith</p>
+<p>EE378A Statistical Signal Processing Lecture 11: Minimax Decision Theory</p>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Statistical-Inference/">#Statistical Inference</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Decision-Theory/">#Decision Theory</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/01/03/Levy-Stable-Distributions/">Levy Stable Distributions</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/12/10/Stochastic-Control-Notes-2/">Stochastic Control-Notes-Part2-The solution of SDE</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="true"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://peimou.top/2021/01/02/Statistical-inference-Part1-Decision-Theorem/';
+        this.page.identifier = '2021/01/02/Statistical-inference-Part1-Decision-Theorem/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'peimousun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Peimou Sun&nbsp;
+                All text on this site are released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a> unless otherwise stated. 
+                <br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+    renderMathInElement(document.body,
+   {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false}
+              ]
+          }
+  );
+</script>
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: 'Home Page',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>
